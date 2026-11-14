@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Віртуальні покупці | IM BAU</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<style>
+  body { margin: 0; padding: 32px 40px 80px; background: var(--c-bg); color: var(--c-ink); font: 15px/1.5 Inter, system-ui, sans-serif; }
+  h1 { font-size: 28px; margin: 0 0 8px; } h2 { font-size: 20px; margin: 40px 0 12px; }
+  p { margin: 0 0 16px; max-width: 80ch; color: var(--c-ink-2); }
+  button { font: inherit; font-weight: 600; padding: 12px 20px; border: 0; border-radius: 8px; background: var(--c-lime); cursor: pointer; }
+  button[disabled] { opacity: .5; cursor: default; }
+  .stats { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+  .stat { background: #fff; border-radius: 12px; padding: 16px 20px; min-width: 150px; }
+  .stat b { display: block; font-size: 28px; line-height: 1.1; } .stat span { font-size: 13px; color: var(--c-ink-2); }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; font-size: 14px; }
+  th, td { padding: 10px 14px; border-bottom: 1px solid var(--c-line); text-align: left; vertical-align: top; }
+  th { background: var(--c-chip); font-weight: 600; white-space: nowrap; }
+  .v { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .v-ok { background: var(--c-sage); color: var(--c-green); } .v-mid { background: var(--c-warn-bg); color: var(--c-warn); } .v-bad { background: var(--c-danger-bg); color: var(--c-danger); }
+  .sev { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 700; color: #fff; }
+  .sev-3 { background: var(--c-danger); } .sev-2 { background: var(--c-warn); } .sev-1 { background: var(--c-muted); }
+  small { color: var(--c-ink-2); } ul { margin: 4px 0 0; padding-left: 18px; } li { color: var(--c-ink-2); font-size: 13px; }
+  #bar { height: 6px; background: var(--c-chip); border-radius: 3px; overflow: hidden; max-width: 420px; margin: 16px 0; } #bar i { display: block; height: 100%; width: 0; background: var(--c-ink); transition: width .2s; }
+</style>
+</head>
+<body>
+<h1>Віртуальні покупці</h1>
+<p>50 сценаріїв проходять прототип у прихованому вікні й записують, де застрягли. Це не живі люди: стенд ловить лише те, що можна виміряти. Запускати з локального сервера (<code>python3 -m http.server</code> у папці прототипу). Після запуску демо-кошик повертається у попередній стан.</p>
+<button id="go">Запустити 50 покупців</button>
+<button id="mob" style="margin-left:8px;background:var(--c-chip)">Перевірити мобільну версію</button>
+<button id="desk" style="margin-left:8px;background:var(--c-chip)">Перевірити версію для ПК</button>
+<button id="ast" style="margin-left:8px;background:var(--c-chip)">Перевірити зображення й іконки</button>
+<div id="bar"><i></i></div><div id="now"></div>
+<div id="out"></div>
+<script src="shoppers.js"></script>
+<script src="sweep.js"></script>
+<script src="mobile.js"></script>
+<script src="desktop.js"></script>
+<script src="assets.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const cls = v => v === 'досяг' ? 'v-ok' : v === 'не досяг мети' ? 'v-bad' : 'v-mid';
+  window.__QA = { done: false, res: [], sum: null };
+  async function start(only) {
+    $('#go').disabled = true; window.__QA = { done: false, res: [], sum: null };
+    const res = await QA.run((r, n, t) => { window.__QA.res.push(r); $('#bar i').style.width = (n / t * 100) + '%'; $('#now').textContent = `${n} із ${t}: ${r.who} — ${r.verdict}`; }, only);
+    const sum = QA.summary(res); window.__QA = { done: true, res, sum };
+    $('#now').textContent = 'Готово';
+    $('#out').innerHTML = `<div class="stats"><div class="stat"><b>${sum.reached} із ${sum.total}</b><span>досягли мети</span></div><div class="stat"><b>${sum.clean}</b><span>пройшли без тертя</span></div><div class="stat"><b>${sum.overBudget}</b><span>шлях довший, ніж готові пройти</span></div><div class="stat"><b>${sum.frictions.length}</b><span>різних проблем</span></div></div>
+      <h2>Проблеми за вагою і частотою</h2><table><thead><tr><th>Вага</th><th>Зона</th><th>Проблема</th><th>Покупців</th><th>Деталі</th></tr></thead><tbody>${sum.frictions.map(f => `<tr><td><span class="sev sev-${f.sev}">${f.sev}</span></td><td>${esc(f.area)}</td><td>${esc(f.title)}</td><td>${f.n}<br><small>№ ${f.shoppers.join(', ')}</small></td><td><ul>${f.details.map(d => `<li>${esc(d)}</li>`).join('')}</ul></td></tr>`).join('')}</tbody></table>
+      <h2>Покупці</h2><table><thead><tr><th>№</th><th>Хто</th><th>Характер</th><th>Пристрій</th><th>Навіщо прийшов</th><th>Підсумок</th><th>Дій</th><th>Що заважало</th></tr></thead><tbody>${res.map(r => `<tr><td>${r.id}</td><td>${esc(r.who)}</td><td>${esc(r.psy)}</td><td>${esc(r.dev)}</td><td>${esc(r.need)}</td><td><span class="v ${cls(r.verdict)}">${r.verdict}</span></td><td>${r.actions} / ${r.budget}</td><td><ul>${r.fr.map(x => `<li><span class="sev sev-${x.sev}">${x.sev}</span> ${esc((QA.FR[x.base] || [0, 0, x.base])[2])}${x.detail ? ': ' + esc(x.detail) : ''}</li>`).join('')}</ul></td></tr>`).join('')}</tbody></table>`;
+    $('#go').disabled = false;
+  }
+  $('#go').addEventListener('click', () => start());
+  const q = new URLSearchParams(location.search); window.__SWEEP = { done: false }; if (q.get('sweep')) QA.sweep().then(r => { window.__SWEEP = Object.assign({ done: true }, r); }).catch(e => { window.__SWEEP = { done: true, error: String(e) }; });
+  /* Мобільна перевірка: сторінки на чотирьох ширинах, вікна, сценарії, горизонтальний телефон (mobile.js) */
+  window.__MOB = { done: false };
+  const yes = v => v ? '<span class="v v-ok">так</span>' : '<span class="v v-bad">ні</span>';
+  function renderMob(r) {
+    const over = r.rows.filter(x => x.over > 1), okF = r.flows.filter(x => x.ok).length;
+    $('#out').innerHTML = `<div class="stats"><div class="stat"><b>${r.rows.length}</b><span>перевірок сторінок</span></div><div class="stat"><b>${over.length}</b><span>ширші за екран</span></div><div class="stat"><b>${okF} / ${r.flows.length}</b><span>сценаріїв пройшло</span></div><div class="stat"><b>${r.modals.filter(m => !m.err && m.fitW && m.fitH).length} / ${r.modals.length}</b><span>вікон вміщаються</span></div></div>
+      <h2>Сценарії на телефоні</h2><table><thead><tr><th>Що перевіряли</th><th>Пройшло</th><th>Що вийшло</th></tr></thead><tbody>${r.flows.map(x => `<tr><td>${esc(x.test)}</td><td>${yes(x.ok)}</td><td>${esc(x.got)}</td></tr>`).join('')}</tbody></table>
+      <h2>Вікна й панелі</h2><table><thead><tr><th>Вікно</th><th>Екран</th><th>Розмір</th><th>Вміщається</th><th>Кнопка закриття</th><th>Головна кнопка на екрані</th><th>Полів зі шрифтом до 16 px</th></tr></thead><tbody>${r.modals.map(m => `<tr><td>${esc(m.name)}</td><td>${m.w}×${m.h}</td><td>${m.err ? esc(m.err) : m.size}</td><td>${m.err ? '' : yes(m.fitW && m.fitH)}</td><td>${m.err ? '' : (m.close ? m.close + ' px' : 'немає')}</td><td>${m.err || m.cta === undefined ? '' : yes(m.cta)}</td><td>${m.err ? '' : m.zoom}</td></tr>`).join('')}</tbody></table>
+      <h2>Сторінки, ширші за екран</h2>${over.length ? `<table><tbody>${over.map(x => `<tr><td>${esc(x.page)}</td><td>${x.w}</td><td>+${x.over} px</td><td>${esc(x.off.join(', '))}</td></tr>`).join('')}</tbody></table>` : '<p>Таких немає.</p>'}`;
+  }
+  async function mob() { $('#mob').disabled = true; $('#now').textContent = 'Мобільна перевірка триває…'; try { const r = await QA.mobile((n, t) => { $('#bar i').style.width = (n / t * 100) + '%'; $('#now').textContent = `Сторінок перевірено: ${n} / ${t}`; }); window.__MOB = Object.assign({ done: true }, r); $('#now').textContent = 'Готово'; renderMob(r); } catch (e) { window.__MOB = { done: true, error: String(e && e.stack || e) }; $('#now').textContent = 'Збій: ' + e; } $('#mob').disabled = false; }
+  $('#mob').addEventListener('click', mob); if (q.get('mobile')) mob();
+  /* Перевірка версії для ПК: сторінки на 1024, 1280, 1440 і 1920 px плюс сценарії (desktop.js) */
+  window.__DESK = { done: false };
+  async function desk() { $('#desk').disabled = true; $('#now').textContent = 'Перевірка версії для ПК триває…'; try { const r = await QA.desktop((n, t) => { $('#bar i').style.width = (n / t * 100) + '%'; $('#now').textContent = `Сторінок перевірено: ${n} / ${t}`; }); window.__DESK = Object.assign({ done: true }, r); $('#now').textContent = 'Готово';
+      const wide = r.rows.filter(x => x.over > 1), ex = r.rows.filter(x => x.extra.length);
+      $('#out').innerHTML = `<div class="stats"><div class="stat"><b>${r.rows.length}</b><span>перевірок сторінок</span></div><div class="stat"><b>${wide.length}</b><span>ширші за екран</span></div><div class="stat"><b>${r.flows.filter(x => x.ok).length} / ${r.flows.length}</b><span>сценаріїв пройшло</span></div></div>
+        <h2>Сценарії на комп’ютері</h2><table><thead><tr><th>Що перевіряли</th><th>Пройшло</th><th>Що вийшло</th></tr></thead><tbody>${r.flows.map(x => `<tr><td>${esc(x.test)}</td><td>${yes(x.ok)}</td><td>${esc(x.got)}</td></tr>`).join('')}</tbody></table>
+        <h2>Зауваження до сторінок</h2>${ex.length ? `<table><tbody>${ex.map(x => `<tr><td>${esc(x.page)}</td><td>${x.w}</td><td>${esc(x.extra.join('; '))}</td></tr>`).join('')}</tbody></table>` : '<p>Зауважень немає.</p>'}`;
+    } catch (e) { window.__DESK = { done: true, error: String(e && e.stack || e) }; $('#now').textContent = 'Збій: ' + e; } $('#desk').disabled = false; }
+  $('#desk').addEventListener('click', desk); if (q.get('desktop')) desk();
+  /* Зображення та іконки: усі сторінки, усі товари, вікна (assets.js) */
+  window.__ASSETS = { done: false };
+  async function ast() { $('#ast').disabled = true; $('#now').textContent = 'Перевірка зображень та іконок триває…'; try { const r = await QA.assets((n, t) => { $('#bar i').style.width = (n / t * 100) + '%'; $('#now').textContent = `Перевірено: ${n} / ${t}`; }); window.__ASSETS = Object.assign({ done: true }, r); $('#now').textContent = 'Готово';
+      const rows = a => a.map(x => `<tr><td>${esc(x.type)}</td><td>${esc(x.what)}</td><td>${x.where.length}</td><td>${esc(x.where.slice(0, 3).join('; '))}${x.where.length > 3 ? ' …' : ''}</td></tr>`).join('');
+      $('#out').innerHTML = `<div class="stats"><div class="stat"><b>${r.checks}</b><span>перевірок сторінок і вікон</span></div><div class="stat"><b>${r.imgs}</b><span>зображень</span></div><div class="stat"><b>${r.svgs}</b><span>іконок</span></div><div class="stat"><b>${r.issues.length}</b><span>зауважень</span></div><div class="stat"><b>${r.noPhoto.length}</b><span>товарів без фото</span></div></div>
+        <h2>Зауваження</h2>${r.issues.length ? `<table><thead><tr><th>Що</th><th>Де саме</th><th>Сторінок</th><th>Приклади</th></tr></thead><tbody>${rows(r.issues)}</tbody></table>` : '<p>Зауважень немає.</p>'}
+        <h2>Товари без справжнього фото</h2><p>${r.noPhoto.length ? esc(r.noPhoto.join('; ')) : 'Усі товари мають фото.'}</p>
+        <h2>Намальовані заглушки замість фото</h2>${r.holders.length ? `<table><thead><tr><th>Що</th><th>Сторінок</th><th>Приклади</th></tr></thead><tbody>${r.holders.map(x => `<tr><td>${esc(x.name)}</td><td>${x.where.length}</td><td>${esc(x.where.slice(0, 2).join('; '))}</td></tr>`).join('')}</tbody></table>` : '<p>Немає.</p>'}
+        <h2>Фото, яким бракує пікселів</h2>${r.lowres.length ? `<table><thead><tr><th>Файл</th><th>Ширина файлу</th><th>Найбільший показ</th><th>Де</th><th>Наслідок</th></tr></thead><tbody>${r.lowres.map(x => `<tr><td>${esc(x.file)}</td><td>${x.px} px</td><td>${x.shown} px</td><td>${esc(x.where)}</td><td>${x.soft ? 'розмите вже на звичайному екрані' : 'розмите на екрані з подвійною щільністю'}</td></tr>`).join('')}</tbody></table>` : '<p>Немає.</p>'}
+        <h2>До відома</h2>${r.notes.length ? `<table><tbody>${rows(r.notes)}</tbody></table>` : '<p>Нічого.</p>'}<p>Піктограма сайту: ${esc(r.favicon)}${r.noIcon.length ? '; немає на: ' + esc(r.noIcon.join(', ')) : ''}. Шрифти: ${esc(JSON.stringify(r.fonts))}.</p>`;
+    } catch (e) { window.__ASSETS = { done: true, error: String(e && e.stack || e) }; $('#now').textContent = 'Збій: ' + e; } $('#ast').disabled = false; }
+  $('#ast').addEventListener('click', ast); if (q.get('assets')) ast();
+  if (q.get('run')) start(q.get('only') ? q.get('only').split(',').map(Number) : null);
+})();
+</script>
+</body>
+</html>

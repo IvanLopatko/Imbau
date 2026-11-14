@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Будівельні матеріали: інтернет-магазин | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: common/home.twig -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="home">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<h1 class="sr-only">Будівельні матеріали: інтернет-магазин IM BAU</h1>
+<div class="container">
+  <div class="hero-grid">
+    <nav class="side-cats" aria-label="Розділи каталогу"><ul><li><a href="section.html?s=sukhi-sumishi">Сухі суміші, цемент, кладка</a></li><li><a href="section.html?s=gipsokarton">Гіпсокартонні системи</a></li><li><a href="section.html?s=uteplyuvachi">Утеплювачі та ізоляція</a></li><li><a href="section.html?s=kriplennya">Кріплення та метизи</a></li><li><a href="section.html?s=lfm">ЛФМ: фарби, ґрунтовки, лаки</a></li><li><a href="section.html?s=dveri">Двері, фурнітура</a></li><li><a href="section.html?s=santekhnika">Сантехніка</a></li><li><a href="section.html?s=elektryka">Електрика</a></li><li><a href="section.html?s=ruchnyi-instrument">Ручний інструмент</a></li><li><a href="section.html?s=elektroinstrument">Електроінструмент</a></li><li><a href="section.html?s=osnastka">Оснастка для інструменту</a></li><li><a href="section.html?s=gospodarski">Господарські товари</a></li></ul></nav>
+
+    <!-- Банер: слайдер, керується з адмінки (модуль «Банери») -->
+    <section class="hero" aria-label="Пропозиція">
+      <div class="hero__text">
+        <span class="hero__eyebrow">Власна тонувальна студія</span>
+        <p class="hero__title">Ваш колір.<br>Ваш простір.</p>
+        <p class="hero__sub">Фарби FRONT<br class="hide-mobile"> для вашого оновлення</p>
+        <a class="btn btn--primary btn--lg btn--split hero__cta" href="category.html?sub=Фарби+інтер’єрні&amp;brand=FRONT">Купити фарбу <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="hero__media">
+        <!-- Фото з Figma. На телефоні — широкий кадр, на ПК — вертикальний -->
+        <picture>
+          <source media="(max-width: 720px)" srcset="assets/img/hero-room-wide.webp" width="1584" height="672">
+          <img class="hero__img" src="assets/img/hero-room.webp" width="728" height="1024" alt="Світла кімната зі стінами, пофарбованими фарбою FRONT" fetchpriority="high">
+        </picture>
+        <span class="hero__tag">FRONT</span>
+      </div>
+    </section>
+
+    <div class="hero-aside">
+      <!-- Банер товару: фото-панель, назва, ціна. Уся картка — посилання -->
+      <a class="deal" href="product.html?id=acr">
+        <span class="deal__photo"><span class="badge badge--dark deal__label">Акція місяця</span><span class="shot shot--photo"><img src="assets/img/front-acr.webp" alt="" width="720" height="720"></span></span>
+        <b class="deal__title">Фарба FRONT інтер’єрна, 7&nbsp;кг</b>
+        <span class="deal__foot"><span class="deal__price">628 грн</span><span class="deal__go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+      </a>
+      <a class="fast" href="delivery.html">
+        <span class="fast__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+        <span class="fast__title">Матеріали — коли потрібно</span>
+        <span class="fast__text">Доставка по Харкову та самовивіз сьогодні</span>
+        <span class="fast__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Відмінності (CRO: у першому екрані, з дією) -->
+  <ul class="perks">
+    <li><a class="perk" href="stores.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="perk__t">Самовивіз</span><span class="perk__s">ТЦ «Казка»</span></a></li>
+    <li><a class="perk" href="delivery.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><span class="perk__t">Наша машина</span><span class="perk__s">По Харкову</span></a></li>
+    <li><a class="perk" href="delivery.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg><span class="perk__t">Нова пошта</span><span class="perk__s">По Україні</span></a></li>
+    <li><a class="perk" href="tinting.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.6-1-2.6 1-1.4 2-1.4h2a4 4 0 0 0 4-4C21 6.5 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg><span class="perk__t">Колерування</span><span class="perk__s">Ваш точний відтінок</span></a></li>
+    <li><a class="perk" href="podbor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span class="perk__t">Підбір матеріалів</span><span class="perk__s">Під вашу задачу</span></a></li>
+    <li><a class="perk" href="evidnovlennya.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg><span class="perk__t">єВідновлення</span><span class="perk__s">Оплата матеріалів</span></a></li>
+  </ul>
+
+  <section class="section">
+    <div class="section-head"><h2>Будівельні матеріали</h2><a class="link-arrow" href="catalog.html">Каталог із підрозділами <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+    <!-- Усі 12 розділів видно одразу: 6 в ряд на ПК, 4 на планшеті, 3 на телефоні -->
+    <div class="sec-tiles" data-slot="tiles"></div>
+  </section>
+
+  <!-- Приоритетні товари: керуються вручну з адмінки -->
+  <section class="section">
+    <div class="section-head section-head--tight"><h2>Варто придивитись</h2></div>
+    <div class="row row--between row--wrap" style="margin-bottom:24px">
+      <div class="tabs" role="tablist"><button class="tab" role="tab" data-htab="promo" aria-selected="true">Акції</button><button class="tab" role="tab" data-htab="hits" aria-selected="false">Хіти продажів</button><button class="tab" role="tab" data-htab="new" aria-selected="false">Новинки</button></div>
+      <a class="link-arrow hide-mobile" href="promo.html" data-slot="all-link">Усі акції <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="listing grid-4" data-slot="products"></div>
+    <a class="more-link only-mobile" href="promo.html" data-slot="all-link">Усі акції <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+  </section>
+
+  <section class="section card-band" data-slot="cardband" aria-label="Накопичувальна картка"></section>
+
+  <section class="section">
+    <div class="section-head"><h2>Власні марки</h2></div>
+    <!-- Бренд-банери: колірна панель + фото товарів марки (друге фото ховається на вузьких екранах) -->
+    <div class="brands">
+      <a class="brand-card brand-card--front" href="brand.html?b=front">
+        <span class="brand-card__text"><span class="brand-card__name">FRONT</span><span class="brand-card__list"><span>Фарби</span><span>Ґрунтовки</span><span>Лаки й емалі</span></span><span class="brand-card__more">Усі товари FRONT <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+        <span class="brand-card__photos"><span class="shot shot--photo"><img src="assets/img/front-acr.webp" alt="" width="720" height="720" loading="lazy"></span><span class="shot shot--photo"><img src="assets/img/front-satin.webp" alt="" width="720" height="720" loading="lazy"></span></span>
+      </a>
+      <a class="brand-card brand-card--tigor" href="brand.html?b=tigor">
+        <span class="brand-card__text"><span class="brand-card__name">TIGOR</span><span class="brand-card__list"><span>Ґрунтовки</span><span>Шпаклівки</span><span>Піни й герметики</span></span><span class="brand-card__more">Усі товари TIGOR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+        <span class="brand-card__photos"><span class="shot shot--photo"><img src="assets/img/tigor-ti91.webp" alt="" width="720" height="720" loading="lazy"></span><span class="shot shot--photo"><img src="assets/img/tigor-tp140.webp" alt="" width="720" height="720" loading="lazy"></span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Що плануєте зробити?</h2><span class="section-head__note">Готові підбірки матеріалів під вашу задачу</span></div>
+    <!-- Плитка задачі: піктограма, назва, з чого складається набір (IMB.TASKS) -->
+    <div class="tasks" data-slot="tasks"></div>
+  </section>
+
+
+  <section class="section store-band">
+    <div><span class="store-band__label">Поруч із вами</span><h2>Магазин у Харкові</h2></div>
+    <div><b>ТЦ «Казка», вул. Холодногірська, 2</b><p class="small ink-2" style="margin-top:6px">Щодня 9:00–19:00, без вихідних</p></div>
+    <a class="btn btn--white btn--lg btn--split" style="min-width:208px" href="stores.html">Як доїхати <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    <a class="store-band__map" href="stores.html" aria-label="Магазин на карті">
+      <svg viewBox="0 0 280 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="#E7EDDB"><path d="M-10 -10h70l40 120-110 30zM150 -10h36l40 150-30 20zM240 -10h60v60z"/></g>
+        <g stroke="#F7F8F4" stroke-linecap="round" fill="none"><path d="M-10 112 300 50" stroke-width="13"/><path d="M68 -10 126 170" stroke-width="9"/><path d="M192 -10 240 170" stroke-width="6"/><path d="M-10 38 300 -8" stroke-width="5"/><path d="M-10 162 150 130" stroke-width="5"/></g>
+        <g transform="translate(152 78)"><ellipse cy="16" rx="9" ry="3" fill="#262B26" opacity=".18"/><path d="M0 14c-10-11-15-18-15-26a15 15 0 0 1 30 0c0 8-5 15-15 26z" fill="#262B26"/><circle cy="-12" r="5.5" fill="#B4EC55"/></g>
+        <g transform="translate(176 52)"><rect width="74" height="22" rx="6" fill="#fff"/><text x="37" y="15" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#262B26">ТЦ «Казка»</text></g>
+      </svg>
+    </a>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Поради</h2><a class="link-arrow" href="blog.html">Усі статті <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+    <div class="grid grid-3 tips">
+      <a class="tip" href="blog.html?a=1"><span class="tip__n">01</span><span class="tip__t">Як обрати фарбу <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
+      <a class="tip" href="blog.html?a=2"><span class="tip__n">02</span><span class="tip__t">Скільки штукатурки купити <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
+      <a class="tip" href="blog.html?a=3"><span class="tip__n">03</span><span class="tip__t">Який гіпсокартон обрати <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Виробники</h2><a class="link-arrow" href="brands.html">Усі виробники <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+    <!-- Логотип на фірмовому фоні, що постачає, скільки товарів у каталозі -->
+    <div class="makers" data-slot="makers"></div>
+  </section>
+
+  <!-- Часті запитання: один блок на весь сайт, тут найчастіші з усіх тем -->
+  <div data-faqslot data-top data-limit="7" data-cls="section" data-lead="Про доставку, оплату, колерування і повернення."></div>
+
+  <!-- Текст про магазин: видно одразу, без згортання -->
+  <section class="section about-strip"><h2>Інтернет-магазин будматеріалів IM BAU</h2><div class="about-strip__text"><p>IM BAU продає будівельні матеріали, власні марки FRONT і TIGOR, інструмент і товари для дому. Магазин у Харкові, доставка по Україні Новою поштою. Колеруємо фарбу в магазині, підбираємо матеріали під задачу, приймаємо оплату за програмою єВідновлення.</p><a class="link" href="info.html?p=about">Про компанію</a></div></section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

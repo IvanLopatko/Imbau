@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карта прототипу | IM BAU</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="sitemap">
+<div id="site-header"></div>
+<main class="page-main container">
+  <h1 class="page-title" style="margin-top:24px">Карта прототипу</h1>
+  <p class="lead" style="margin-bottom:24px">Усі сторінки прототипу, відповідні шаблони OpenCart і стани, які треба перевірити. Технічне завдання — у файлі <code>HANDOFF.md</code> поруч.</p>
+  <div style="overflow-x:auto"><table class="table">
+    <thead><tr><th>Сторінка</th><th>Шаблон OpenCart</th><th>Що перевірити / стани</th><th>Етап</th></tr></thead>
+    <tbody>
+      <tr><td><a class="link" href="index.html">Головна</a></td><td>common/home.twig</td><td>Таби «Акції / Хіти / Новинки», мегаменю «Каталог товарів», підказки пошуку, мобільне меню</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="catalog.html">Каталог: усі розділи</a></td><td>новий шаблон</td><td>Вхід «під задачу» + дерево розділів</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="section.html?s=sukhi-sumishi">Розділ (рівень 1)</a></td><td>product/category.twig</td><td>Плитки підрозділів, хіти, SEO-блок</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="category.html?sub=Фарби+інтер’єрні">Категорія з фільтрами</a></td><td>product/category.twig + OCFilter</td><td>Фільтри з лічильниками, активні чипи, сортування, «Показати ще», порожній результат, мобільна шторка фільтрів</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="category.html?sub=Штукатурки&brand=TIGOR">Посадкова фільтра</a></td><td>OCFilter SEO-сторінка</td><td>Свій H1 «Штукатурки TIGOR», хлібні крихти</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=acr">Картка: фарба (3 фасовки, колерування)</a></td><td>product/product.twig</td><td>Перемикач фасовки, ціна за кг, калькулятор, НП заборонена, закріплена кнопка на мобільному</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=gs41">Картка: суміш (ціна від обсягу)</a></td><td>product/product.twig</td><td>Сходинка «від 20 шт.: 245 грн» — поставте 20 шт.</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=gkl">Картка: лист ГКЛ</a></td><td>product/product.twig</td><td>Калькулятор у листах, НП заборонена за габаритом</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=lor">Картка: під замовлення</a> · <a class="link" href="product.html?id=gre">немає в наявності</a></td><td>product/product.twig</td><td>Стани наявності, «Повідомити про надходження»</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=tape">Картка: дрібний товар</a></td><td>product/product.twig</td><td>Нова пошта доступна</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="search.html?q=краска">Пошук (RU→UA)</a> · <a class="link" href="search.html?q=цегла">нуль результатів</a></td><td>product/search.twig</td><td>Синоніми, порожній результат з підказками</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="cart.html">Кошик</a></td><td>checkout/cart.twig</td><td>Порожній стан, кількість, видалення, попередження НП, промокод <b>BAU5</b>, «Поділитися кошиком», 1 клік на весь кошик</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="checkout.html">Оформлення</a></td><td>checkout/checkout.twig</td><td>Місто першим → способи отримання залежать від міста і складу кошика; валідація телефону; оплата залежить від способу</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="success.html">Успіх</a> · <a class="link" href="success.html?fail=1">помилка оплати</a></td><td>common/success.twig</td><td>Номер, наступний крок, месенджери, подія purchase</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="tracking.html?o=IMB-100001">Статус замовлення</a></td><td>новий шаблон</td><td>Таймлайн, ТТН, без входу</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="account.html">Вхід і кабінет</a></td><td>account/*.twig</td><td>Вхід за телефоном + код (демо: будь-які 4 цифри), «Повторити замовлення»</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="compare.html">Порівняння</a> · <a class="link" href="compare.html?tab=fav">Обране</a></td><td>product/compare.twig, account/wishlist.twig</td><td>«Тільки відмінності», ліміт 4, noindex</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="promo.html">Акції</a></td><td>product/special.twig</td><td>—</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="brand.html?b=front">FRONT</a> · <a class="link" href="brand.html?b=tigor">TIGOR</a></td><td>product/manufacturer_info.twig</td><td>Хаб власної марки: лінійки, товари, техлисти</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="brands.html">Виробники</a></td><td>product/manufacturer_list.twig</td><td>—</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="tinting.html">Колерування</a></td><td>information + форма</td><td>Палітра, форма з файлом</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="podbor.html">Підбір матеріалів + калькулятор</a></td><td>information + форма + модуль</td><td>Форма, калькулятор → кошик</td><td>Запуск / калькулятор після</td></tr>
+      <tr><td><a class="link" href="kit.html?t=Для+штукатурки">Підбірка під роботу</a></td><td>новий модуль</td><td>«Додати все до кошика»</td><td>Після запуску</td></tr>
+      <tr><td><a class="link" href="evidnovlennya.html">єВідновлення</a> · <a class="link" href="delivery.html">Доставка й оплата</a> · <a class="link" href="stores.html">Магазин</a></td><td>information/*.twig</td><td>Таблиця способів, обмеження НП</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="product.html?id=tc16">Товар з уцінкою</a> · <a class="link" href="product.html?id=nail">на вагу</a> · <a class="link" href="product.html?id=old">поставки припинено</a></td><td>product/product.twig</td><td>Рядок стікерів під назвою і вікно з поясненнями; стара ціна і причина уцінки; кількість у кілограмах; стан «Поставки припинено» з блоком «Аналоги»</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="certificate.html">Подарунковий сертифікат</a></td><td>account/voucher.twig</td><td>Номінал і своя сума, чотири оформлення, електронний або друкований; сертифікат змінюється разом із формою; код сертифіката в кошику (демо GIFT-1000)</td><td>Після запуску</td></tr>
+      <tr><td><a class="link" href="pro.html">Оптовикам і майстрам</a></td><td>information/pro.twig</td><td>Перемикач аудиторії міняє переваги й тип у формі; поля компанії з’являються для «Компанія» і «Магазин»; місце під таблицю умов</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="suppliers.html">Постачальникам</a> (прихована)</td><td>information/suppliers.twig</td><td>Немає в меню, підвалі й карті сайту; відкривається за прямим посиланням; форма з файлом</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="info.html?p=faq">Часті запитання</a></td><td>information/faq.twig</td><td>Повний перелік; той самий блок стоїть на головній, «Доставці», «Колеруванні», сертифікаті та «Оптовикам і майстрам»</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="info.html?p=about">Інфосторінки</a> · <a class="link" href="blog.html">Поради</a></td><td>information.twig, блог</td><td>Шаблон тексту</td><td>Запуск / блог після</td></tr>
+      <tr><td><a class="link" href="404.html">404</a></td><td>error/not_found.twig</td><td>Віддавати код 404</td><td>Запуск</td></tr>
+      <tr><td><a class="link" href="ui-kit.html">UI-kit</a></td><td>—</td><td>Кольори, шрифти, кнопки, поля, стани, поп-апи</td><td>—</td></tr>
+    </tbody></table></div>
+  <div class="note" style="margin-top:24px"><span>Скинути стан прототипу (кошик, обране, замовлення): <button class="link" onclick="try{localStorage.removeItem('imbau_proto_v1')}catch(e){};location.reload()">очистити</button>. Події аналітики видно в консолі браузера як <code>[dataLayer]</code>.</span></div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

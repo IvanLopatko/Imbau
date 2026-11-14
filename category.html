@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Категорія | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: product/category.twig + OCFilter (посадкові: category.html?sub=Штукатурки&brand=TIGOR) -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="category">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <div data-slot="crumbs"></div>
+  <h1 class="page-title" data-h1>Категорія</h1>
+  <div class="sub-strip" data-slot="subs"></div>
+  <div class="cat-layout">
+    <aside class="filters" data-slot="filters" aria-label="Фільтри"></aside>
+    <div>
+      <div data-slot="demo"></div>
+      <div class="toolbar">
+        <button class="btn btn--dark btn--sm filter-open" data-openfilters>Фільтри</button>
+        <span class="toolbar__count" data-slot="count"></span>
+        <label class="sr-only" for="sort">Сортування</label>
+        <select class="select" id="sort" data-slot="sort"><option value="default">Спочатку рекомендовані</option><option value="cheap">Спочатку дешевші</option><option value="dear">Спочатку дорожчі</option><option value="pop">Популярні</option></select>
+      </div>
+      <div class="applied" data-slot="active" aria-label="Обрані фільтри" hidden></div>
+      <div class="listing" data-slot="listing"></div>
+      <div class="more-row" data-slot="more"></div>
+      <div class="note" style="margin-top:32px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2"/></svg><span><b>Не знаєте, скільки купити?</b> Вкажіть площу в картці товару або <a class="link" href="podbor.html">надішліть список</a> — порахуємо й зберемо.</span></div>
+    </div>
+  </div>
+  <section class="section cat-intro"><div><h2 data-slot="seo-title"></h2><p class="prose" style="margin-top:12px"><span data-slot="seo-range"></span> Короткий вступ тут, під товарами: як обрати, чим відрізняються, витрата.</p></div>
+  <div class="acc"><details><summary>Яка фарба підійде для кухні?</summary><div class="acc__body">Миюча латексна з позначкою «для вологих приміщень», наприклад Front Satinlatex.</div></details><details><summary>Чи можна заколерувати?</summary><div class="acc__body">Так, у магазині за 15 хвилин. <a class="link" href="tinting.html">Про колерування</a>.</div></details></div></section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

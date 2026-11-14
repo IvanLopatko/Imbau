@@ -1,0 +1,82 @@
+/* =========================================================
+   IM BAU — дизайн-токени
+   Джерело: Figma «IM BAU — Головна» (Desktop 1920 / Mobile 390)
+   + брендбук «Дані логотипа» (зелений 66CC00 / 7FBA27, сірий 545454)
+   Програмісту: усі кольори/відступи/радіуси беріть ТІЛЬКИ звідси.
+   ========================================================= */
+:root {
+  /* --- Кольори: поверхні --- */
+  --c-bg:        #F7F8F4;  /* фон сторінки */
+  --c-surface:   #FFFFFF;  /* картки, шапка, поля */
+  --c-sage:      #EBF0E0;  /* банер, блок магазину, бренд TIGOR */
+  --c-chip:      #EDEFE8;  /* таби, поле пошуку, кнопка «1 клік» */
+  --c-line:      #E2E5DB;  /* роздільники, рамки */
+  --c-photo:     #F1F2EC;  /* панель під фото товару; усі фото зведені до цього фону */
+
+  /* --- Кольори: текст --- */
+  --c-ink:       #262B26;  /* основний текст, темні блоки, футер */
+  --c-ink-2:     #4A5048;  /* другорядний текст */
+  --c-muted:     #656B60;  /* підписи, плейсхолдери */
+  --c-on-dark:   #E9ECE4;  /* текст на темному */
+  --c-on-dark-2: #A9AFA3;
+
+  /* --- Акценти --- */
+  --c-lime:      #B4EC55;  /* головна CTA: «До кошика», «Каталог товарів» */
+  --c-lime-h:    #A3DD3E;  /* hover CTA */
+  --c-green:     #4F6B2C;  /* «Є в магазині», надписи-мітки на sage */
+  --c-brand:     #66CC00;  /* зелений логотипа (RGB, сайт) */
+  --c-brand-print: #7FBA27;/* зелений логотипа (CMYK-друк) */
+  --c-brand-grey:#545454;  /* сірий логотипа */
+
+  /* --- Стани --- */
+  --c-warn:      #96600F;  --c-warn-bg: #FBF1DE;  /* під замовлення, обмеження НП */
+  --c-danger:    #B8402C;  --c-danger-bg: #FBE7E3; /* немає в наявності, помилка */
+  --c-info-bg:   #EEF3E4;
+  --c-tag:       #FFD84D;  --c-tag-bg: #FFF4C7;   /* tag = yellow price tag: sticker and note for marked-down goods */
+
+  /* --- Типографіка --- */
+  /* Як у Figma: основний текст та інтерфейс — Inter; заголовки й ціни — Onest */
+  --f-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --f-display: "Onest", "Inter", system-ui, sans-serif;
+  --f-logo: Arial, "Helvetica Neue", Helvetica, sans-serif; /* брендбук: Arial Bold */
+
+  --fs-hero: clamp(32px, 3.4vw, 52px);  /* Figma: 52 / Onest Bold */
+  --fs-h1:   clamp(28px, 2.6vw, 40px);
+  --fs-h2:   clamp(24px, 2.1vw, 32px);  /* Figma: 32 / Onest SemiBold */
+  --fs-h3:   20px;
+  --fs-price:30px;
+  --fs-body: 15px;
+  --fs-sm:   13px;
+  --fs-xs:   12px;
+
+  /* --- Відступи (крок 4) --- */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px;
+
+  /* --- Радіуси --- */
+  --r-sm: 8px;    /* кнопки, поля, бейджі */
+  --r-md: 12px;   /* картки товарів, плитки */
+  --r-lg: 16px;   /* великі блоки: банер, бренди, магазин */
+  --r-pill: 999px;
+
+  /* --- Сітка --- */
+  --container: 1440px;  /* 1920 - 2×240 як у Figma */
+  --gutter: 24px;       /* між картками */
+  --side: 40px;         /* бічне поле сторінки */
+
+  /* --- Вертикальний ритм --- */
+  --gap-section: 72px;  /* між блоками сторінки */
+  --gap-head: 28px;     /* від заголовка блоку до його вмісту */
+
+  --shadow-pop: 0 18px 50px rgba(38, 43, 38, .18);
+  --z-header: 50; --z-drawer: 80; --z-modal: 90; --z-toast: 100;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  :root { --side: 24px; --gap-section: 56px; --gap-head: 24px; }
+}
+/* Телефон */
+@media (max-width: 720px) {
+  :root { --side: 20px; --gutter: 12px; --gap-section: 44px; --gap-head: 16px; --fs-price: 26px; }
+}

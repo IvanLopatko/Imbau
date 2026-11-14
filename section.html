@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Розділ каталогу | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: product/category.twig (рівень 1: плитки підрозділів) -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="section">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <div data-slot="crumbs"></div>
+  <!-- Шапка розділу: назва, скільки товарів і підрозділів, фото розділу. Підрозділи — текстові плитки. -->
+  <header class="sec-hero"><div class="sec-hero__text"><h1 data-h1>Розділ</h1><p class="sec-hero__meta" data-slot="sec-meta"></p><p class="lead">Оберіть підрозділ або почніть із хітів нижче. Не впевнені, що саме потрібно? <a class="link" href="podbor.html">Надішліть список</a> — порахуємо й зберемо.</p></div><div class="sec-hero__photo" data-slot="sec-photo"></div></header>
+  <nav class="sub-tiles" data-slot="subs" aria-label="Підрозділи"></nav>
+  <section class="section"><div class="section-head"><h2>Хіти розділу</h2></div><div class="listing grid-4" data-slot="products"></div></section>
+  <section class="section cat-intro"><div><h2 data-slot="seo-title"></h2><p class="prose" style="margin-top:12px">Короткий корисний текст: чим відрізняються підрозділи, на що дивитися при виборі. Текст під таблицею, а не над товарами.</p></div><div class="acc"><details><summary>Чим штукатурка відрізняється від шпаклівки?</summary><div class="acc__body">Штукатурка вирівнює великі перепади (шар 5–50 мм), шпаклівка — фінішний тонкий шар до 3 мм під фарбу чи шпалери.</div></details><details><summary>Що купити першим?</summary><div class="acc__body">Ґрунтовку: без неї суміш гірше тримається і тріскається.</div></details></div></section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

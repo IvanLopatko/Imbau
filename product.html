@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Товар | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: product/product.twig -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="product">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <div data-slot="crumbs"></div>
+  <div class="pdp">
+    <div class="pdp__head"><h1 data-h1 style="font-size:clamp(24px,2.2vw,32px)">Товар</h1><div class="pdp__meta" data-slot="meta"></div><div class="pdp__stk" data-slot="stickers" hidden></div></div>
+    <!-- Порядок у розмітці = порядок на телефоні: фото → ціна й кошик → характеристики → калькулятор → отримання.
+         На ПК блоки розкладає сітка: зліва фото, характеристики й калькулятор, справа купівля та отримання. -->
+    <div class="gallery" data-slot="gallery"></div>
+    <div class="pdp__right"><div class="buybox" data-slot="buybox" data-buy></div><div class="pdp__ship" data-slot="side"></div></div>
+    <div class="facts" data-slot="facts"></div>
+    <div class="pdp__calc" data-slot="calc"></div>
+  </div>
+  <!-- Аналоги: лише у товару зі станом «Поставки припинено» -->
+  <section class="section" id="analogs" data-slot="analogs" hidden></section>
+  <section class="section" data-slot="need"></section>
+  <section class="ptabs" id="tabs" data-slot="tabs"></section>
+  <section class="section"><div class="section-head"><h2>Схожі товари</h2></div><div class="listing grid-4" data-slot="similar"></div></section>
+  <section class="section" data-slot="seen-wrap" hidden><div class="section-head"><h2>Ви переглядали</h2></div><div class="listing grid-4" data-slot="seen"></div></section>
+</div>
+<!-- Закріплена кнопка на мобільному (Figma: BOTTOM BAR) -->
+<div class="sticky-buy" data-slot="sticky" data-buy></div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

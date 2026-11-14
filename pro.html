@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оптовикам і майстрам | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: information/pro.twig (посадкова з формою заявки) -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="pro">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <nav class="crumbs"><a href="index.html">Головна</a> › <span aria-current="page">Оптовикам і майстрам</span></nav>
+
+  <div class="pro-head">
+    <div class="pro-head__text">
+      <h1>Оптовикам і майстрам</h1>
+      <p class="lead">Для бригад, майстрів, будівельних компаній і магазинів. Порахуємо ціну під ваш обсяг, зберемо замовлення за списком і привеземо на об’єкт.</p>
+      <div class="row row--wrap"><a class="btn btn--primary btn--lg" href="#pro-form">Залишити заявку</a><a class="btn btn--white btn--lg" href="podbor.html">Надіслати кошторис</a></div>
+    </div>
+    <div class="pro-head__shots" aria-hidden="true">
+      <img src="assets/img/tigor-gs41.webp" alt="" width="720" height="720">
+      <img src="assets/img/tigor-tm12.webp" alt="" width="720" height="720">
+      <img src="assets/img/front-fac.webp" alt="" width="720" height="720">
+    </div>
+  </div>
+
+  <!-- Дві аудиторії: перемикач міняє шість переваг і підставляє тип покупця у форму нижче -->
+  <section class="section">
+    <div class="section-head section-head--tight"><h2>Що ви отримуєте</h2></div>
+    <div class="tabs tabs--fit" role="tablist" aria-label="Для кого" data-slot="pro-tabs"></div>
+    <div class="pro-perks" data-slot="pro-grid"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Умови співпраці</h2></div>
+    <!-- ПРОТОТИП: місце під таблицю умов. Розміри знижок і пороги затверджує власник, дизайн їх не вигадує. -->
+    <div class="slot-note"><b>Тут буде таблиця умов</b><span>Пороги обсягу й ціни для майстрів та оптових покупців затверджує власник. Після затвердження таблиця стане на це місце в стилі таблиці зі сторінки «Доставка та оплата».</span></div>
+  </section>
+
+  <div class="service-hero section" id="pro-form">
+    <div><h2>Як почати</h2>
+      <ol class="steps-list" style="margin-top:24px">
+        <li><span><b>Залиште заявку</b><br><span class="ink-2">Вкажіть, хто ви і що купуєте. Можна додати кошторис</span></span></li>
+        <li><span><b>Отримайте розрахунок</b><br><span class="ink-2">Менеджер уточнить обсяги, назве ціну і строки</span></span></li>
+        <li><span><b>Замовляйте, як зручно</b><br><span class="ink-2">На сайті, телефоном або в магазині. Привеземо на об’єкт або зберемо для самовивозу</span></span></li>
+      </ol>
+    </div>
+    <form class="card form-card" data-form="pro">
+      <h2>Заявка на співпрацю</h2>
+      <fieldset class="gf"><legend>Хто ви</legend><div class="rchips">
+        <label class="rchip"><input type="radio" name="pwho" value="Майстер" checked><span>Майстер</span></label>
+        <label class="rchip"><input type="radio" name="pwho" value="Бригада"><span>Бригада</span></label>
+        <label class="rchip"><input type="radio" name="pwho" value="Компанія"><span>Компанія</span></label>
+        <label class="rchip"><input type="radio" name="pwho" value="Магазин"><span>Магазин</span></label></div></fieldset>
+      <div class="step__grid">
+        <div class="field"><label class="field__label" for="pr-n">Ім’я</label><input class="input" id="pr-n" autocomplete="given-name" required></div>
+        <div class="field"><label class="field__label" for="pr-ph">Телефон</label><input class="input js-phone" id="pr-ph" type="tel" inputmode="tel" placeholder="+38 (0__) ___-__-__" required><span class="field__error">Вкажіть номер у форматі +38 (0XX) XXX-XX-XX</span></div>
+        <div class="field" data-proco hidden><label class="field__label" for="pr-c">Назва компанії</label><input class="input" id="pr-c" autocomplete="organization"></div>
+        <div class="field" data-proco hidden><label class="field__label" for="pr-e">Код ЄДРПОУ</label><input class="input" id="pr-e" inputmode="numeric"><span class="field__hint">Єдиний державний реєстр підприємств та організацій України</span></div>
+      </div>
+      <fieldset class="gf"><legend>Що купуєте найчастіше</legend><div class="check-row">
+        <label class="check"><input type="checkbox"> Сухі суміші</label><label class="check"><input type="checkbox"> Фарби й ґрунтовки</label><label class="check"><input type="checkbox"> Гіпсокартон і профіль</label><label class="check"><input type="checkbox"> Утеплення</label><label class="check"><input type="checkbox"> Кріплення</label><label class="check"><input type="checkbox"> Інструмент</label></div></fieldset>
+      <div class="field"><label class="field__label" for="pr-f">Кошторис або список (необов’язково)</label><input class="input" id="pr-f" type="file" style="padding-top:10px"></div>
+      <div class="field"><label class="field__label" for="pr-t">Коментар (необов’язково)</label><textarea class="input textarea" id="pr-t" rows="3" placeholder="Наприклад: об’єкт на Олексіївці, потрібно до кінця місяця"></textarea></div>
+      <button class="btn btn--primary btn--lg">Надіслати заявку</button>
+      <p class="xs ink-2">Менеджер зателефонує в робочий час: Щодня 9:00–19:00.</p>
+    </form>
+  </div>
+
+  <div data-faqslot data-topics="pro,pay,delivery" data-limit="7" data-cls="section" data-title="Питання про опт і співпрацю"></div>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

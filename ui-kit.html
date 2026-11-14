@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI-kit | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: — (довідник для верстальника) -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="uikit">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <h1 class="page-title" style="margin-top:24px">UI-kit IM BAU</h1>
+  <p class="lead" style="margin-bottom:32px">Токени, компоненти і стани. Джерело істини — <code>assets/css/tokens.css</code>.</p>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Кольори</h2><div class="kit-sw" data-slot="sw"></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Типографіка · Inter (текст) + Onest (заголовки, ціни) + Arial Bold (логотип)</h2>
+    <p class="hero__title" style="margin:0">Ваш колір. Hero 52</p><h1>Заголовок H1 40</h1><h2>Заголовок H2 32</h2><h3>Заголовок H3 20</h3><p>Основний текст 15 / 1.5 — для опису, підказок, умов.</p><p class="small ink-2">Дрібний текст 13 — мета, підписи.</p><p class="brand-card__name" style="font-size:40px">FRONT · TIGOR</p></div>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Кнопки</h2><div class="row row--wrap"><button class="btn btn--primary">До кошика</button><button class="btn btn--dark">Оформити</button><button class="btn btn--ghost">1 клік</button><button class="btn btn--outline">Скасувати</button><button class="btn btn--primary btn--lg">Великий CTA</button><button class="btn btn--primary btn--sm">Малий</button><button class="btn btn--primary" disabled>Неактивна</button></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Поля і вибір</h2><div class="grid grid-3"><div class="field"><label class="field__label" for="k1">Поле</label><input class="input" id="k1" placeholder="Плейсхолдер"><span class="field__hint">Підказка</span></div><div class="field is-invalid"><label class="field__label" for="k2">Помилка</label><input class="input" id="k2" value="+38 (09"><span class="field__error">Вкажіть номер у форматі +38 (0XX) XXX-XX-XX</span></div><div class="field"><label class="field__label" for="k3">Список</label><select class="select" id="k3"><option>Харків</option></select></div></div>
+    <div class="grid grid-2" style="margin-top:16px"><label class="choice"><input type="radio" name="k" checked><span><span class="choice__title">Самовивіз</span><br><span class="choice__meta">ТЦ «Казка» · сьогодні</span></span><span class="choice__price">0 грн</span></label><label class="choice is-disabled"><input type="radio" name="k" disabled><span><span class="choice__title">Нова пошта</span><br><span class="choice__meta">Недоступно: ЛФМ</span></span></label></div>
+    <div class="row row--wrap" style="margin-top:16px"><label class="check"><input type="checkbox" checked> Чекбокс</label><div class="qty"><button>−</button><input value="1" aria-label="К-сть"><button>+</button></div><div class="tabs"><button class="tab" aria-selected="true">Акції</button><button class="tab">Хіти</button></div><span class="chip">Чип</span><span class="chip is-on">Активний ×</span></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Статуси та повідомлення</h2><div class="row row--wrap"><span class="stock">Є в магазині: 37 шт.</span><span class="stock stock--order">Під замовлення</span><span class="stock stock--out">Немає в наявності</span></div>
+    <div class="stack" style="margin-top:16px"><div class="note">Інформація: усі товари можна відправити Новою поштою.</div><div class="note note--warn">Попередження: Новою поштою не поїде — у кошику є фарба.</div><div class="note note--danger">Помилка: оплата не пройшла, гроші не списано.</div></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:6px">Стікери</h2>
+    <p class="small ink-2" style="margin-bottom:16px;max-width:90ch">Дев’ять стікерів, порядок = пріоритет. Колонки: на сторінці товару, на картці, згорнутий вигляд (властивості стають піктограмами, коли підписи не вміщаються; «Тільки Харків» стає попередженням, коли обране місто не Харків і область), де стоїть і що означає. На фото вгорі показуємо не більше двох. «Поставки припинено» не стікер, а стан картки.</p>
+    <div data-slot="kit-stickers"></div>
+    <h3 style="margin:24px 0 12px">На картках: уцінка · акція · новинка · під замовлення · єВідновлення · на вагу · поставки припинено · немає в наявності</h3>
+    <div class="listing grid-4" data-slot="kit-stkcards"></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:6px">Вибір міста і блок запитань</h2>
+    <p class="small ink-2" style="margin-bottom:16px">Місто: назва у верхньому рядку, підказка першого візиту, вікно з пошуком і наслідками вибору. Запитання: один блок <code>IMB.faqBlock</code> для всіх сторінок, теми перемикаються чипами.</p>
+    <div class="row row--wrap" style="margin-bottom:24px"><button class="btn btn--ghost" data-modal="city">Вікно «Ваше місто»</button><button class="btn btn--ghost" data-modal="ask">Вікно «Поставити питання»</button><a class="btn btn--ghost" href="certificate.html">Сертифікат</a><a class="btn btn--ghost" href="pro.html">Оптовикам і майстрам</a><a class="btn btn--ghost" href="suppliers.html">Постачальникам</a></div>
+    <div data-faqslot data-topics="delivery,pay" data-limit="4"></div></div>
+  <div class="kit-block"><h2 style="margin-bottom:16px">Картка товару: в наявності · під замовлення · немає · без фото</h2><div class="listing grid-4" data-slot="cards"></div></div>
+  <div class="kit-block" data-slot="kit-modal"><h2 style="margin-bottom:16px">Поп-апи</h2><div class="row row--wrap"><button class="btn btn--ghost" data-kitm="add">Додано до кошика</button><button class="btn btn--ghost" data-kitm="one">Купити в 1 клік</button><button class="btn btn--ghost" data-modal="callback">Замовити дзвінок</button><button class="btn btn--ghost" data-modal="city">Вибір міста</button><button class="btn btn--ghost" data-kitm="toast">Тост</button><button class="btn btn--ghost" data-notify="gre">Повідомити про надходження</button></div></div>
+
+  <!-- ===== Блоки раундів 10–11.11.2026 ===== -->
+  <div class="kit-block"><h2 style="margin-bottom:6px">Фото товару і заглушка</h2><p class="small ink-2" style="margin-bottom:16px">Усі фото зведені до фону <code>--c-photo</code>. Якщо знімка немає — контурна піктограма типу товару; у великих рамках із підписом. Пунктирна рамка — місце під фото, яке ще треба зробити.</p>
+    <div class="row row--wrap" style="align-items:flex-start;gap:16px" data-slot="kit-shots"></div></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:6px">Плитки</h2><p class="small ink-2" style="margin-bottom:16px">Розділ на головній (з фото) · підрозділ (текстова) · задача ремонту · лінійка марки.</p>
+    <div class="grid grid-4" data-slot="kit-tiles" style="align-items:start"></div></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:6px">Банери головної</h2><p class="small ink-2" style="margin-bottom:16px">Власні марки, «Акція місяця», блок магазину з мінікартою. Розмітка та сама, що в <code>index.html</code>.</p>
+    <div class="brands">
+      <a class="brand-card brand-card--front" href="brand.html?b=front">
+        <span class="brand-card__text"><span class="brand-card__name">FRONT</span><span class="brand-card__list"><span>Фарби</span><span>Ґрунтовки</span><span>Лаки й емалі</span></span><span class="brand-card__more">Усі товари FRONT <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+        <span class="brand-card__photos"><span class="shot shot--photo"><img src="assets/img/front-acr.webp" alt="" width="720" height="720" loading="lazy"></span><span class="shot shot--photo"><img src="assets/img/front-satin.webp" alt="" width="720" height="720" loading="lazy"></span></span>
+      </a>
+      <a class="brand-card brand-card--tigor" href="brand.html?b=tigor">
+        <span class="brand-card__text"><span class="brand-card__name">TIGOR</span><span class="brand-card__list"><span>Ґрунтовки</span><span>Шпаклівки</span><span>Піни й герметики</span></span><span class="brand-card__more">Усі товари TIGOR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+        <span class="brand-card__photos"><span class="shot shot--photo"><img src="assets/img/tigor-ti91.webp" alt="" width="720" height="720" loading="lazy"></span><span class="shot shot--photo"><img src="assets/img/tigor-tp140.webp" alt="" width="720" height="720" loading="lazy"></span></span>
+      </a>
+    </div>
+    <div class="grid grid-2" style="margin-top:24px;align-items:start"><div style="max-width:320px;height:300px"><a class="deal" href="product.html?id=acr">
+        <span class="deal__photo"><span class="badge badge--dark deal__label">Акція місяця</span><span class="shot shot--photo"><img src="assets/img/front-acr.webp" alt="" width="720" height="720"></span></span>
+        <b class="deal__title">Фарба FRONT інтер’єрна, 7&nbsp;кг</b>
+        <span class="deal__foot"><span class="deal__price">628 грн</span><span class="deal__go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span>
+      </a></div><div></div></div>
+    <div style="margin-top:24px"><div class="store-band">
+    <div><span class="store-band__label">Поруч із вами</span><h3 style="font-size:28px">Магазин у Харкові</h3></div>
+    <div><b>ТЦ «Казка», вул. Холодногірська, 2</b><p class="small ink-2" style="margin-top:6px">Щодня 9:00–19:00</p></div>
+    <a class="btn btn--white btn--lg btn--split" style="min-width:208px" href="stores.html">Як доїхати <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    <a class="store-band__map" href="stores.html" aria-label="Магазин на карті">
+      <svg viewBox="0 0 280 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="#E7EDDB"><path d="M-10 -10h70l40 120-110 30zM150 -10h36l40 150-30 20zM240 -10h60v60z"/></g>
+        <g stroke="#F7F8F4" stroke-linecap="round" fill="none"><path d="M-10 112 300 50" stroke-width="13"/><path d="M68 -10 126 170" stroke-width="9"/><path d="M192 -10 240 170" stroke-width="6"/><path d="M-10 38 300 -8" stroke-width="5"/><path d="M-10 162 150 130" stroke-width="5"/></g>
+        <g transform="translate(152 78)"><ellipse cy="16" rx="9" ry="3" fill="#262B26" opacity=".18"/><path d="M0 14c-10-11-15-18-15-26a15 15 0 0 1 30 0c0 8-5 15-15 26z" fill="#262B26"/><circle cy="-12" r="5.5" fill="#B4EC55"/></g>
+        <g transform="translate(176 52)"><rect width="74" height="22" rx="6" fill="#fff"/><text x="37" y="15" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#262B26">ТЦ «Казка»</text></g>
+      </svg>
+    </a>
+  </div></div></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:6px">Закріплена шапка і шапка оформлення</h2><p class="small ink-2" style="margin-bottom:16px">Основна шапка: верхній рядок прокручується, нижній лишається; у закріпленому стані меню змінюється на логотип-знак, пошук, телефон та іконки (клас <code>.is-stuck</code>). На сторінці оформлення — спрощена шапка без каталогу й пошуку.</p>
+    <div class="cohead" style="border:1px solid var(--c-line);border-radius:12px"><div class="cohead__in" style="padding:0 24px">
+      <a class="cohead__back" href="cart.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg><span>Назад у кошик</span></a>
+      <a class="logo" href="index.html"><span class="logo__mark">IM<br>BAU</span><span><span class="logo__name">IM BAU</span></span></a>
+      <div class="cohead__help"><a class="cohead__phone" href="tel:+380983323030"><b>+38 (098) 332-30-30</b></a><span class="cohead__hours">Щодня 9:00–19:00</span></div></div></div></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:16px">Список товарів: обрані фільтри і «Показати ще»</h2>
+    <div class="applied"><span class="applied__label">Обрано:</span><button class="chip chip--applied">FRONT<span class="chip__x" aria-hidden="true">×</span></button><button class="chip chip--applied">Для стін<span class="chip__x" aria-hidden="true">×</span></button><button class="chip chip--applied">до 500 грн<span class="chip__x" aria-hidden="true">×</span></button><button class="applied__reset">Скинути все</button></div>
+    <div class="row row--wrap" style="margin-bottom:24px"><button class="btn btn--dark btn--sm">Фільтри<span class="btn__count">3</span></button><span class="small ink-2">кнопка на телефоні з лічильником обраних</span></div>
+    <div class="more"><div class="more__count">Показано 24 із 61</div><div class="progress more__bar"><i style="width:39%"></i></div><button class="btn btn--outline btn--lg">Показати ще 24</button></div></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:16px">Товар: відтінок, рейтинг, відгук, питання</h2>
+    <div class="grid grid-2" style="align-items:start">
+      <div class="stack">
+        <div class="shade" style="max-width:440px"><div class="shade__head"><span class="small ink-2">Колір</span><b>Шавлія</b></div><div class="shade__row"><button class="shade__sw shade__sw--base" aria-pressed="false" aria-label="Білий"></button><button class="shade__sw" style="--sw:#F1EDE2" aria-pressed="false" aria-label="Вершковий"></button><button class="shade__sw" style="--sw:#C3CFB3" aria-pressed="true" aria-label="Шавлія"></button><button class="shade__sw" style="--sw:#DDBF9F" aria-pressed="false" aria-label="Карамель"></button><button class="shade__sw" style="--sw:#E3C0B6" aria-pressed="false" aria-label="Троянда"></button><button class="shade__sw" style="--sw:#AABFC8" aria-pressed="false" aria-label="Балтика"></button><button class="shade__sw" style="--sw:#BDBDB4" aria-pressed="false" aria-label="Бетон"></button><button class="shade__sw" style="--sw:#B4714F" aria-pressed="false" aria-label="Теракота"></button><button class="shade__sw" style="--sw:#3F5A70" aria-pressed="false" aria-label="Індиго"></button></div><div class="shade__foot">Заколеруємо в магазині перед видачею. <a class="link" href="tinting.html">Уся палітра</a></div></div>
+        <div class="row row--wrap"><span class="stars" style="--r:5" role="img" aria-label="5 з 5"></span><span class="stars" style="--r:4.7" role="img" aria-label="4,7 з 5"></span><span class="stars" style="--r:3" role="img" aria-label="3 з 5"></span><span class="stars stars--lg" style="--r:4.7" role="img" aria-label="4,7 з 5"></span></div>
+        <article class="qa__item"><h3 class="qa__q">Чи можна мити стіни після фарбування?</h3><div class="qa__a"><b>Технолог IM BAU</b> <time>15.10.2026</time><p>Протирати вологою ганчіркою можна.</p></div></article>
+      </div>
+      <article class="review"><header class="review__head"><span class="review__ava" aria-hidden="true">О</span><span><b>Олександр</b><span class="review__who">майстер</span></span><span class="stars" style="--r:5" role="img" aria-label="5 з 5"></span><time>12.10.2026</time></header><div class="xs ink-2">Купував: 7 кг</div><p>Лягає рівно, у два шари перекрила шпаклівку без плям.</p><div class="review__ans"><b>Відповідь IM BAU</b><p>Дякуємо за відгук.</p></div></article>
+    </div>
+    <p class="small ink-2" style="margin-top:16px">Галерея з переглядом на весь екран — на <a class="link" href="product.html">сторінці товару</a>. Примірка відтінку на фото кімнати — на <a class="link" href="tinting.html">сторінці колерування</a>.</p></div>
+
+  <div class="kit-block"><h2 style="margin-bottom:6px">Схема шарів і обкладинка статті</h2><p class="small ink-2" style="margin-bottom:16px">Схема: смуги-шари з номерами, вигляд шару задає клас <code>.layer--…</code>. Обкладинка: кольорове поле з рубрикою і фото товару.</p>
+    <div class="grid grid-2" style="align-items:start">
+      <div class="layers__stage"><div class="layer" style="--from:0%;--z:0"><i class="layer__fill layer--brick"></i></div><div class="layer" style="--from:25%;--z:1"><i class="layer__fill layer--primer"></i></div><div class="layer" style="--from:50%;--z:2"><i class="layer__fill layer--plaster"></i></div><div class="layer" style="--from:75%;--z:3"><i class="layer__fill layer--putty"></i></div><span class="layer__n" style="left:12.5%">1</span><span class="layer__n" style="left:40.5%">2</span><span class="layer__n" style="left:65.5%">3</span><span class="layer__n" style="left:90.5%">4</span></div>
+      <div class="grid grid-2" style="align-items:start" data-slot="kit-covers"></div>
+    </div></div>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

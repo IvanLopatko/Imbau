@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Підбір матеріалів | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
+<!-- OpenCart-шаблон: information/podbor.twig + модуль калькулятора -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="podbor">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <nav class="crumbs"><a href="index.html">Головна</a> › <span aria-current="page">Підбір матеріалів</span></nav>
+  <div class="service-hero">
+    <div><h1 style="font-size:var(--fs-hero);line-height:1.05;letter-spacing:-.02em">Порахуємо матеріали під ваш ремонт</h1>
+      <p class="lead" style="margin-top:20px">Надішліть список, кошторис або опишіть задачу. Технолог порахує кількість, підбере сумісні матеріали і надішле готовий кошик із цінами.</p>
+      <ol class="steps-list" style="margin-top:32px"><li><span><b>Опишіть задачу</b><br><span class="ink-2">Наприклад: штукатурка стін 45 м², шар 15 мм</span></span></li><li><span><b>Отримайте розрахунок</b><br><span class="ink-2">Протягом робочого дня, у Viber</span></span></li><li><span><b>Оплатіть кошик одним посиланням</b><br><span class="ink-2">Або заберіть у магазині</span></span></li></ol></div>
+    <form class="card stack" data-form="podbor">
+      <h2 style="font-size:22px">Прорахувати список</h2>
+      <div class="field"><label class="field__label" for="pb-t">Що плануєте</label><select class="select" id="pb-t"><option>Фарбування стін і стель</option><option>Штукатурка</option><option>Укладання плитки</option><option>Гіпсокартон</option><option>Утеплення фасаду</option><option>Стяжка підлоги</option><option>Інше / кілька робіт</option></select></div>
+      <div class="field"><label class="field__label" for="pb-a">Площа, м² (якщо знаєте)</label><input class="input" id="pb-a" inputmode="decimal"></div>
+      <div class="field"><label class="field__label" for="pb-l">Список або коментар</label><textarea class="textarea" id="pb-l" placeholder="Вставте список матеріалів або опишіть об’єкт"></textarea></div>
+      <div class="field"><label class="field__label" for="pb-f">Файл кошторису чи фото (необов’язково)</label><input class="input" id="pb-f" type="file" style="padding-top:10px"></div>
+      <div class="field"><label class="field__label" for="pb-ph">Телефон</label><input class="input js-phone" id="pb-ph" type="tel" placeholder="+38 (0__) ___-__-__"><span class="field__error">Вкажіть номер у форматі +38 (0XX) XXX-XX-XX</span></div>
+      <button class="btn btn--primary btn--lg">Надіслати на розрахунок</button>
+    </form>
+  </div>
+  <section class="section" id="calc"><div class="section-head"><h2>Калькулятор витрати</h2><span class="section-head__note">Модуль «після запуску» — у макеті заклали</span></div>
+    <div class="grid grid-2" style="align-items:start"><div class="field"><label class="field__label" for="calc-p">Матеріал</label><select class="select" id="calc-p"></select></div><div data-slot="calc"></div></div></section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>

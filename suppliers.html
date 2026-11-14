@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Постачальникам | IM BAU</title>
+<meta name="robots" content="noindex, nofollow"><!-- сторінка прихована: не індексувати й у бойовій версії -->
+<!-- OpenCart-шаблон: information/suppliers.twig.
+     ПРИХОВАНА СТОРІНКА: у меню, підвалі й карті сайту її немає, відкривається лише за прямим посиланням. -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css?v=35">
+<link rel="stylesheet" href="assets/css/styles.css?v=35">
+</head>
+<body data-page="suppliers">
+<div id="site-header"></div>
+<main class="page-main" id="main">
+<div class="container">
+  <!-- ПРОТОТИП: ця примітка лише для перегляду макета, на сайті її не буде -->
+  <div class="note proto-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span><b>Прихована сторінка.</b> У меню, підвалі й карті сайту її немає. Відкривається лише за прямим посиланням, пошуковики її не індексують.</span></div>
+
+  <header class="lead-head"><h1>Постачальникам</h1>
+    <p class="lead">Шукаємо виробників і дистриб’юторів будівельних та оздоблювальних матеріалів. Розкажіть про свій товар, і закупівельник розгляне пропозицію.</p></header>
+
+  <div class="sup">
+    <div class="sup__main">
+      <section><h2>Які товари нас цікавлять</h2>
+        <div class="sup-cats" data-slot="sup-cats"></div>
+      </section>
+
+      <section><h2>Що додати до пропозиції</h2>
+        <ul class="checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><b>Прайс-лист</b><span>З артикулами, штрихкодами, фасовкою і цінами.</span></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><b>Документи на товар</b><span>Сертифікати або декларації відповідності, технічні листи.</span></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><b>Умови поставки</b><span>Мінімальна партія, строки, доставка до Харкова, відстрочка.</span></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><b>Фото й описи</b><span>Якщо є готові матеріали для сайту, це прискорить запуск товару.</span></span></li>
+        </ul>
+      </section>
+
+      <section><h2>Як ми розглядаємо пропозицію</h2>
+        <ol class="steps-list">
+          <li><span><b>Ви надсилаєте заявку</b><br><span class="ink-2">Форма на цій сторінці, з прайсом або каталогом</span></span></li>
+          <li><span><b>Закупівельник вивчає пропозицію</b><br><span class="ink-2">Порівнює з асортиментом і попитом у магазині та на сайті</span></span></li>
+          <li><span><b>Узгоджуємо зразки й умови</b><br><span class="ink-2">Якщо товар підходить, зв’яжемося з контактною особою</span></span></li>
+          <li><span><b>Договір і перша поставка</b><br><span class="ink-2">Товар з’являється в магазині й на сайті</span></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <form class="card form-card sup__form" data-form="supplier">
+      <h2>Пропозиція від постачальника</h2>
+      <div class="step__grid">
+        <div class="field full"><label class="field__label" for="sp-co">Компанія</label><input class="input" id="sp-co" autocomplete="organization" required></div>
+        <div class="field"><label class="field__label" for="sp-ed">Код ЄДРПОУ</label><input class="input" id="sp-ed" inputmode="numeric"><span class="field__hint">Єдиний державний реєстр підприємств та організацій України</span></div>
+        <div class="field"><label class="field__label" for="sp-site">Сайт (необов’язково)</label><input class="input" id="sp-site" inputmode="url" placeholder="example.com"></div>
+        <div class="field"><label class="field__label" for="sp-n">Контактна особа</label><input class="input" id="sp-n" autocomplete="name" required></div>
+        <div class="field"><label class="field__label" for="sp-ph">Телефон</label><input class="input js-phone" id="sp-ph" type="tel" inputmode="tel" placeholder="+38 (0__) ___-__-__" required><span class="field__error">Вкажіть номер у форматі +38 (0XX) XXX-XX-XX</span></div>
+        <div class="field full"><label class="field__label" for="sp-m">E-mail</label><input class="input" id="sp-m" type="email" autocomplete="email" placeholder="name@example.com" required></div>
+        <div class="field full"><label class="field__label" for="sp-cat">Розділ товарів</label><select class="select" id="sp-cat" required></select></div>
+        <div class="field full"><label class="field__label" for="sp-b">Торгові марки</label><input class="input" id="sp-b" placeholder="Які марки ви постачаєте"></div>
+        <div class="field full"><label class="field__label" for="sp-f">Прайс-лист або каталог</label><input class="input" id="sp-f" type="file" style="padding-top:10px"><span class="field__hint">PDF, XLSX або архів</span></div>
+        <div class="field full"><label class="field__label" for="sp-t">Коментар (необов’язково)</label><textarea class="input textarea" id="sp-t" rows="3"></textarea></div>
+      </div>
+      <button class="btn btn--primary btn--lg">Надіслати пропозицію</button>
+      <p class="xs ink-2">Натискаючи кнопку, ви погоджуєтеся з <a class="link" href="info.html?p=privacy">політикою конфіденційності</a>.</p>
+    </form>
+  </div>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=35"></script>
+<script src="assets/js/app.js?v=35"></script>
+<script src="assets/js/pages.js?v=35"></script>
+</body>
+</html>
