@@ -26,5 +26,5 @@ if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8766
     root = Path(__file__).resolve().parent.parent
     handler = partial(NoCacheHandler, directory=str(root))
-    print(f'IM BAU prototype: http://127.0.0.1:{port}/sitemap.html  (no caching)')
+    print(f'IMBAU prototype: http://127.0.0.1:{port}/sitemap.html  (no caching)')
     ThreadingHTTPServer(('127.0.0.1', port), handler).serve_forever()

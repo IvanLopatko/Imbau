@@ -1,5 +1,5 @@
 /* =========================================================
-   IM BAU — логіка окремих сторінок
+   IMBAU — логіка окремих сторінок
    Кожна функція = один шаблон OpenCart (див. sitemap.html / HANDOFF.md)
    ========================================================= */
 (function () {
@@ -13,12 +13,21 @@
   const crumbs = a => { const links = a.filter(Array.isArray), back = links.length ? links[links.length - 1] : ['Головна', 'index.html'];
     return `<nav class="crumbs" aria-label="Хлібні крихти"><a class="crumbs__back" href="${back[1]}">${IC.chev}<span>${back[0]}</span></a><span class="crumbs__full"><a href="index.html">Головна</a>${a.map(x => Array.isArray(x) ? `<span class="crumbs__sep" aria-hidden="true">›</span><a href="${x[1]}">${x[0]}</a>` : `<span class="crumbs__sep" aria-hidden="true">›</span><span aria-current="page">${esc(x)}</span>`).join('')}</span></nav>`; };
   /* Невідома адреса: пояснюємо й даємо вихід у каталог, а не показуємо мовчки інший товар чи розділ */
-  const notFound = (h, t) => { document.title = h + ' | IM BAU'; const c = qs('main .container') || qs('main');
+  const notFound = (h, t) => { document.title = h + ' | IMBAU'; const c = qs('main .container') || qs('main');
     c.innerHTML = `${crumbs([h])}<div class="empty" style="margin-top:24px"><h1 class="empty__title" style="font-size:28px">${h}</h1><p class="ink-2">${t}</p><div class="row row--wrap"><a class="btn btn--primary" href="catalog.html">Перейти в каталог</a><a class="btn btn--ghost" href="index.html">На головну</a></div></div><div class="section"><h2 style="margin-bottom:20px">Часто купують</h2><div class="listing grid-4" data-slot="nf"></div></div>`;
     IMB.renderList(qs('[data-slot="nf"]', c), ['tm12', 'gs41', 'fpr', 'gkl'], 'Не знайдено'); qsa('.sticky-buy').forEach(x => x.remove()); document.body.classList.remove('has-sticky'); };
   const faq = a => `<div class="acc">${a.map(([q, t]) => `<details><summary>${q}</summary><div class="acc__body">${t}</div></details>`).join('')}</div>`;
-  const setTitle = (t, h1) => { document.title = t + ' | IM BAU'; const h = qs('[data-h1]'); if (h && h1) h.textContent = IMB.nb(h1); };
-  const tiles = secs => secs.map(s => `<a class="tile" href="${secUrl(s.n)}"><span class="tile__arrow">${IC.arrow}</span>${packshot({ kind: s.kind, color: s.kind === 'bucket' ? '#B4EC55' : s.kind === 'bag' ? '#C8B48C' : '#E7C46A', brand: s.kind === 'bucket' ? 'FRONT' : s.kind === 'bag' ? 'TIGOR' : '', name: s.n, img: s.img, eager: 1 })}<span class="tile__name">${s.n.replace(', ', ',<br>').replace(' та ', '<br>та ')}</span></a>`).join('');
+  const setTitle = (t, h1) => { document.title = t + ' | IMBAU'; const h = qs('[data-h1]'); if (h && h1) h.textContent = IMB.nb(h1); };
+  /* Зображення розділу: своє фото, якщо є; інакше намальована піктограма розділу на панелі фото. */
+  const secShot = (s, big) => s.img || s.icon ? packshot({ kind: s.kind, color: '#C8B48C', name: s.n, img: s.img || s.icon, eager: big ? 1 : 0 }, big) : `<span class="shot shot--ic">${IMB.secIc(s)}</span>`;
+  IMB.secShot = secShot;
+  const subCls = x => IMB.SUBPARENT[x] ? ' is-child' : '';
+  const pl = (n, a, b, c) => { const u = n % 10, h = n % 100; return u === 1 && h !== 11 ? a : u >= 2 && u <= 4 && (h < 12 || h > 14) ? b : c; };
+  /* Вікно з відео товару. yt — ідентифікатор ролика на YouTube; програвач вантажиться лише після кліку,
+     тому сторінка товару не важчає. Поки роликів немає (yt порожній), вікно показує місце програвача. */
+  IMB.video = (p, j) => { const v = (p.video || [])[j]; if (!v) return;
+    IMB.openModal(`<h2 class="modal__title" id="modal-t">${esc(v.t)}</h2><div class="vplayer">${v.yt ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.yt)}?autoplay=1&rel=0" title="${esc(v.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>` : `<div class="vplayer__demo"><span class="vplayer__play">${IC.play}</span><b>Тут відтворюється відео</b><span>У прототипі роликів ще немає. На сайті тут буде програвач YouTube з роликом про цей товар.</span></div>`}</div><p class="small ink-2 vplayer__meta">${esc(p.name)} · ${v.dur}</p>`, { wide: true, nofocus: true }); };
+  const tiles = secs => secs.map(s => `<a class="tile" href="${secUrl(s.n)}"><span class="tile__arrow">${IC.arrow}</span>${secShot(s, 0)}<span class="tile__name">${s.n.replace(', ', ',<br>').replace(' та ', '<br>та ')}</span></a>`).join('');
   IMB.tiles = tiles;
 
   /* Плитки виробників: логотип на фірмовому фоні, що постачає, скільки товарів у каталозі.
@@ -29,8 +38,13 @@
 
   /* ================= ГОЛОВНА (home.twig) ================= */
   IMB.pages.home = () => {
-    /* Усі 12 розділів одразу. Зображення — набір із поточного сайту (assets/img/sec-<slug>.webp). */
-    qs('[data-slot="tiles"]').innerHTML = IMB.SECTIONS.map(x => `<a class="sec-tile" href="${secUrl(x.n)}"><span class="sec-tile__img"><img src="assets/img/${x.icon}.webp" alt="" width="240" height="240" loading="lazy"></span><span class="sec-tile__name">${x.n.replace('\u0415\u043b\u0435\u043a\u0442\u0440\u043e\u0456\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442', '\u0415\u043b\u0435\u043a\u0442\u0440\u043e&shy;\u0456\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442')}</span></a>`).join('');
+    /* Розділи каталогу: 24 із файлу ліда. Одразу видно 12 головних (top) із зображеннями поточного сайту
+       (assets/img/sec-<slug>.webp); решта 12 мають намальовану піктограму й відкриваються кнопкою під плитками. */
+    const tileHtml = x => `<a class="sec-tile${x.icon ? '' : ' sec-tile--ic'}" href="${secUrl(x.n)}"><span class="sec-tile__img">${x.icon ? `<img src="assets/img/${x.icon}.webp" alt="" width="240" height="240" loading="lazy">` : IMB.secIc(x)}</span><span class="sec-tile__name">${x.n.replace('Електроінструмент', 'Електро&shy;інструмент')}</span></a>`;
+    const tl = qs('[data-slot="tiles"]'), restS = IMB.SECTIONS.filter(x => !x.top), allTxt = `Показати всі ${IMB.SECTIONS.length} розділи`;
+    tl.innerHTML = IMB.SECTIONS.filter(x => x.top).map(tileHtml).join('') + `<div class="sec-tiles__more" id="sec-more" hidden>${restS.map(tileHtml).join('')}</div>`;
+    tl.insertAdjacentHTML('afterend', `<button type="button" class="sec-tiles__btn" aria-expanded="false" aria-controls="sec-more"><span>${allTxt}</span>${IC.down}</button>`);
+    tl.nextElementSibling.addEventListener('click', e => { const b = e.currentTarget, m = qs('#sec-more'), open = m.hidden; m.hidden = !open; b.setAttribute('aria-expanded', open); qs('span', b).textContent = open ? 'Згорнути' : allTxt; });
     /* «Що плануєте зробити?»: піктограма задачі, назва і з чого складається набір */
     const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
     const TI = { 'Для фарбування': '<rect x="4" y="4" width="13" height="6" rx="1.5"/><path d="M17 7h3v5h-8v3M11 15h2v5h-2z"/>', 'Для штукатурки': '<path d="M4 5h16v5H4zM10 10v4h4v-4M11 14h2v6h-2z"/>', 'Для плитки': '<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M12 4v16M4 12h16"/>',
@@ -55,13 +69,16 @@
     /* Каталог ліворуч: при наведенні на розділ праворуч вилітає панель із підрозділами */
     const nav = qs('.side-cats');
     if (nav) {
+      /* список біля банера: 12 головних розділів і рядок на весь каталог */
+      qs('ul', nav).innerHTML = IMB.SECTIONS.filter(x => x.top).map(x => `<li><a href="${secUrl(x.n)}">${x.n}</a></li>`).join('') + `<li class="side-cats__all"><a href="catalog.html">Увесь каталог: ${IMB.SECTIONS.length} розділи</a></li>`;
       const fly = document.createElement('div'); fly.className = 'side-fly'; nav.append(fly);
       const links = qsa(':scope > ul > li > a', nav); let closeT, openT;
       const open = k => {
-        const s = IMB.SECTIONS[k]; if (!s) return;
+        /* у списку лише головні розділи, тому розділ шукаємо за адресою посилання; рядок «Увесь каталог» панелі не має */
+        const s = IMB.SECTIONS.find(x => secUrl(x.n) === links[k].getAttribute('href')); if (!s) { close(); return; }
         links.forEach((a, j) => a.classList.toggle('is-active', j === k));
         fly.innerHTML = `<div class="side-fly__head"><a class="side-fly__title" href="${secUrl(s.n)}">${s.n}</a><a class="link-arrow" href="${secUrl(s.n)}">Усі товари ${IC.arrow}</a></div>
-          <div class="side-fly__body"><ul class="side-fly__subs">${s.subs.map(x => `<li><a href="${catUrl(x)}">${x}</a></li>`).join('')}</ul>${s.img || s.icon ? `<a class="side-fly__img" href="${secUrl(s.n)}" tabindex="-1" aria-hidden="true">${packshot({ img: s.img || s.icon, name: s.n })}</a>` : ''}</div>`;
+          <div class="side-fly__body"><ul class="side-fly__subs${s.subs.length > 10 ? ' side-fly__subs--long' : ''}">${s.subs.map(x => `<li><a class="${subCls(x).trim()}" href="${catUrl(x)}">${x}</a></li>`).join('')}</ul>${s.img || s.icon ? `<a class="side-fly__img" href="${secUrl(s.n)}" tabindex="-1" aria-hidden="true">${packshot({ img: s.img || s.icon, name: s.n })}</a>` : ''}</div>`;
         nav.classList.add('is-open');
       };
       const close = () => { nav.classList.remove('is-open'); links.forEach(a => a.classList.remove('is-active')); };
@@ -79,7 +96,7 @@
 
   /* ================= КАТАЛОГ: усі розділи ================= */
   IMB.pages.catalog = () => {
-    qs('[data-slot="catalog"]').innerHTML = IMB.TREE.map(g => `<section class="catalog-group"><h2 class="catalog-group__title">${g.g}</h2><div class="grid grid-3">${g.r.map(s => `<div class="sec-card">${packshot({ kind: s.kind, color: '#C8B48C', name: s.n, img: s.img || s.icon /* без фото розділу беремо його зображення з плиток головної */ })}<div><h3><a href="${secUrl(s.n)}">${s.n}</a></h3><ul>${s.subs.map(x => `<li><a href="${catUrl(x)}">${x}</a></li>`).join('')}</ul></div></div>`).join('')}</div></section>`).join('');
+    qs('[data-slot="catalog"]').innerHTML = IMB.TREE.map(g => `<section class="catalog-group"><h2 class="catalog-group__title">${g.g}</h2><div class="grid grid-3">${g.r.map(s => `<div class="sec-card">${secShot(s, 0) /* без фото розділу беремо його зображення з плиток головної або піктограму */}<div><h3><a href="${secUrl(s.n)}">${s.n}</a></h3><ul>${s.subs.map(x => `<li><a class="${subCls(x).trim()}" href="${catUrl(x)}">${x}</a></li>`).join('')}</ul></div></div>`).join('')}</div></section>`).join('');
     qs('[data-slot="tasks"]').innerHTML = IMB.TASKS.map(t => `<a class="chip-tile" href="${url('kit', { t: t.n })}">${t.n}</a>`).join('');
   };
 
@@ -89,12 +106,14 @@
     const s = IMB.SECTIONS.find(x => x.slug === prm.get('s')) || IMB.SECTIONS[0];
     setTitle(s.n + ': купити', s.n);
     qs('[data-slot="crumbs"]').innerHTML = crumbs([['Каталог', 'catalog.html'], s.n]);
-    const inSec = IMB.PRODUCTS.filter(p => p.sec === s.n), cnt = n => inSec.filter(p => p.sub === n).length;
-    qs('[data-slot="sec-meta"]').textContent = (inSec.length ? plural(inSec.length) + ' · ' : '') + s.subs.length + ' підрозділів';
-    qs('[data-slot="sec-photo"]').innerHTML = packshot({ kind: s.kind, name: s.n, img: s.img || s.icon, eager: 1 }, 1);
+    const inSec = IMB.PRODUCTS.filter(p => p.sec === s.n), cnt = n => inSec.filter(p => p.sub === n || (IMB.SUBGROUP[n] || []).includes(p.sub)).length;
+    qs('[data-slot="sec-meta"]').textContent = (inSec.length ? plural(inSec.length) + ' · ' : '') + s.subs.length + ' ' + pl(s.subs.length, 'підрозділ', 'підрозділи', 'підрозділів');
+    qs('[data-slot="sec-photo"]').innerHTML = secShot(s, 1);
     /* Підрозділи — текстові плитки. Однакова намальована картинка на кожній плитці нічого не повідомляла;
        фото на плитці з'явиться, коли буде своє для кожного підрозділу. */
-    qs('[data-slot="subs"]').innerHTML = s.subs.map(x => `<a class="sub-tile" href="${catUrl(x)}"><span class="sub-tile__name">${x}</span>${cnt(x) ? `<span class="sub-tile__cnt">${plural(cnt(x))}</span>` : ''}${IC.arrow}</a>`).join('');
+    /* щоб в останньому ряду не лишалась одна плитка: 5, 9 чи 17 підрозділів стають у три стовпчики замість чотирьох */
+    qs('[data-slot="subs"]').classList.toggle('sub-tiles--3', s.subs.length % 4 === 1 && s.subs.length % 3 !== 1);
+    qs('[data-slot="subs"]').innerHTML = s.subs.map(x => `<a class="sub-tile${subCls(x)}" href="${catUrl(x)}"><span class="sub-tile__name">${x}</span>${cnt(x) ? `<span class="sub-tile__cnt">${plural(cnt(x))}</span>` : ''}${IC.arrow}</a>`).join('');
     const ids = inSec.slice().sort(byDefault).slice(0, 4).map(p => p.id);
     IMB.renderList(qs('[data-slot="products"]'), ids.length ? ids : ['tm12', 'gs41', 'acr', 'gkl'], 'Розділ: хіти');
     qs('[data-slot="seo-title"]').textContent = s.n + ': як обрати';
@@ -103,8 +122,9 @@
   /* ================= КАТЕГОРІЯ + ФІЛЬТРИ + посадкова фільтра ================= */
   IMB.pages.category = () => {
     if (prm.get('sub') && !IMB.SECTIONS.some(x => x.subs.includes(prm.get('sub'))) && !IMB.PRODUCTS.some(x => x.sub === prm.get('sub'))) { notFound('Підрозділ не знайдено', 'Такого підрозділу в каталозі немає. Можливо, посилання застаріло.'); return; }
-    const sub = prm.get('sub') || 'Фарби інтер’єрні', sec = (IMB.SECTIONS.find(s => s.subs.includes(sub)) || IMB.SECTIONS[4]);
-    let base = IMB.PRODUCTS.filter(p => p.sub === sub), demoNote = '';
+    const sub = prm.get('sub') || 'Фарби інтер’єрні', sec = (IMB.SECTIONS.find(s => s.subs.includes(sub)) || IMB.SECTIONS.find(s => s.slug === 'lfm')), par = IMB.SUBPARENT[sub], kids = IMB.SUBGROUP[sub] || [];
+    /* вид товару з підвидами (наприклад «Малярний інструмент») показує товари всіх своїх підвидів */
+    let base = IMB.PRODUCTS.filter(p => p.sub === sub || kids.includes(p.sub)), demoNote = '';
     if (!base.length) { base = IMB.PRODUCTS.filter(p => p.sec === sec.n); demoNote = `<div class="note" style="margin-bottom:16px">${IC.info}<span>Демо: у підрозділі «${sub}» немає демо-товарів, показано товари розділу. На бойовому сайті порожні підрозділи не показуємо.</span></div>`; }
     if (!base.length) base = IMB.PRODUCTS.slice(0, 6);
     const F = { brand: new Set(prm.getAll('brand')), use: new Set(prm.getAll('use')), pack: new Set(prm.getAll('pack')), avail: new Set(prm.getAll('avail')), min: prm.get('min') || '', max: prm.get('max') || '' };
@@ -112,8 +132,9 @@
     const landing = F.brand.size === 1 && !F.use.size ? [...F.brand][0] : '';
     const h1 = landing ? `${sub} ${landing}` : sub;
     setTitle(`${h1}: ціна, купити з доставкою`, h1);
-    qs('[data-slot="crumbs"]').innerHTML = crumbs([['Каталог', 'catalog.html'], [sec.n, secUrl(sec.n)], landing ? [sub, catUrl(sub)] : sub].concat(landing ? [landing] : []));
-    qs('[data-slot="subs"]').innerHTML = sec.subs.map(x => `<a class="chip${x === sub ? ' is-on' : ''}" href="${catUrl(x)}">${x}</a>`).join('');
+    qs('[data-slot="crumbs"]').innerHTML = crumbs([['Каталог', 'catalog.html'], [sec.n, secUrl(sec.n)]].concat(par ? [[par, catUrl(par)]] : []).concat(landing ? [[sub, catUrl(sub)], landing] : [sub]));
+    /* чипи сусідніх видів: у виду з підвидами — його підвиди, у підвиду — сусіди й шлях назад до виду */
+    qs('[data-slot="subs"]').innerHTML = (kids.length ? kids : par ? [par].concat(IMB.SUBGROUP[par]) : sec.subs.filter(x => !IMB.SUBPARENT[x])).map(x => `<a class="chip${x === sub ? ' is-on' : ''}" href="${catUrl(x)}">${x}</a>`).join('');
     const facets = {
       brand: ['Бренд', [...new Set(base.map(p => p.brand))]],
       use: ['Призначення', [...new Set(base.flatMap(p => p.use))]],
@@ -193,21 +214,24 @@
         IMB.openModal(`<h2 class="modal__title" id="modal-t">Позначки на цьому товарі</h2><div class="stk-legend">${stk.map(x => { const d = IMB.STICKERS[x]; return `<div class="stk-legend__row">${IMB.sticker(x, 'stk--lg')}<p>${x === 'markdown' && p.markdown ? esc(p.markdown) + '. ' : ''}${d.hint}${d.href ? ` <a class="link" href="${d.href}">Докладніше</a>` : ''}</p></div>`; }).join('')}</div>`); });
     }
 
+    /* --- Відео (18.11.2026): мініатюра в галереї, кнопка на фото і вкладка «Відео» --- */
+    const vids = p.video || [];
     /* --- Галерея ---
        Одна стрічка з прив'язкою прокрутки: на ПК перемикається мініатюрами, на телефоні гортається пальцем
        (мініатюри сховані, замість них крапки). Клік по фото відкриває перегляд на весь екран. */
     const imgs = Array.isArray(p.img) ? p.img : [], n = Math.max(1, imgs.length), gal = qs('[data-slot="gallery"]');
     gal.classList.toggle('gallery--single', n < 2); gal.classList.toggle('is-ended', ended);
-    gal.innerHTML = `${n > 1 ? `<div class="gallery__thumbs">${imgs.map((_, j) => `<button aria-current="${j === 0}" aria-label="Фото ${j + 1}" data-shot="${j}">${packshot(p, 0, j)}</button>`).join('')}</div>` : ''}
+    gal.innerHTML = `${n > 1 ? `<div class="gallery__thumbs">${imgs.map((_, j) => `<button aria-current="${j === 0}" aria-label="Фото ${j + 1}" data-shot="${j}">${packshot(p, 0, j)}</button>`).join('')}${vids.length ? `<button class="gallery__vthumb" data-video="0" aria-label="Відео: ${esc(vids[0].t)}">${packshot(p, 0, 0)}<span class="gallery__play">${IC.play}</span></button>` : ''}</div>` : ''}
       <div class="gallery__stage"><div class="gallery__track" data-gtrack>${Array.from({ length: n }, (_, j) => imgs.length ? `<button class="gallery__slide" data-zoom="${j}" aria-label="Відкрити фото ${j + 1} на весь екран">${packshot(p, 1, j)}</button>` : `<div class="gallery__slide">${packshot(p, 1)}</div>`).join('')}</div>
         ${stk.some(x => IMB.STICKERS[x].tier === 'photo') ? `<span class="gallery__stk">${stk.filter(x => IMB.STICKERS[x].tier === 'photo').slice(0, 2).map(x => IMB.sticker(x, 'stk--lg')).join('')}</span>` : ''}
         <span class="gallery__shade" data-slot="gshade" hidden></span>
+        ${vids.length ? `<button class="gallery__video" data-video="0" aria-label="Дивитись відео: ${esc(vids[0].t)}">${IC.play}<span>Відео</span></button>` : ''}
         ${imgs.length ? `<button class="gallery__zoom" data-zoom="cur" aria-label="Збільшити фото">${IC.zoom}</button>` : ''}
         ${n > 1 ? `<div class="gallery__dots" aria-hidden="true">${imgs.map((_, j) => `<i${j ? '' : ' class="is-on"'}></i>`).join('')}</div>` : ''}</div>`;
     const gtr = qs('[data-gtrack]', gal); let shot = 0;
-    const markShot = () => { qsa('.gallery__thumbs button', gal).forEach((b, j) => b.setAttribute('aria-current', j === shot)); qsa('.gallery__dots i', gal).forEach((d, j) => d.classList.toggle('is-on', j === shot)); };
+    const markShot = () => { qsa('.gallery__thumbs button[data-shot]', gal).forEach((b, j) => b.setAttribute('aria-current', j === shot)); qsa('.gallery__dots i', gal).forEach((d, j) => d.classList.toggle('is-on', j === shot)); };
     gtr.addEventListener('scroll', () => { const j = Math.round(gtr.scrollLeft / Math.max(1, gtr.clientWidth)); if (j !== shot) { shot = j; markShot(); } }, { passive: true });
-    gal.addEventListener('click', e => { const t = e.target.closest('[data-shot]'); if (t) { shot = +t.dataset.shot; gtr.scrollTo({ left: shot * gtr.clientWidth, behavior: 'smooth' }); markShot(); return; } const z = e.target.closest('[data-zoom]'); if (z) IMB.lightbox(p, z.dataset.zoom === 'cur' ? shot : +z.dataset.zoom); });
+    gal.addEventListener('click', e => { const vb = e.target.closest('[data-video]'); if (vb) { IMB.video(p, +vb.dataset.video); return; } const t = e.target.closest('[data-shot]'); if (t) { shot = +t.dataset.shot; gtr.scrollTo({ left: shot * gtr.clientWidth, behavior: 'smooth' }); markShot(); return; } const z = e.target.closest('[data-zoom]'); if (z) IMB.lightbox(p, z.dataset.zoom === 'cur' ? shot : +z.dataset.zoom); });
 
     /* --- Блок купівлі --- */
     const buy = qs('[data-slot="buybox"]'); let shade = p.tint && (S.shades || {})[p.id] || null; /* відтінок, обраний раніше для цього товару */
@@ -287,27 +311,29 @@
     const aa = qs('[data-addall]'); if (aa) aa.addEventListener('click', () => { rel.forEach(r => IMB.addToCart(r.id, null, 1, true)); IMB.toast(`Додано ${rel.length} товари · <a href="cart.html">У кошик</a>`); aa.textContent = 'Додано ✓'; aa.disabled = true; });
 
     /* --- Вкладки --- */
-    const tabs = [['desc', 'Опис'], ['spec', 'Характеристики'], ['rate', 'Витрата'], ['docs', 'Документи'], ['reviews', `Відгуки${revs.length ? ' (' + revs.length + ')' : ''}`], ['qa', `Питання${qas.length ? ' (' + qas.length + ')' : ''}`]];
+    const tabs = [['desc', 'Опис'], ['spec', 'Характеристики'], ['rate', 'Витрата'], ...(vids.length ? [['video', `Відео${vids.length > 1 ? ' (' + vids.length + ')' : ''}`]] : []), ['docs', 'Документи'], ['reviews', `Відгуки${revs.length ? ' (' + revs.length + ')' : ''}`], ['qa', `Питання${qas.length ? ' (' + qas.length + ')' : ''}`]];
     /* Відгуки: зліва підсумок (середня оцінка, розподіл за зірками, кнопка), справа — самі відгуки.
        Питання: запитання покупця і відповідь технолога одним блоком. */
     const reviewsHtml = revs.length ? `<div class="reviews"><aside class="reviews__sum"><div class="reviews__avg">${avgTxt}</div>${IMB.stars(avg, 'stars--lg')}<div class="small ink-2">${revWord(revs.length)}</div>
         <div class="rbars">${[5, 4, 3, 2, 1].map(v => { const c = revs.filter(r => r.r === v).length; return `<div class="rbar"><span>${v}</span><i><b style="width:${c / revs.length * 100}%"></b></i><span>${c}</span></div>`; }).join('')}</div>
         <button class="btn btn--dark btn--block" data-review>Написати відгук</button><p class="xs muted">Демо-відгуки: показують, як виглядає заповнений блок.</p></aside>
-        <div class="reviews__list">${revs.map(r => `<article class="review"><header class="review__head"><span class="review__ava" aria-hidden="true">${esc(r.n[0])}</span><span><b>${esc(r.n)}</b><span class="review__who">${esc(r.who)}</span></span>${IMB.stars(r.r)}<time>${r.d}</time></header><div class="xs ink-2">Купував: ${esc(r.pack)}</div><p>${esc(r.t)}</p>${r.ans ? `<div class="review__ans"><b>Відповідь IM BAU</b><p>${esc(r.ans)}</p></div>` : ''}</article>`).join('')}</div></div>`
+        <div class="reviews__list">${revs.map(r => `<article class="review"><header class="review__head"><span class="review__ava" aria-hidden="true">${esc(r.n[0])}</span><span><b>${esc(r.n)}</b><span class="review__who">${esc(r.who)}</span></span>${IMB.stars(r.r)}<time>${r.d}</time></header><div class="xs ink-2">Купував: ${esc(r.pack)}</div><p>${esc(r.t)}</p>${r.ans ? `<div class="review__ans"><b>Відповідь IMBAU</b><p>${esc(r.ans)}</p></div>` : ''}</article>`).join('')}</div></div>`
       : `<div class="empty"><div class="empty__title">Відгуків ще немає</div><p class="ink-2">Купували цей товар? Розкажіть, як він показав себе в роботі — це допоможе іншим покупцям.</p><button class="btn btn--dark" data-review>Написати відгук</button></div>`;
-    const qaHtml = qas.length ? `<div class="qa"><div class="qa__list">${qas.map(x => `<article class="qa__item"><h3 class="qa__q">${esc(x.q)}</h3><div class="qa__a"><b>Технолог IM BAU</b> <time>${x.d}</time><p>${esc(x.a)}</p></div></article>`).join('')}</div><aside class="qa__ask"><b>Не знайшли відповіді?</b><p class="small ink-2">Запитайте — відповість технолог або менеджер магазину.</p><button class="btn btn--dark btn--block" data-ask>Поставити питання</button></aside></div>`
+    const qaHtml = qas.length ? `<div class="qa"><div class="qa__list">${qas.map(x => `<article class="qa__item"><h3 class="qa__q">${esc(x.q)}</h3><div class="qa__a"><b>Технолог IMBAU</b> <time>${x.d}</time><p>${esc(x.a)}</p></div></article>`).join('')}</div><aside class="qa__ask"><b>Не знайшли відповіді?</b><p class="small ink-2">Запитайте — відповість технолог або менеджер магазину.</p><button class="btn btn--dark btn--block" data-ask>Поставити питання</button></aside></div>`
       : `<div class="empty"><div class="empty__title">Поставте питання про товар</div><p class="ink-2">Відповість технолог або менеджер магазину. Відповіді з’являться тут.</p><button class="btn btn--dark" data-ask>Запитати</button></div>`;
     const body = {
-      desc: p.about ? `<div class="prose">${p.about.map(t => `<p>${t}</p>`).join('')}</div>` : `<div class="prose"><p><b>Для чого:</b> ${p.use.length ? p.use.join(', ').toLowerCase() : 'ремонтні та оздоблювальні роботи'}. ${p.base ? 'Основа — ' + p.base.toLowerCase() + '.' : ''}</p><p><b>Де не застосовувати:</b> текст від технолога ${p.brand} — заповнює контент-менеджер з техлиста.</p><p>Опис унікальний для IM BAU: як обрати, чим відрізняється від схожих, поради з підготовки основи. Для власних марок FRONT і TIGOR — першоджерело для всього ринку.</p></div>`,
+      desc: p.about ? `<div class="prose">${p.about.map(t => `<p>${t}</p>`).join('')}</div>` : `<div class="prose"><p><b>Для чого:</b> ${p.use.length ? p.use.join(', ').toLowerCase() : 'ремонтні та оздоблювальні роботи'}. ${p.base ? 'Основа — ' + p.base.toLowerCase() + '.' : ''}</p><p><b>Де не застосовувати:</b> текст від технолога ${p.brand} — заповнює контент-менеджер з техлиста.</p><p>Опис унікальний для IMBAU: як обрати, чим відрізняється від схожих, поради з підготовки основи. Для марок FRONT і TIGOR — першоджерело для всього ринку.</p></div>`,
       spec: `<table class="spec"><tbody>${[['Бренд', p.brand], ['Артикул', p.art], ['Фасовка', p.packs.map(x => x[0]).join(', ')], ['Вага нетто', pack(p, k).kg + ' кг'], ['Основа', p.base || '—'], ['Розчинник', p.solvent], ['Щільність', p.density], ['Час висихання', p.dry || '—'], ['Фініш', p.finish || '—'], ['Призначення', p.use.join(', ') || '—'], ['Колерування', p.tint ? 'так, у магазині' : 'ні'], ['Термін зберігання', p.shelf]].filter(x => x[1]).map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</tbody></table>`,
       rate: `<div class="prose"><p>${p.calc ? `Норма витрати: <b>${rateTxt}</b>. Фактична витрата залежить від основи і способу нанесення.` : 'Витрату уточнить менеджер.'}</p><p>Скористайтеся калькулятором під фото — він порахує кількість упаковок і додасть їх у кошик.</p></div>`,
       docs: `<div class="stack">${['Технічний лист (PDF)', 'Сертифікат відповідності (PDF)', 'Інструкція з нанесення (PDF)'].map(t => `<a class="doc-link" href="#">${IC.doc}<span>${t}</span></a>`).join('')}</div>`,
+      video: `<div class="pvideos">${vids.map((v, j) => `<button type="button" class="pvideo" data-video="${j}"><span class="pvideo__poster">${packshot(p, 0, 0)}<span class="pvideo__play">${IC.play}</span><span class="pvideo__dur">${v.dur}</span></span><b>${esc(v.t)}</b></button>`).join('')}</div>`,
       reviews: reviewsHtml, qa: qaHtml,
     };
     const tb = qs('[data-slot="tabs"]');
     const drawTab = id => { tb.innerHTML = `<div class="ptabs__bar" role="tablist">${tabs.map(([t, n]) => `<button role="tab" data-tab="${t}" aria-selected="${t === id}">${n}</button>`).join('')}</div><div class="ptabs__panel" role="tabpanel">${body[id]}</div>`; };
     tb.addEventListener('click', e => {
       const b = e.target.closest('[data-tab]'); if (b) drawTab(b.dataset.tab);
+      const vb = e.target.closest('[data-video]'); if (vb) IMB.video(p, +vb.dataset.video);
       if (e.target.closest('[data-review]')) IMB.openModal(`<h2 class="modal__title" id="modal-t">Відгук про товар</h2><p class="ink-2" style="margin-bottom:16px">${esc(p.name)}</p><form class="stack" data-form="review"><fieldset class="rate-pick"><legend class="field__label">Ваша оцінка</legend>${[5, 4, 3, 2, 1].map(v => `<label><input type="radio" name="rate" value="${v}"${v === 5 ? ' checked' : ''}><span aria-hidden="true">★</span><span class="sr-only">${v} з 5</span></label>`).join('')}</fieldset><div class="field"><label class="field__label" for="rv-n">Ім’я</label><input class="input" id="rv-n" autocomplete="given-name"></div><div class="field"><label class="field__label" for="rv-t">Як товар показав себе в роботі</label><textarea class="input textarea" id="rv-t" rows="4" placeholder="Для чого використовували, скільки шарів, чи вистачило"></textarea></div><button class="btn btn--primary btn--block btn--lg">Надіслати відгук</button></form>`);
       if (e.target.closest('[data-ask]')) IMB.openModal(`<h2 class="modal__title" id="modal-t">Питання про товар</h2><p class="ink-2" style="margin-bottom:16px">${esc(p.name)}</p><form class="stack" data-form="ask"><div class="field"><label class="field__label" for="qa-t">Ваше питання</label><textarea class="input textarea" id="qa-t" rows="4" placeholder="Наприклад: чи підійде для ванної кімнати?"></textarea></div>${IMB.phoneField('qa-ph', 'Телефон — повідомимо про відповідь')}<button class="btn btn--primary btn--block btn--lg">Надіслати питання</button></form>`);
     });
@@ -536,7 +562,7 @@
       const orders = S.orders.length ? S.orders : [{ id: 'IMB-104233', date: '02.11.2026', items: [{ id: 'tm12', pack: 0, qty: 8 }, { id: 'grn', pack: 1, qty: 1 }], total: 2788, status: 5 }];
       const T = { orders: `<h2 style="margin-bottom:12px">Мої замовлення</h2>${orders.map(o => `<div class="order-row"><span><b>${o.id}</b> · ${o.date}<br><span class="small ink-2">${o.items.map(x => P(x.id).name.split(' ').slice(0, 3).join(' ') + ' × ' + x.qty).join(', ')}</span></span><b>${uah(o.total)}</b><span class="row"><a class="btn btn--ghost btn--sm" href="tracking.html?o=${o.id}">Статус</a><button class="btn btn--dark btn--sm" data-repeat="${o.id}">Повторити</button></span></div>`).join('')}`,
         addr: `<h2 style="margin-bottom:12px">Адреси об’єктів</h2><div class="card card--flat" style="background:var(--c-bg)"><b>Квартира, Холодна Гора</b><br><span class="small ink-2">вул. Полтавський Шлях, 150, кв. 12 · 7 поверх, ліфт є</span></div><button class="btn btn--ghost" style="margin-top:12px">+ Додати адресу</button>`,
-        card: `<h2 style="margin-bottom:16px">Картка клієнта</h2><div class="mycard"><div class="mycard__card"><span class="mycard__top"><span>IM BAU</span><span>картка клієнта</span></span><b>${cd.pct}\u00A0%</b><span class="mycard__ph">${esc(S.user)}</span></div>
+        card: `<h2 style="margin-bottom:16px">Картка клієнта</h2><div class="mycard"><div class="mycard__card"><span class="mycard__top"><span>IMBAU</span><span>картка клієнта</span></span><b>${cd.pct}\u00A0%</b><span class="mycard__ph">${esc(S.user)}</span></div>
           <div class="mycard__body"><p><b>Накопичено ${uah(cd.spent)}.</b> ${cd.next ? `До ${cd.next.pct}\u00A0% залишилось ${uah(cd.left)} покупок.` : 'У вас найвищий рівень знижки.'}</p>${IMB.stairs()}<p class="small ink-2">Рахуємо разом покупки в магазині й на сайті за вашим номером телефону. У магазині назвіть номер на касі. Ціни на сайті вже показано з вашою знижкою: звичайна ціна перекреслена.</p><a class="link" href="info.html?p=discounts">Умови картки</a></div></div>`,
         profile: `<h2 style="margin-bottom:12px">Профіль</h2><div class="step__grid"><div class="field"><label class="field__label">Телефон</label><input class="input" value="${esc(S.user)}" disabled></div><div class="field"><label class="field__label" for="pf-n">Ім’я</label><input class="input" id="pf-n" value="Олександр"></div></div><button class="btn btn--ghost" style="margin-top:16px" data-logout>Вийти</button>` };
       root.innerHTML = `<h1 class="page-title">Кабінет</h1><div class="cat-layout"><nav class="acc-nav" role="tablist">${[['orders', 'Замовлення'], ['addr', 'Адреси об’єктів'], ['card', 'Картка клієнта'], ['profile', 'Профіль']].map(([k, t]) => `<button role="tab" data-atab="${k}" aria-selected="${k === tab}">${t}</button>`).join('')}</nav><div class="card">${T[tab]}</div></div>`;
@@ -570,17 +596,20 @@
   IMB.pages.brand = () => {
     const b = prm.get('b') === 'tigor' ? 'TIGOR' : 'FRONT', front = b === 'FRONT', B = IMB.BRANDS[b];
     const title = front ? 'Фарби, ґрунтовки й лаки FRONT' : 'Ґрунтовки, шпаклівки й піни TIGOR';
-    setTitle(`${b} — власна марка IM BAU`);
+    setTitle(`${b} — марка-партнер IMBAU`);
     qs('[data-slot="crumbs"]').innerHTML = crumbs([['Виробники', 'brands.html'], b]);
     const ps = IMB.PRODUCTS.filter(p => p.brand === b).sort(byDefault);
-    /* Банер марки: справжній логотип, кольори з упаковки (FRONT — чорна етикетка і кольорове кільце з літери «O»,
-       TIGOR — помаранчевий і смуги), три справжні фото товарів. Цифри — лише ті, що перевіряються по каталогу. */
-    qs('[data-slot="hero"]').outerHTML = `<section class="bhero bhero--${front ? 'front' : 'tigor'}" style="--accent:${B.accent}">
-      <div class="bhero__text"><span class="bhero__logo"><img src="assets/img/${B.logo}" alt="${b}" width="${B.lw}" height="${B.lh}"></span>
-        <h1 class="bhero__title">${title}</h1><p class="bhero__lead">${B.lead}</p>
-        <div class="row row--wrap"><a class="btn btn--primary btn--lg" href="#brand-products">Товари ${b}</a>${front ? '<a class="btn btn--white btn--lg" href="tinting.html">Колерування</a>' : '<a class="btn btn--white btn--lg" href="kit.html">Підбірки під роботу</a>'}</div>
-        <dl class="bhero__facts">${B.facts.map(([a, c]) => `<div><dt>${a}</dt><dd>${c}</dd></div>`).join('')}</dl></div>
-      <div class="bhero__media" aria-hidden="true"><span class="bhero__deco"></span>${B.hero.map(n => `<span class="shot shot--photo"><img src="assets/img/${n}.webp" alt="" width="720" height="720"></span>`).join('')}</div></section>`;
+    /* Банер марки (перероблено 18.11.2026). Світла панель кольору фото товарів, ліворуч логотип, заголовок
+       і дві дії, унизу рядок фактів, які перевіряються по каталогу. Мотив у кожної марки свій, з упаковки:
+       FRONT — триколірне кільце з літери «O» логотипа за відрами (фото вирізані на прозорий фон, B.cut);
+       TIGOR — помаранчева смуга з тигровими смугами по лівому краю, як на етикетці. */
+    const band = front ? '' : '<span class="brandtop__band" aria-hidden="true"><svg viewBox="0 0 120 460" preserveAspectRatio="xMidYMid slice"><path d="M0 22c34 4 66 20 92 52-30-14-60-18-92-14zM120 96c-36 6-66 24-90 58 30-18 60-24 90-22zM0 170c38 2 72 22 98 60-32-18-64-24-98-20zM120 250c-38 4-70 24-94 60 30-20 62-26 94-24zM0 326c36 4 68 22 94 56-30-16-62-20-94-16zM120 400c-36 6-66 24-88 56 30-18 58-22 88-20z"/></svg></span>';
+    qs('[data-slot="hero"]').outerHTML = `<section class="brandtop brandtop--${front ? 'front' : 'tigor'}" style="--accent:${B.accent}">${band}
+      <div class="brandtop__text"><span class="brandtop__logo"><img src="assets/img/${B.logo}" alt="${b}" width="${B.lw}" height="${B.lh}"></span>
+        <h1 class="brandtop__title">${title}</h1><p class="brandtop__lead">${B.lead}</p>
+        <div class="brandtop__cta"><a class="btn btn--dark btn--lg" href="#brand-products">Товари ${b}</a>${front ? '<a class="btn btn--white btn--lg" href="tinting.html">Колерування</a>' : '<a class="btn btn--white btn--lg" href="kit.html">Підбірки під роботу</a>'}</div></div>
+      <div class="brandtop__media" aria-hidden="true">${front ? '<span class="brandtop__ring"></span>' : ''}<span class="brandtop__shots">${B.hero.map(n => `<span class="shot shot--photo"><img src="assets/img/${n}${B.cut ? '-cut' : ''}.webp" alt="" width="720" height="720"></span>`).join('')}</span></div>
+      <dl class="brandtop__facts">${B.facts.map(([a, c]) => `<div><dt>${a}</dt><dd>${c}</dd></div>`).join('')}</dl></section>`;
     qs('[data-slot="lines"]').innerHTML = B.lines.filter(l => IMB.PRODUCTS.some(x => x.brand === b && x.sub === l[3] && state(x) !== 'ended')).map(([t, d, img, sub]) => `<a class="bline" href="${catUrl(sub, { brand: b })}"><span class="shot shot--photo"><img src="assets/img/${img}.webp" alt="" width="720" height="720" loading="lazy"></span><span class="bline__text"><b>${t}</b><span>${d}</span></span>${IC.arrow}</a>`).join('');
     IMB.renderList(qs('[data-slot="products"]'), ps.map(p => p.id), 'Бренд ' + b);
     qs('[data-slot="docs"]').innerHTML = ps.slice(0, 4).map(p => `<a class="doc-link" href="#">${IC.doc}<span>Техлист: ${esc(p.name)}</span></a>`).join('');
@@ -594,31 +623,46 @@
     /* Примірка відтінку. Три шари в одній рамці: фото кімнати → сірий шар стін (room-walls.webp, прозорий
        поза стінами) → колір відтінку з накладанням multiply і тією ж маскою. Тіні й світло лишаються з фото.
        Змінюється лише CSS-змінна --shade, тому перефарбування миттєве. */
-    const room = qs('[data-slot="room"]'), tag = qs('[data-slot="vtag"]'), box = qs('[data-slot="swatches"]'), sq = qs('#viz-q');
-    /* Два набори: «Популярні» (24 названі відтінки, вони ж у картці товару) і широка палітра IMB.PALETTE
-       (рядок — родина кольору, стовпчик — тон). Справжні палітри й кількість відтінків дасть магазин. */
-    const pop = IMB.SHADES.flatMap(g => g.list.map(x => [x[0], x[1], ''])), wide = IMB.PALETTE.flatMap(g => g.list), all = pop.concat(wide);
-    const sw = ([c, t, code]) => `<button type="button" class="viz__sw" style="--sw:${c}" data-sw="${c}" aria-pressed="false" aria-label="${esc(t)}${code ? ', ' + code : ''}" title="${esc(t)}${code ? ' · ' + code : ''}"></button>`;
-    let fam = window.innerWidth < 721 ? 9 : -1, cur = null;
-    const mark = () => qsa('[data-sw]', box).forEach(x => x.setAttribute('aria-pressed', !!cur && x.dataset.sw === cur[0]));
-    const draw = q => { const n = (q || '').trim().toLowerCase(), found = n ? all.filter(x => (x[1] + ' ' + x[2] + ' ' + x[0]).toLowerCase().includes(n)) : null;
-      box.innerHTML = found ? (found.length ? `<div class="viz__gname">Знайдено: ${found.length}</div><div class="viz__grid viz__grid--big">${found.slice(0, 48).map(sw).join('')}</div>` : `<p class="small ink-2">За запитом «${esc(q)}» нічого немає. Спробуйте код, наприклад IB 0907, або назву родини кольору.</p>`)
-        : `<div class="viz__gname">Популярні відтінки</div><div class="viz__grid viz__grid--pop">${pop.map(sw).join('')}</div>
-          <div class="viz__gname">Уся палітра: ${wide.length} відтінки</div>
-          <div class="viz__fams" role="group" aria-label="Родина кольору"><button type="button" class="chip${fam < 0 ? ' is-on' : ''}" data-fam="-1" aria-pressed="${fam < 0}">Усі</button>${IMB.PALETTE.map((g, i) => `<button type="button" class="chip${fam === i ? ' is-on' : ''}" data-fam="${i}" aria-pressed="${fam === i}">${g.g}</button>`).join('')}</div>
-          ${fam < 0 ? `<div class="viz__grid viz__grid--all">${wide.map(sw).join('')}</div>` : `<div class="viz__grid viz__grid--big">${IMB.PALETTE[fam].list.map(sw).join('')}</div>`}`;
+    const room = qs('[data-slot="room"]'), tag = qs('[data-slot="vtag"]'), box = qs('[data-slot="swatches"]'), sq = qs('#viz-q'), tabs = qs('[data-slot="pals"]');
+    /* Палітри (правка ліда 18.11.2026). Угорі сторінки обирають палітру: чотири справжні з IMB.PALETTES
+       (palettes.js) і «Популярні» — 24 названі відтінки з картки товару. Під нею смужка гам: натиснув гаму —
+       бачиш її зразки з назвами. Зразок = [назва або код, колір]. */
+    const POP = { id: 'pop', n: 'Популярні відтінки', short: 'Популярні', total: 0, groups: [IMB.SHADES.flatMap(g => g.list.map(x => [x[1], x[0]]))] };
+    POP.count = POP.groups[0].length;
+    const PALS = IMB.PALETTES.concat([POP]), G = IMB.GAMMAS, shW = n => pl(n, 'відтінок', 'відтінки', 'відтінків'), smW = n => pl(n, 'зразок', 'зразки', 'зразків');
+    let pal = PALS[0], fam = window.innerWidth < 721 ? 7 : -1, cur = null;   /* cur = [назва, колір, палітра] */
+    const sw = (x, p, named) => `<button type="button" class="viz__sw${named ? ' viz__sw--named' : ''}" style="--sw:${x[1]}" data-sw="${x[1]}" data-n="${esc(x[0])}" data-pal="${p.id}" aria-pressed="false" aria-label="${esc(x[0])}, ${esc(p.n)}" title="${esc(x[0])} · ${esc(p.short)}">${named ? `<i></i><span>${esc(x[0])}</span>` : ''}</button>`;
+    const mark = () => qsa('[data-sw]', box).forEach(x => x.setAttribute('aria-pressed', !!cur && x.dataset.pal === cur[2].id && x.dataset.n === cur[0]));
+    const drawTabs = () => { tabs.innerHTML = PALS.map(p => `<button type="button" class="pal-tab${p === pal ? ' is-on' : ''}" role="tab" aria-selected="${p === pal}" data-pal="${p.id}"><b>${p.short}</b><span>${p.total ? IMB.num(p.total) + ' ' + shW(p.total) : p.count + ' ' + shW(p.count)}</span></button>`).join(''); };
+    const draw = q => {
+      const n = (q || '').trim().toLowerCase();
+      if (n) { const found = []; PALS.forEach(p => p.groups.forEach(g => g.forEach(x => { if ((x[0] + ' ' + x[1]).toLowerCase().includes(n)) found.push([x, p]); })));
+        box.innerHTML = found.length ? `<div class="viz__gname">Знайдено в усіх палітрах: ${found.length}</div><div class="viz__grid viz__grid--named">${found.slice(0, 24).map(([x, p]) => sw(x, p, 1)).join('')}</div>` : `<p class="small ink-2">За запитом «${esc(q)}» нічого немає. Спробуйте код або назву, наприклад S 1002-B чи Agave.</p>`;
+        mark(); return; }
+      const single = pal.groups.length === 1;
+      const strip = single ? '' : `<div class="gamma" role="group" aria-label="Гама кольору"><button type="button" class="gamma__all${fam < 0 ? ' is-on' : ''}" data-fam="-1" aria-pressed="${fam < 0}" aria-label="Усі гами" title="Усі гами"><i></i></button>${G.map(([t, c], k) => (pal.groups[k] || []).length ? `<button type="button" class="gamma__seg${fam === k ? ' is-on' : ''}" style="--sw:${c}" data-fam="${k}" aria-pressed="${fam === k}" aria-label="${t}" title="${t}"></button>` : '').join('')}</div>`;
+      const head = single ? `${pal.count} ${shW(pal.count)} із картки товару` : fam < 0 ? `Усі гами: ${pal.count} ${smW(pal.count)} з ${IMB.num(pal.total)} у палітрі` : `${G[fam][0]}: ${pal.groups[fam].length} ${smW(pal.groups[fam].length)}`;
+      const grid = single ? `<div class="viz__grid viz__grid--pop">${pal.groups[0].map(x => sw(x, pal)).join('')}</div>`
+        : fam < 0 ? `<div class="viz__rows">${pal.groups.map(g => g.length ? `<div class="viz__grid viz__grid--all">${g.map(x => sw(x, pal)).join('')}</div>` : '').join('')}</div>`
+        : `<div class="viz__grid viz__grid--named">${pal.groups[fam].map(x => sw(x, pal, 1)).join('')}</div>`;
+      box.innerHTML = `${strip}<div class="viz__gname">${head}</div>${grid}`;
       mark(); };
-    const pick = c => { const sh = all.find(x => x[0].toLowerCase() === String(c).toLowerCase()) || pop[5]; cur = sh;
-      room.style.setProperty('--shade', sh[0]); tag.innerHTML = `<i style="background:${sh[0]}"></i><span><b>${esc(sh[1])}</b><small>${sh[2] ? sh[2] + ' · ' : ''}${sh[0].toUpperCase()}</small></span>`;
-      mark(); qs('#tn-code').value = `${sh[1]}${sh[2] ? ', ' + sh[2] : ''}, ${sh[0].toUpperCase()}`; };
+    const pick = (x, p) => { cur = [x[0], x[1], p];
+      room.style.setProperty('--shade', x[1]); tag.innerHTML = `<i style="background:${x[1]}"></i><span><b>${esc(x[0])}</b><small>${p.id === 'pop' ? '' : esc(p.n) + ' · '}${x[1].toUpperCase()}</small></span>`;
+      mark(); qs('#tn-code').value = `${p.id === 'pop' ? '' : p.n + ', '}${x[0]}, ${x[1].toUpperCase()}`; };
+    /* відтінок за кольором з адреси (?c=): спершу серед популярних, потім у палітрах */
+    const byHex = c => { c = String(c || '').toLowerCase(); for (const p of [POP].concat(IMB.PALETTES)) for (const g of p.groups) { const x = g.find(y => y[1].toLowerCase() === c); if (x) return [x, p]; } return null; };
     /* Прийшли з картки товару: обраний відтінок запам'ятовуємо для нього й даємо кнопку назад */
-    const back = P(prm.get('p')) && P(prm.get('p')).tint ? P(prm.get('p')) : null, remember = () => { if (back && cur) { S.shades = S.shades || {}; S.shades[back.id] = [cur[0], cur[1]]; IMB.save(); } };
-    if (back) { const bl = document.createElement('a'); bl.className = 'btn btn--dark btn--lg btn--block'; bl.href = pUrl(back); bl.textContent = 'Обрати цей відтінок і повернутись до товару'; bl.addEventListener('click', remember); qs('[data-vizorder]').before(bl); }
-    box.addEventListener('click', e => { const b = e.target.closest('[data-sw]'); if (b) { pick(b.dataset.sw); remember(); return; } const f = e.target.closest('[data-fam]'); if (f) { fam = +f.dataset.fam; if (sq) sq.value = ''; draw(''); } });
+    const back = P(prm.get('p')) && P(prm.get('p')).tint ? P(prm.get('p')) : null, remember = () => { if (back && cur) { S.shades = S.shades || {}; S.shades[back.id] = [cur[1], cur[0]]; IMB.save(); } };
+    if (back) { const bl = document.createElement('a'); bl.className = 'btn btn--dark btn--lg btn--block'; bl.href = pUrl(back); bl.textContent = 'Обрати цей відтінок і повернутись до товару'; bl.addEventListener('click', remember); qs('.viz__panel [data-vizorder]').before(bl); }
+    box.addEventListener('click', e => { const b = e.target.closest('[data-sw]'); if (b) { pick([b.dataset.n, b.dataset.sw], PALS.find(x => x.id === b.dataset.pal)); remember(); return; } const f = e.target.closest('[data-fam]'); if (f) { fam = +f.dataset.fam; if (sq) sq.value = ''; draw(''); } });
+    tabs.addEventListener('click', e => { const t = e.target.closest('[data-pal]'); if (!t) return; pal = PALS.find(x => x.id === t.dataset.pal); if (fam >= 0 && !(pal.groups[fam] || []).length) fam = -1; if (sq) sq.value = ''; drawTabs(); draw(''); });
     if (sq) sq.addEventListener('input', () => draw(sq.value));
-    draw('');
-    qs('[data-vizorder]').addEventListener('click', () => { qs('[data-form="tint"]').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => qs('#tn-ph').focus({ preventScroll: true }), 450); });
-    pick(prm.get('c') || '#C3CFB3');
+    const first = byHex(prm.get('c')) || byHex('#C3CFB3') || [POP.groups[0][0], POP];
+    if (prm.get('c') && first[1] === POP) pal = POP;
+    drawTabs(); draw('');
+    qsa('[data-vizorder]').forEach(b => b.addEventListener('click', () => { qs('[data-form="tint"]').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => qs('#tn-ph').focus({ preventScroll: true }), 450); }));
+    pick(first[0], first[1]);
     IMB.renderList(qs('[data-slot="products"]'), IMB.PRODUCTS.filter(p => p.tint).map(p => p.id), 'Колерування');
     IMB.onForm = kind => { if (kind === 'tint') IMB.openModal(`<div class="result__icon">${IC.check}</div><h2 class="modal__title" id="modal-t" style="margin-top:16px">Заявку на колерування прийнято</h2><p class="ink-2">Передзвонимо, уточнимо відтінок і об’єм. У магазині ви побачите відтінок наживо перед колеруванням. Забрати замовлення можна в ${IMB.STORE.name} або замовити доставку.</p><button class="btn btn--dark" style="margin-top:20px" data-close>Добре</button>`); };
   };
@@ -664,9 +708,9 @@
      умови повернення й оферту — юрист. Цифри в «Про компанію» — лише ті, що видно з каталогу. */
   const INFO = {
     about: () => `<p class="info-lead">Нове покоління магазину будматеріалів в Україні. Для тих, хто будує, ремонтує, облаштовує простір.</p>
-      <div class="info-facts"><div><b>${IMB.SECTIONS.length}</b><span>розділів каталогу</span></div><div><b>2</b><span>власні марки: FRONT і TIGOR</span></div><div><b>1</b><span>магазин у Харкові</span></div><div><b>15 хв</b><span>колерування в магазині</span></div></div>
+      <div class="info-facts"><div><b>${IMB.SECTIONS.length}</b><span>розділів каталогу</span></div><div><b>2</b><span>марки-партнери: FRONT і TIGOR</span></div><div><b>1</b><span>магазин у Харкові</span></div><div><b>15 хв</b><span>колерування в магазині</span></div></div>
       <h3>Що ми продаємо</h3><p>Сухі суміші, гіпсокартонні системи, утеплювачі, кріплення, фарби й ґрунтовки, двері, сантехніку, електрику, ручний та електроінструмент, господарські товари. Усе для ремонту можна зібрати в одному замовленні.</p>
-      <h3>Власні марки</h3><p><a class="link" href="brand.html?b=front">FRONT</a>: фарби, ґрунтовки, емалі, декоративні штукатурки. <a class="link" href="brand.html?b=tigor">TIGOR</a>: сухі суміші, ґрунтовки, шпаклівки, піни й герметики. На товари власних марок публікуємо технічні листи й сертифікати.</p>
+      <h3>Наші партнери</h3><p><a class="link" href="brand.html?b=front">FRONT</a>: фарби, ґрунтовки, емалі, декоративні штукатурки. <a class="link" href="brand.html?b=tigor">TIGOR</a>: сухі суміші, ґрунтовки, шпаклівки, піни й герметики. На товари цих марок публікуємо технічні листи й сертифікати.</p>
       <h3>Чим допомагаємо</h3><ul><li><a class="link" href="tinting.html">Колеруємо</a> ПФ-фарби, емалі та шпаклівку: від 1 кг, за 15 хвилин.</li><li><a class="link" href="podbor.html">Рахуємо матеріали</a> за списком або кошторисом.</li><li>Привозимо нашою машиною по Харкову й області, відправляємо Новою поштою й Укрпоштою.</li><li>Приймаємо оплату карткою <a class="link" href="evidnovlennya.html">єВідновлення</a>, виставляємо рахунки компаніям.</li></ul>
       <h3>Де нас знайти</h3><p>${IMB.STORE.name}, ${IMB.STORE.address}, Харків. ${IMB.STORE.hours}, без вихідних. <a class="link" href="stores.html">Як доїхати</a></p>`,
     return: () => `<div class="info-two"><div class="info-yes"><b>Можна повернути або обміняти</b><ul><li>Невикористаний товар у цілій упаковці</li><li>Із чеком або номером замовлення</li><li>Протягом 14 днів від дня покупки</li></ul></div><div class="info-no"><b>Не можна</b><ul><li>Заколеровану фарбу, емаль чи шпаклівку</li><li>Товар, відрізаний або відважений на замовлення</li><li>Відкриті упаковки й залишки після робіт</li></ul></div></div>
@@ -689,7 +733,7 @@
       <div style="overflow-x:auto"><table class="table"><thead><tr><th>Назва</th><th>Фасовка</th><th>Ціна</th><th>Наявність</th></tr></thead><tbody>${IMB.PRODUCTS.filter(p => state(p) !== 'ended').sort(byDefault).slice(0, 12).map(p => `<tr><td><a class="link" href="${pUrl(p)}">${esc(p.name)}</a></td><td>${pack(p).label}</td><td>${uah(pack(p).price)}</td><td>${state(p) === 'ok' ? 'є' : state(p) === 'order' ? 'під замовлення' : 'немає'}</td></tr>`).join('')}</tbody></table></div>
       <p class="small ink-2" style="margin-top:12px">Показано перші 12 позицій. Оновлено: 12.11.2026.</p>`,
     reviews: () => `<div class="row row--between row--wrap" style="margin-bottom:8px"><p>Відгуки покупців про магазин і доставку. Публікуємо після перевірки покупки.</p><button class="btn btn--dark" data-modal="sreview">Написати відгук</button></div>
-      ${[['Олена К.', '02.11.2026', 5, 'Купувала емаль FRONT, підібрали відтінок за фото, забрала того ж дня.', 'Дякуємо, раді бачити знову!'], ['Сергій, майстер', '28.10.2026', 5, 'Беру суміші TIGOR на об’єкти. Надіслав кошторис, зібрали замовлення і привезли наступного дня.', ''], ['Наталія', '19.10.2026', 4, 'Замовляла гіпсокартон і профіль з доставкою. Привезли вчасно, до під’їзду, далі заносили самі.', 'Дякуємо за відгук. Машина справді привозить до під’їзду або воріт: попереджаємо про це під час оформлення.']].map(([n, d, r, t, ans]) => `<article class="review"><header class="review__head"><span class="review__ava" aria-hidden="true">${n[0]}</span><span><b>${n}</b><span class="review__who">Покупка підтверджена</span></span>${IMB.stars(r)}<time>${d}</time></header><p>${t}</p>${ans ? `<div class="review__ans"><b>Відповідь IM BAU</b><p>${ans}</p></div>` : ''}</article>`).join('')}`,
+      ${[['Олена К.', '02.11.2026', 5, 'Купувала емаль FRONT, підібрали відтінок за фото, забрала того ж дня.', 'Дякуємо, раді бачити знову!'], ['Сергій, майстер', '28.10.2026', 5, 'Беру суміші TIGOR на об’єкти. Надіслав кошторис, зібрали замовлення і привезли наступного дня.', ''], ['Наталія', '19.10.2026', 4, 'Замовляла гіпсокартон і профіль з доставкою. Привезли вчасно, до під’їзду, далі заносили самі.', 'Дякуємо за відгук. Машина справді привозить до під’їзду або воріт: попереджаємо про це під час оформлення.']].map(([n, d, r, t, ans]) => `<article class="review"><header class="review__head"><span class="review__ava" aria-hidden="true">${n[0]}</span><span><b>${n}</b><span class="review__who">Покупка підтверджена</span></span>${IMB.stars(r)}<time>${d}</time></header><p>${t}</p>${ans ? `<div class="review__ans"><b>Відповідь IMBAU</b><p>${ans}</p></div>` : ''}</article>`).join('')}`,
     certs: () => `<p>Показуємо документи на товари, які є в продажу.</p>
       <div style="overflow-x:auto;margin-top:12px"><table class="table"><thead><tr><th>Товар</th><th>Тип документа</th><th>Дійсний до</th><th>Файл</th></tr></thead><tbody>${IMB.PRODUCTS.filter(p => (p.brand === 'FRONT' || p.brand === 'TIGOR') && state(p) !== 'ended').slice(0, 8).map((p, j) => `<tr><td>${esc(p.name)}</td><td>${j % 2 ? 'Технічний лист' : 'Сертифікат відповідності'}</td><td>${j % 2 ? 'безстроково' : '31.12.2027'}</td><td><a class="link" href="#">PDF</a></td></tr>`).join('')}</tbody></table></div>`,
     jobs: () => `<p class="info-lead">Шукаємо людей, які розуміються на матеріалах і люблять допомагати з ремонтом.</p>
@@ -700,7 +744,7 @@
       <h3>Файли cookie</h3><p>Необхідні файли потрібні для кошика й входу. Аналітичні та рекламні вмикаємо лише з вашої згоди; її можна змінити будь-коли.</p>
       <h3>Кому передаємо дані</h3><p>Службам доставки й платіжному сервісу: лише те, що потрібно для виконання замовлення. Іншим особам дані не передаємо.</p>
       <h3>Як із нами зв’язатися</h3><p>${IMB.STORE.email}, ${IMB.STORE.phone}.</p><p class="small ink-2">Оновлено: 12.11.2026.</p>`,
-    offer: () => `<p>Цей договір є публічною пропозицією інтернет-магазину IM BAU укласти договір купівлі-продажу товарів дистанційно.</p>
+    offer: () => `<p>Цей договір є публічною пропозицією інтернет-магазину IMBAU укласти договір купівлі-продажу товарів дистанційно.</p>
       <h3>1. Загальні положення</h3><p>Оформлюючи замовлення на сайті або телефоном, покупець приймає умови цього договору.</p>
       <h3>2. Товар і ціна</h3><p>Ціни вказано в гривнях. Наявність і остаточну суму менеджер підтверджує перед відправленням.</p>
       <h3>3. Оплата й доставка</h3><p>Способи оплати та доставки описано на сторінці <a class="link" href="delivery.html">«Доставка та оплата»</a>. Доставку оплачує покупець.</p>
@@ -784,7 +828,7 @@
         [IC.list, 'Прайс-лист', 'Актуальні ціни на весь асортимент одним файлом.', 'info.html?p=price', 'Відкрити прайс-лист'],
         [IC.check, 'Сертифікати на товар', 'Сертифікати відповідності й технічні листи для ваших замовників і тендерів.', 'info.html?p=certs', 'Сертифікати та документи'],
         [IC.truck, 'Доставка на об’єкт або склад', 'Нашою машиною по Харкову й області. В інші міста відправляємо Новою поштою те, що вона приймає.', 'delivery.html', 'Умови доставки'],
-        [IC.box, 'Власні марки FRONT і TIGOR', 'Фарби, ґрунтовки й сухі суміші двох власних марок.', 'brand.html?b=tigor', 'Про TIGOR'],
+        [IC.box, 'Наші партнери FRONT і TIGOR', 'Фарби, ґрунтовки й сухі суміші двох марок-партнерів.', 'brand.html?b=tigor', 'Про TIGOR'],
       ] },
     };
     let cur = prm.get('a') === 'company' ? 'company' : 'master';
@@ -824,7 +868,7 @@
         ['Як підготувати стіну', `<p>Стіна має бути сухою, чистою й рівною. Тріщини й нерівності закривають шпаклівкою, після висихання наносять ґрунтовку. Вона зменшує витрату фарби і дає рівний колір без плям.</p><p>Свіжу штукатурку й бетон фарбують не раніше ніж через 28 діб.</p>`],
         ['Як фарбувати', `<p>Перший шар можна розвести водою до 10 %, другий — до 5 %. Другий шар наносять після висихання першого, через 1–2 години. Працюйте при температурі від +10 до +25 °C і не робіть перерв посеред стіни, щоб не лишилося стиків.</p>`],
       ] : [['Коротко', `<p>${x.d}</p><p>Текст статті пише технолог. Тут він розбитий на розділи з підзаголовками, як у статті про фарбу.</p>`], ['На що дивитися', `<p>Розділ із таблицею або переліком. Кожна стаття веде в розділ каталогу і на конкретні товари.</p><div class="atip"><b>Порада технолога</b><p>Вставка для короткої практичної поради.</p></div>`]];
-      qs('[data-slot="blog"]').innerHTML = `<article class="article"><header class="article__head"><span class="article__tag">${x.tag}</span><h1>${x.t}</h1><p class="lead">${x.d}</p><p class="article__meta">Технолог IM BAU · ${x.date} · ${x.min} хв читання</p></header>
+      qs('[data-slot="blog"]').innerHTML = `<article class="article"><header class="article__head"><span class="article__tag">${x.tag}</span><h1>${x.t}</h1><p class="lead">${x.d}</p><p class="article__meta">Технолог IMBAU · ${x.date} · ${x.min} хв читання</p></header>
         ${cover(x, true)}
         <div class="article__body"><nav class="article__toc" aria-label="Зміст статті"><b>У статті</b><ol>${sections.map(([h], j) => `<li><a href="#s${j + 1}">${h}</a></li>`).join('')}<li><a href="#art-products">Товари зі статті</a></li></ol></nav>
           <div class="prose article__text">${sections.map(([h, t], j) => `<h2 id="s${j + 1}">${h}</h2>${t}`).join('')}</div></div></article>
@@ -838,7 +882,7 @@
   };
 
   /* ================= 404 ================= */
-  IMB.pages.notfound = () => { qs('[data-slot="tiles"]').innerHTML = tiles(IMB.SECTIONS.slice(0, 6)); };
+  IMB.pages.notfound = () => { qs('[data-slot="tiles"]').innerHTML = tiles(IMB.SECTIONS.filter(x => x.top).slice(0, 6)); };
 
   /* ================= UI-KIT ================= */
   IMB.pages.uikit = () => {
@@ -851,13 +895,18 @@
     if (ks) {
       const where = { photo: 'на фото вгорі', mark: 'на фото внизу', pack: 'у рядку фасовки', ship: 'у рядку отримання' };
       ks.innerHTML = `<div class="kit-stk">${Object.entries(IMB.STICKERS).map(([k, d], j) => `<div class="kit-stk__row"><span class="kit-stk__n">${j + 1}</span><span class="kit-stk__s">${IMB.sticker(k, 'stk--lg')}</span><span class="kit-stk__s">${IMB.sticker(k)}</span><span class="kit-stk__s">${d.tier === 'mark' ? `<span class="pcard__marks is-n3" style="position:static">${IMB.sticker(k, 'stk--mark')}</span>` : k === 'kharkiv' ? IMB.sticker(k, 'stk--away') : ''}</span><span class="small"><b>${where[d.tier]}</b><br><span class="ink-2">${d.hint}</span></span></div>`).join('')}</div>`;
-      IMB.renderList(qs('[data-slot="kit-stkcards"]'), ['tc16', 'acr', 'sat', 'lor', 'gs41', 'nail', 'old', 'gre'], 'UI-kit: стікери');
+      IMB.renderList(qs('[data-slot="kit-stkcards"]'), ['tc16', 'acr', 'tm12', 'sat', 'lor', 'gs41', 'nail', 'old', 'gre'], 'UI-kit: стікери');
+      /* Три варіанти вигляду для «Акція», «Хіт», «Новинка». Кнопка вмикає варіант на всьому сайті (S.stk). */
+      const kv = qs('[data-slot="kit-stkvars"]');
+      if (kv) { const V = [['a', 'А. Плашка з піктограмою', 'Назва й піктограма разом. Читається без підказки, тому це основний варіант.'], ['b', 'Б. Круглий значок', 'Лише піктограма й колір. Займає найменше місця на фото; назва є в підказці та для читача екрана.'], ['c', 'В. Прапорець', 'Смужка від лівого краю фото. Найпомітніший варіант, для сильних акцій.']];
+        const drawV = () => { kv.innerHTML = V.map(([v, t, d]) => `<div class="kit-var${S.stk === v ? ' is-on' : ''}"><div class="kit-var__shot">${packshot(P('acr'))}<span class="kit-var__stk">${['sale', 'hit', 'new'].map(k => IMB.sticker(k, '', v)).join('')}</span></div><b>${t}</b><p class="small ink-2">${d}</p><button type="button" class="btn ${S.stk === v ? 'btn--dark' : 'btn--ghost'} btn--sm" data-stkvar="${v}" aria-pressed="${S.stk === v}">${S.stk === v ? 'Зараз на сайті' : 'Показати на сайті'}</button></div>`).join(''); };
+        drawV(); kv.addEventListener('click', e => { const b = e.target.closest('[data-stkvar]'); if (!b) return; IMB.setStk(b.dataset.stkvar); drawV(); IMB.renderList(qs('[data-slot="kit-stkcards"]'), ['tc16', 'acr', 'tm12', 'sat', 'lor', 'gs41', 'nail', 'old', 'gre'], 'UI-kit: стікери'); IMB.toast && IMB.toast('Варіант увімкнено на всьому сайті'); }); }
     }
     /* Блоки раундів 10–11.11: фото й заглушки, плитки, обкладинки */
     const box = (html, w, cap) => `<figure style="width:${w}px">${html}<figcaption class="xs ink-2" style="margin-top:6px">${cap}</figcaption></figure>`;
     qs('[data-slot="kit-shots"]').innerHTML = box(packshot(P('acr')), 140, 'Фото товару') + box(packshot(P('stz')), 140, 'Немає фото, картка') + box(packshot(P('stz'), 1), 220, 'Немає фото, сторінка товару') + `<figure class="photo-slot" style="width:220px"><div class="shot shot--empty" style="aspect-ratio:1">${IC.store}<span class="shot__note">Фото готується</span></div><figcaption class="xs ink-2" style="margin-top:6px">Місце під фото магазину</figcaption></figure>`;
     const B = IMB.BRANDS.FRONT.lines[0];
-    qs('[data-slot="kit-tiles"]').innerHTML = tiles(IMB.SECTIONS.slice(4, 5)) + `<a class="sub-tile" href="#"><span class="sub-tile__name">Фарби інтер’єрні</span><span class="sub-tile__cnt">7 товарів</span>${IC.arrow}</a><a class="chip-tile" href="#">Для фарбування</a><a class="bline" href="#"><span class="shot shot--photo"><img src="assets/img/${B[2]}.webp" alt="" width="720" height="720" loading="lazy"></span><span class="bline__text"><b>${B[0]}</b><span>${B[1]}</span></span>${IC.arrow}</a>`;
+    qs('[data-slot="kit-tiles"]').innerHTML = tiles(IMB.SECTIONS.filter(x => x.slug === 'lfm')) + `<a class="sub-tile" href="#"><span class="sub-tile__name">Фарби інтер’єрні</span><span class="sub-tile__cnt">7 товарів</span>${IC.arrow}</a><a class="chip-tile" href="#">Для фарбування</a><a class="bline" href="#"><span class="shot shot--photo"><img src="assets/img/${B[2]}.webp" alt="" width="720" height="720" loading="lazy"></span><span class="bline__text"><b>${B[0]}</b><span>${B[1]}</span></span>${IC.arrow}</a>`;
     qs('[data-slot="kit-covers"]').innerHTML = IMB.ARTICLES.slice(0, 2).map(x => `<a class="acard" href="blog.html"><span class="acover acover--${x.tone}" data-tag="${x.tag}"><span class="acover__tag">${x.tag}</span><img src="assets/img/${x.img}.webp" alt="" width="720" height="720" loading="lazy"></span><span class="acard__meta">${x.date} · ${x.min} хв читання</span><b class="acard__title">${x.t}</b></a>`).join('');
     qs('[data-slot="kit-modal"]').addEventListener('click', e => { const b = e.target.closest('[data-kitm]'); if (!b) return; ({ add: () => IMB.addToCart('gs41'), one: () => IMB.oneClick('tm12'), toast: () => IMB.toast('Додано в обране · <a href="compare.html?tab=fav">Переглянути</a>') })[b.dataset.kitm](); });
   };

@@ -1,5 +1,5 @@
 /* =========================================================
-   IM BAU — ядро прототипу
+   IMBAU — ядро прототипу
    - стан (кошик, обране, порівняння, місто) у localStorage
    - спільні частини: шапка, футер, картка товару, модалки
    - бізнес-правила: ціна за одиницю, сходинка ціни, обмеження НП
@@ -50,6 +50,59 @@
     tag: i('<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/>'),
   };
   IC.card = IC.euro;
+  IC.play = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.2v13.6a1 1 0 0 0 1.5.9l11-6.8a1 1 0 0 0 0-1.8l-11-6.8A1 1 0 0 0 8 5.200z"/></svg>';
+  /* Піктограми розділів каталогу: ключ = поле ic у IMB.TREE. Одна товщина лінії з рештою іконок сайту.
+     Показуються в меню «Каталог товарів», у списку біля банера і на плитці розділу без свого фото. */
+  const SEC_IC = {
+    bag: i('<path d="M8 3.5h8l-1.2 3 2.700 3.800V19a1.500 1.500 0 0 1-1.500 1.500H8A1.500 1.500 0 0 1 6.500 19v-8.700l2.700-3.800z"/><path d="M9.200 6.500h5.600M9.500 14h5"/>'),
+    brick: i('<path d="M3 6h18v12H3zM3 12h18M12 6v6M8 12v6M16 12v6"/>'),
+    layers: i('<path d="M3 8l9-4 9 4-9 4zM3 12l9 4 9-4M3 16l9 4 9-4"/>'),
+    wood: i('<path d="M3 9.500h15.500v7H3zM18.500 9.500l2.500-3v7l-2.500 3M3 9.500l2.500-3H21M6.500 13h6"/>'),
+    roll: i('<circle cx="8" cy="13" r="5"/><circle cx="8" cy="13" r="1.400"/><path d="M8 8h9.500A3.500 3.500 0 0 1 21 11.500V18H8"/>'),
+    roof: i('<path d="M2.500 12 12 4.500l9.500 7.500M5.500 10v9.500h13V10M10 19.500v-5h4v5"/>'),
+    nut: i('<path d="M12 3l7.800 4.500v9L12 21l-7.800-4.500v-9z"/><circle cx="12" cy="12" r="3.200"/>'),
+    bucket: i('<path d="M5 9h14l-1.300 10.200a1.500 1.500 0 0 1-1.500 1.300H7.800a1.500 1.500 0 0 1-1.500-1.300zM5 9c0-3 3.100-5.500 7-5.500s7 2.500 7 5.500"/>'),
+    tube: i('<path d="M9 9h6v11.500H9zM10.500 9V6h3v3M12 6V3M9 13.500h6"/>'),
+    wallpaper: i('<rect x="5" y="3" width="14" height="5" rx="1.200"/><path d="M7 8v13l2.500-1.500L12 21l2.500-1.500L17 21V8"/>'),
+    floor: i('<path d="M3 5h18v14H3zM3 9.700h18M3 14.300h18M9 5v4.700M15 9.700v4.600M9 14.300V19"/>'),
+    tile: i('<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M12 4v16M4 12h16"/>'),
+    door: i('<path d="M6.500 21V4.500a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1V21M4 21h16M14.500 12v1"/>'),
+    tap: i('<path d="M4 10.500h8.500A4.500 4.500 0 0 1 17 15v1M14.500 16h5v3h-5zM7.500 10.500V6M5 6h5M4 8.500v4"/>'),
+    radiator: i('<path d="M6 6.500v11M10 6.500v11M14 6.500v11M18 6.500v11M4 9h16M4 15h16"/>'),
+    plug: i('<path d="M9 3v5M15 3v5M7 8h10v3.500a5 5 0 0 1-10 0zM12 16.500V21"/>'),
+    bulb: i('<path d="M9.500 17.500h5M10.500 20.500h3M12 3a6 6 0 0 0-3.600 10.800c.700.500 1.100 1.300 1.100 2.100v1.600h5v-1.600c0-.800.400-1.600 1.100-2.100A6 6 0 0 0 12 3z"/>'),
+    battery: i('<path d="M3 8h16v8H3zM19 10.500h2v3h-2M11.500 9.500 9 12.300h3L9.500 15"/>'),
+    fan: i('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.600"/><path d="M12 10.400c-1.200-3-.200-5.200 1.800-5.900 1.200 2.200.500 4.400-1.800 5.900zM13.400 12.800c3.200-.500 5.200.900 5.600 3-2.500.100-4.100-.700-5.600-3zM10.600 12.800c-2 2.500-4.400 2.700-6 1.300 1.200-2.200 3.400-2.700 6-1.300z"/>'),
+    drill: i('<path d="M3 7h11v5H3zM14 8.200h3.500v2.600H14M17.500 9.500H22M6 12l-1 8h4l1-8"/>'),
+    disc: i('<circle cx="12" cy="12" r="8.500"/><circle cx="12" cy="12" r="2.200"/><path d="M12 3.500v2.300M12 18.200v2.300M3.500 12h2.300M18.200 12h2.300M6 6l1.600 1.600M16.400 16.400 18 18M18 6l-1.600 1.600M7.600 16.400 6 18"/>'),
+    hammer: i('<path d="M13 3.500 20.500 11 18 13.500l-2.200-2.200-8.600 8.600a1.800 1.800 0 0 1-2.600-2.600l8.600-8.600L11 6.500z"/>'),
+    ladder: i('<path d="M8 3v18M16 3v18M8 7.500h8M8 12h8M8 16.500h8"/>'),
+    gift: IC.gift,
+  };
+  IMB.SEC_IC = SEC_IC; IMB.secIc = sec => SEC_IC[sec.ic] || IC.box;
+  /* Піктограми головного меню. Колір — тематичний акцент пункту: «Акції» теплий червоний, «Колерування»
+     з кольоровими краплями, марки — у своїх фірмових кольорах (FRONT — кільце з літери «O», TIGOR — смуги). */
+  const NAV_IC = {
+    sale: i('<path d="M18.500 5.500l-13 13"/><circle cx="7.500" cy="7.500" r="2.500"/><circle cx="16.500" cy="16.500" r="2.500"/>', 1.9),
+    tint: i('<path d="M12 3a9 9 0 1 0 0 18c1.500 0 2-1 2-2s-1-1.600-1-2.600 1-1.400 2-1.400h2a4 4 0 0 0 4-4C21 6.500 17 3 12 3z"/><circle cx="7.500" cy="11.200" r="1.500" fill="#D83177" stroke="none"/><circle cx="10.500" cy="7.300" r="1.500" fill="#F0A21B" stroke="none"/><circle cx="15.500" cy="7.600" r="1.500" fill="#2D8FD6" stroke="none"/>'),
+    pick: i('<path d="M9 4h6v3H9zM9 5.500H6v15h12v-15h-3M9 12.500l2 2 4-4M9 17.500h6"/>'),
+    evid: i('<path d="M4 11l8-6.500 8 6.500v9H4z"/><path d="m9 14.500 2 2 4-4" stroke="#E0A800"/>'),
+    front: i('<circle cx="12" cy="12" r="6.600" stroke="#D83177" stroke-width="3.400"/>'),
+    tigor: i('<path d="M5.500 19 9.500 5M11 19l4-14M16.500 19l4-14" stroke="#EA5B21" stroke-width="2.800"/>'),
+    store: IC.store,
+    tips: i('<path d="M4 5.500c2.500-1 5.500-1 8 .500 2.500-1.500 5.500-1.500 8-.500v13c-2.500-1-5.500-1-8 .500-2.500-1.500-5.500-1.500-8-.500zM12 6v13"/>'),
+  };
+  IMB.NAV_IC = NAV_IC;
+  /* Піктограми стікерів ціни й статусу. «Хіт» і «Новинка» суцільні, решта лінійні. */
+  const fi = d => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${d}</svg>`;
+  const STK_PIC = {
+    sale: i('<path d="M18.500 5.500l-13 13"/><circle cx="7.500" cy="7.500" r="2.600"/><circle cx="16.500" cy="16.500" r="2.600"/>', 2.400),
+    hit: fi('<path d="M12.300 2.200c.700 3.300-1.200 5-2.800 6.800-1.500 1.700-2.900 3.500-2.900 6a5.400 5.400 0 0 0 10.800 0c0-1.900-.700-3.500-1.800-4.800-.400 1.300-1.200 2.100-2.300 2.500.800-3.800-.100-7.500-1-10.500z"/>'),
+    new: fi('<path d="M12 2.500l2.200 6.300a1.600 1.600 0 0 0 1 1l6.300 2.200-6.300 2.200a1.600 1.600 0 0 0-1 1L12 21.500l-2.200-6.300a1.600 1.600 0 0 0-1-1L2.500 12l6.300-2.200a1.600 1.600 0 0 0 1-1z"/>'),
+    markdown: i('<path d="M12 5v13M6.500 12.500 12 18l5.500-5.500"/>', 2.400),
+    order: i('<circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/>', 2.100),
+  };
+  IMB.STK_PIC = STK_PIC;
   IMB.IC = IC;
 
   /* ---------- Сховище ---------- */
@@ -58,6 +111,11 @@
   let S;
   try { S = Object.assign({}, DEF, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = Object.assign({}, DEF); }
   if (!Array.isArray(S.cart)) S.cart = [];
+  /* Варіант вигляду стікерів «Акція», «Хіт», «Новинка» на фото товару: a — плашка з піктограмою (основний),
+     b — круглий значок, c — прапорець від краю фото. Перемикач — на аркуші стікерів у ui-kit.html.
+     У бою лишається один варіант, який погодить лід; тоді S.stk і класи stk--vb / stk--vc прибрати. */
+  if (!['a', 'b', 'c'].includes(S.stk)) S.stk = 'a';
+  IMB.setStk = v => { S.stk = v; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   S.cart = S.cart.filter(x => x && IMB.byId[x.id]); /* товар міг зникнути з каталогу */
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} updateCounters(); };
   IMB.S = S; IMB.save = save;
@@ -72,7 +130,7 @@
   const url = (page, params) => page + '.html' + (params ? '?' + new URLSearchParams(params) : '');
   const pUrl = p => url('product', { id: p.id });
   const secUrl = n => url('section', { s: (IMB.SECTIONS.find(x => x.n === n) || {}).slug || '' });
-  const catUrl = (sub, extra) => url('category', Object.assign({ sub }, extra || {}));
+  const catUrl = (sub, extra) => !extra && IMB.SUBHREF[sub] ? IMB.SUBHREF[sub] : url('category', Object.assign({ sub }, extra || {}));
   Object.assign(IMB, { uah, num, esc, qs, qsa, P, url, pUrl, secUrl, catUrl });
 
   const state = p => p.state || ((p.stock.kazka + p.stock.sklad) > 0 ? 'ok' : 'out');
@@ -93,17 +151,17 @@
     return { k, label, kg, base, full, price: byCard ? cut(full, c) : shelf, off: byCard ? c : p.was || 0, by: byCard ? 'card' : p.was ? 'promo' : '' }; };
   const perUnit = (p, k) => { const pk = pack(p, k); return pk.base > 1 || p.unit === 'кг' || p.unit === 'л' || p.unit === 'м²' ? `${num(pk.price / pk.base)} грн/${p.unit}` : ''; };
   /* Обмеження Нової пошти: ЛФМ не відправляємо; >30 кг або листові — тільки місто */
-  const npReason = (p, k = p.sel) => p.sec.startsWith('ЛФМ') ? 'фарби та ЛФМ' : (pack(p, k).kg > 30 || p.kind === 'sheet' && p.id === 'gkl') ? 'вага чи габарит понад ліміт (30 кг)' : '';
+  const npReason = (p, k = p.sel) => ['Фарби, емалі, лаки', 'Будівельна хімія'].includes(p.sec) ? 'фарби та ЛФМ' : (pack(p, k).kg > 30 || p.kind === 'sheet' && p.id === 'gkl') ? 'вага чи габарит понад ліміт (30 кг)' : '';
   const shipLine = p => npReason(p) ? 'Самовивіз сьогодні · доставка · без пошти' : 'Самовивіз сьогодні · доставка · Нова пошта, Укрпошта';
   const pickupWhen = p => p.stock.kazka > 0 ? 'сьогодні' : p.stock.sklad > 0 ? 'завтра, зі складу' : 'після надходження';
   Object.assign(IMB, { state, pack, perUnit, npReason, shipLine, pickupWhen });
 
   /* ---------- Стікери (довідник і правила — IMB.STICKERS у data.js) ---------- */
-  const STK_ON = { markdown: p => !!p.markdown, sale: p => !!p.promo, new: p => !!p.isNew, order: p => state(p) === 'order', kharkiv: p => !!npReason(p), weight: p => !!p.byWeight, tint: p => !!p.tint, ua: p => !!p.ua, evid: p => !!p.evid };
+  const STK_ON = { markdown: p => !!p.markdown, sale: p => !!p.promo, hit: p => !!p.hit, new: p => !!p.isNew, order: p => state(p) === 'order', kharkiv: p => !!npReason(p), weight: p => !!p.byWeight, tint: p => !!p.tint, ua: p => !!p.ua, evid: p => !!p.evid };
   /* Стікери товару в порядку пріоритету. У знятого з поставок товару стікерів немає. */
   const stickersOf = p => state(p) === 'ended' ? [] : Object.keys(IMB.STICKERS).filter(k => STK_ON[k](p));
-  const STK_IC = { pin: IC.pin, scale: IC.scale, evid: IC.home, tint: '<i class="stk__dot stk__dot--tint" aria-hidden="true"></i>', ua: '<i class="stk__dot stk__dot--ua" aria-hidden="true"></i>' };
-  const sticker = (k, cls = '') => { const d = IMB.STICKERS[k]; return `<span class="stk stk--${k}${cls ? ' ' + cls : ''}" title="${esc(d.hint)}">${d.ic ? STK_IC[d.ic] : ''}<span class="stk__t">${d.t}</span></span>`; };
+  const STK_IC = { sale: STK_PIC.sale, hit: STK_PIC.hit, new: STK_PIC.new, markdown: STK_PIC.markdown, order: STK_PIC.order, pin: IC.pin, scale: IC.scale, evid: IC.home, tint: '<i class="stk__dot stk__dot--tint" aria-hidden="true"></i>', ua: '<i class="stk__dot stk__dot--ua" aria-hidden="true"></i>' };
+  const sticker = (k, cls = '', v) => { const d = IMB.STICKERS[k], vv = ['sale', 'hit', 'new'].includes(k) ? v || S.stk : 'a'; return `<span class="stk stk--${k}${vv !== 'a' ? ' stk--v' + vv : ''}${cls ? ' ' + cls : ''}" title="${esc(d.hint)}">${d.ic ? STK_IC[d.ic] : ''}<span class="stk__t">${d.t}</span></span>`; };
   /* Стара ціна для уцінки: p.was — на скільки відсотків вона була вищою */
   const oldPrice = (p, k = p.sel) => { const pk = pack(p, k); return pk.full > pk.price ? pk.full : 0; };
   /* Перекреслена ціна й плашка відсотка. Акція — лаймова, уцінка — жовта, картка клієнта — зелена з піктограмою картки. */
@@ -222,8 +280,9 @@
   IMB.renderList = (el, ids, list) => { if (!el) return; const ps = ids.map(P).filter(Boolean); el.innerHTML = ps.map(p => productCard(p, { list })).join(''); updateCounters(); if (ps.length) track('view_item_list', { ecommerce: { item_list_name: list, items: ps.map((p, k) => gaItem(p, p.sel, 1, k)) } }); };
 
   /* ---------- Шапка (header.twig) ---------- */
-  const NAV = [['Акції', 'promo'], ['Колерування', 'tinting'], ['Підбір матеріалів', 'podbor'], ['єВідновлення', 'evidnovlennya'], ['FRONT', 'brand', { b: 'front' }], ['TIGOR', 'brand', { b: 'tigor' }], ['Магазин', 'stores'], ['Поради', 'blog']];
-  const logo = `<a class="logo" href="index.html" aria-label="IM BAU — на головну"><span class="logo__mark">IM<br>BAU</span><span><span class="logo__name">IM BAU</span><span class="logo__tag" style="display:block">Будуємо разом</span></span></a>`;
+  /* [назва, сторінка, параметри, піктограма й тема пункту] */
+  const NAV = [['Акції', 'promo', null, 'sale'], ['Колерування', 'tinting', null, 'tint'], ['Підбір матеріалів', 'podbor', null, 'pick'], ['єВідновлення', 'evidnovlennya', null, 'evid'], ['FRONT', 'brand', { b: 'front' }, 'front'], ['TIGOR', 'brand', { b: 'tigor' }, 'tigor'], ['Магазин', 'stores', null, 'store'], ['Поради', 'blog', null, 'tips']];
+  const logo = `<a class="logo" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IMBAU</span><span><span class="logo__name">IMBAU</span><span class="logo__tag" style="display:block">Інтернет-буд</span></span></a>`;
   const searchBox = id => `<div class="search" data-search><form class="search__form" action="search.html" role="search">${IC.search}<label class="sr-only" for="${id}">Пошук товарів</label><input class="search__input" id="${id}" name="q" placeholder="Назва, бренд або артикул" autocomplete="off"><button class="search__btn">Пошук</button></form><div class="suggest" role="listbox"></div></div>`;
   /* Місто в шапці. Перший візит: питаємо, чи правильно визначили місто (у бою — за IP).
      ПК — підказка під назвою міста у верхньому рядку. Телефон — рядок над логотипом, без окремого вікна:
@@ -251,7 +310,7 @@
     const icons = `<a class="icon-btn" href="compare.html" aria-label="Порівняння">${IC.cmp}<span class="counter counter--auto" data-counter="cmp">0</span></a>
             <a class="icon-btn" href="compare.html?tab=fav" aria-label="Обране">${IC.heart}<span class="counter counter--auto" data-counter="fav">0</span></a>
             <a class="icon-btn" href="cart.html" aria-label="Кошик">${IC.bag}<span class="counter" data-counter="cart">0</span></a>`;
-    const navHtml = NAV.map(([t, pg, prm]) => { const on = pg === cur && (!prm || new URLSearchParams(location.search).get('b') === prm.b); return `<a href="${url(pg, prm)}"${on ? ' aria-current="page"' : ''}>${t}</a>`; }).join('');
+    const navHtml = NAV.map(([t, pg, prm, ic]) => { const on = pg === cur && (!prm || new URLSearchParams(location.search).get('b') === prm.b); return `<a class="nav__a nav__a--${ic}" href="${url(pg, prm || undefined)}"${on ? ' aria-current="page"' : ''}><span class="nav__ic">${NAV_IC[ic]}</span><span class="nav__t">${t}</span></a>`; }).join('');
     el.outerHTML = `
     <div class="topbar"><div class="container topbar__in">
       <span class="topbar__addr">${IC.pin}${IMB.STORE.name}, ${IMB.STORE.address}</span>
@@ -272,15 +331,15 @@
         <!-- Рядок меню. Коли сторінку прокручено (клас .is-stuck на #hdr), він лишається закріпленим
              і замість посилань показує пошук та кошик: .header__mini + .header__stuck -->
         <div class="header__nav">
-          <a class="header__mini" href="index.html" aria-label="IM BAU — на головну"><span class="logo__mark">IM<br>BAU</span></a>
+          <a class="header__mini" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IMBAU</span></a>
           <button class="catalog-btn" aria-expanded="false" aria-controls="mega" data-mega>${IC.grid}<span>Каталог товарів</span></button>
           <nav class="nav" aria-label="Головне меню">${navHtml}</nav>
-          <a class="header__calc" href="podbor.html">Прорахувати список</a>
+          <a class="header__calc" href="podbor.html">${IC.calc}<span>Прорахувати список</span></a>
           <div class="header__stuck">${searchBox('q-stuck')}<a class="header__stuck-phone" href="tel:${IMB.STORE.phoneHref}">${IMB.STORE.phone}</a><div class="header__icons">${icons}</div></div>
         </div>
       </div>
       <div class="mega" id="mega"><div class="container mega__in">
-        <div class="mega__secs">${IMB.SECTIONS.map((s, k) => `<button class="mega__sec${k === 0 ? ' is-active' : ''}" data-megasec="${k}">${s.n}<span aria-hidden="true">›</span></button>`).join('')}</div>
+        <div class="mega__secs" style="--rows:${Math.ceil(IMB.SECTIONS.length / 2)}">${IMB.SECTIONS.map((s, k) => `<button class="mega__sec${k === 0 ? ' is-active' : ''}" data-megasec="${k}"><span class="mega__ic">${IMB.secIc(s)}</span><span class="mega__n">${s.n}</span><span aria-hidden="true">›</span></button>`).join('')}</div>
         <div class="mega__panel" data-megapanel></div>
       </div></div>
       <div class="mhead"><div class="container">
@@ -304,7 +363,7 @@
       <div class="drawer__head">${logo}<button class="icon-btn" data-close aria-label="Закрити">${IC.close}</button></div>
       <div class="drawer__meta"><button class="drawer__city" data-modal="city">${IC.pin}${esc(S.city)}</button><span class="lang"><a href="#" data-lang="UA"${S.lang === 'UA' ? ' aria-current="true"' : ''}>UA</a> / <a href="#" data-lang="RU"${S.lang === 'RU' ? ' aria-current="true"' : ''}>RU</a></span></div>
       <a class="btn btn--primary btn--split" href="catalog.html">Каталог товарів ${IC.arrow}</a>
-      <div class="drawer__list">${NAV.map(([t, pg, prm]) => `<a href="${url(pg, prm)}">${t}<span aria-hidden="true">›</span></a>`).join('')}
+      <div class="drawer__list">${NAV.map(([t, pg, prm, ic]) => `<a class="nav__a--${ic}" href="${url(pg, prm || undefined)}"><span class="drawer__nav"><span class="nav__ic">${NAV_IC[ic]}</span>${t}</span><span aria-hidden="true">›</span></a>`).join('')}
         <a href="compare.html">Порівняння<span class="counter" style="position:static" data-counter="cmp">0</span></a>
         <a href="compare.html?tab=fav">Обране<span class="counter" style="position:static" data-counter="fav">0</span></a>
         <a href="account.html" data-userlink>${S.user ? 'Кабінет, картка ' + card().pct + ' %' : 'Увійти / кабінет'}<span aria-hidden="true">›</span></a>
@@ -318,33 +377,33 @@
   };
   const renderMega = k => {
     const s = IMB.SECTIONS[k], el = qs('[data-megapanel]'); if (!el) return;
-    el.innerHTML = `<h3><a href="${secUrl(s.n)}">${s.n} ›</a></h3><div class="mega__subs">${s.subs.map(x => `<a href="${catUrl(x)}">${x}</a>`).join('')}</div>
+    el.innerHTML = `<h3><a href="${secUrl(s.n)}">${s.n} ›</a></h3><div class="mega__subs">${s.subs.map(x => `<a${IMB.SUBPARENT[x] ? ' class="is-child"' : ''} href="${catUrl(x)}">${x}</a>`).join('')}</div>
       <div class="mega__tasks"><div class="small ink-2" style="margin-bottom:8px">Під задачу</div><div class="chips">${IMB.TASKS.map(t => `<a class="chip" href="${url('kit', { t: t.n })}">${t.n}</a>`).join('')}</div></div>`;
     qsa('.mega__sec').forEach((b, j) => b.classList.toggle('is-active', j === k));
   };
 
   /* ---------- Футер (footer.twig) ---------- */
   const FCOL = {
-    'Каталог': IMB.SECTIONS.slice(0, 7).map(s => [s.n, secUrl(s.n)]).concat([['Усі розділи ›', 'catalog.html']]),
+    'Каталог': IMB.SECTIONS.filter(s => s.top).slice(0, 7).map(s => [s.n, secUrl(s.n)]).concat([[`Усі ${IMB.SECTIONS.length} розділи ›`, 'catalog.html']]),
     'Покупцям': [['Доставка та оплата', 'delivery.html'], ['Обмін та повернення', 'info.html?p=return'], ['Гарантія', 'info.html?p=warranty'], ['Де моє замовлення?', 'tracking.html'], ['Оплата частинами', 'evidnovlennya.html'], ['Часті запитання', 'info.html?p=faq'], ['Накопичувальна картка', 'info.html?p=discounts'], ['Акції', 'promo.html'], ['Уцінка', 'promo.html']],
     'Послуги': [['Колерування', 'tinting.html'], ['Підбір матеріалів', 'podbor.html'], ['Калькулятори', 'podbor.html#calc'], ['єВідновлення', 'evidnovlennya.html'], ['Оптовикам і майстрам', 'pro.html'], ['Подарунковий сертифікат', 'certificate.html'], ['Прайс-лист', 'info.html?p=price'], ['Підбірки товарів', 'kit.html']],
-    'IM BAU': [['Про компанію', 'info.html?p=about'], ['Магазин і контакти', 'stores.html'], ['Відгуки', 'info.html?p=reviews'], ['Сертифікати та документи', 'info.html?p=certs'], ['Поради', 'blog.html'], ['Відео', 'blog.html'], ['Вакансії', 'info.html?p=jobs']],
+    'IMBAU': [['Про компанію', 'info.html?p=about'], ['Магазин і контакти', 'stores.html'], ['Відгуки', 'info.html?p=reviews'], ['Сертифікати та документи', 'info.html?p=certs'], ['Поради', 'blog.html'], ['Відео', 'blog.html'], ['Вакансії', 'info.html?p=jobs']],
   };
   const renderFooter = () => {
     const el = qs('#site-footer'); if (!el) return;
     if (document.body.dataset.page === 'checkout') {
-      el.outerHTML = `<footer class="cofoot"><div class="container cofoot__in"><span>IM BAU © 2026</span><span class="cofoot__safe">${IC.lock} Оплата карткою проходить на захищеній сторінці LiqPay</span><span><a href="info.html?p=offer">Публічна оферта</a> · <a href="info.html?p=privacy">Конфіденційність</a></span></div></footer><a class="proto-flag" href="sitemap.html" title="Карта прототипу">Прототип · карта сторінок</a>`;
+      el.outerHTML = `<footer class="cofoot"><div class="container cofoot__in"><span>IMBAU © 2026</span><span class="cofoot__safe">${IC.lock} Оплата карткою проходить на захищеній сторінці LiqPay</span><span><a href="info.html?p=offer">Публічна оферта</a> · <a href="info.html?p=privacy">Конфіденційність</a></span></div></footer><a class="proto-flag" href="sitemap.html" title="Карта прототипу">Прототип · карта сторінок</a>`;
       return;
     }
     const list = a => `<ul class="footer__list">${a.map(([t, h]) => `<li><a href="${h}">${t}</a></li>`).join('')}</ul>`;
     const contacts = `<div class="footer__contacts"><a class="footer__phone" href="tel:${IMB.STORE.phoneHref}">${IMB.STORE.phone}</a><a href="mailto:${IMB.STORE.email}">${IMB.STORE.email}</a><span>${IMB.STORE.name},<br>${IMB.STORE.address}</span><span>Щодня 9:00–19:00</span><span><a href="#">Viber</a> · <a href="#">Telegram</a> · <a href="#">WhatsApp</a></span><span><a href="#">TikTok</a> · <a href="#">Instagram</a></span></div>`;
     el.outerHTML = `<footer class="footer"><div class="container">
       <div class="footer__cols">${Object.entries(FCOL).map(([t, a]) => `<div><div class="footer__title">${t}</div>${list(a)}</div>`).join('')}<div><div class="footer__title">Контакти</div>${contacts}</div></div>
-      <div class="footer__mob"><div class="footer__brand">IM BAU</div><p style="margin:12px 0 20px">Будівельні матеріали. Зручно. Поруч.</p>
+      <div class="footer__mob"><div class="footer__brand">IMBAU</div><p style="margin:12px 0 20px">Будівельні матеріали. Зручно. Поруч.</p>
         <div class="acc" style="border-color:#3a403a">${Object.entries(FCOL).map(([t, a]) => `<details style="border-color:#3a403a"><summary style="color:#fff">${t}</summary><div class="acc__body">${list(a)}</div></details>`).join('')}</div>
         <div style="margin-top:24px">${contacts}</div></div>
       <div class="footer__bar"><span>Бренди: <a href="brand.html?b=front">FRONT</a> · <a href="brand.html?b=tigor">TIGOR</a> · <a href="brands.html?b=knauf">Knauf</a> · <a href="brands.html">Усі виробники</a></span><span>Версія сайту: <b>Україна / Харків</b> &nbsp; Мова: <a href="#" data-lang="UA">UA</a> | <a href="#" data-lang="RU">RU</a></span></div>
-      <div class="footer__bar" style="margin-top:20px"><span>IM BAU © 2026</span><span><a href="info.html?p=privacy">Конфіденційність</a> · <a href="info.html?p=offer">Публічна оферта</a> · <a href="sitemap.html">Карта сайту</a></span><span>Оплата: LiqPay, картка, рахунок, єВідновлення</span></div>
+      <div class="footer__bar" style="margin-top:20px"><span>IMBAU © 2026</span><span><a href="info.html?p=privacy">Конфіденційність</a> · <a href="info.html?p=offer">Публічна оферта</a> · <a href="sitemap.html">Карта сайту</a></span><span>Оплата: LiqPay, картка, рахунок, єВідновлення</span></div>
     </div></footer><a class="proto-flag" href="sitemap.html" title="Карта прототипу">Прототип · карта сторінок</a>`;
   };
 
@@ -474,12 +533,27 @@
       <form class="stack" data-form="faqask"><div class="field"><label class="field__label" for="fq-t">Ваше питання</label><textarea class="input textarea" id="fq-t" rows="4" required></textarea></div>${phoneField('fq-ph')}<button class="btn btn--primary btn--block btn--lg">Надіслати питання</button></form>`),
   };
 
+  /* «Купити в 1 клік». Крім телефону покупець одразу обирає спосіб отримання (правка ліда 18.11.2026).
+     Способи ті самі, що в оформленні; недоступний для міста чи товару спосіб видно, але обрати не можна. */
   const oneClick = id => {
-    const p = P(id), pk = pack(p);
+    const p = P(id), pk = pack(p), local = IMB.isLocal(S.city), np = !npReason(p);
+    const ways = [
+      ['pickup', IC.store, 'Самовивіз з магазину', local ? `${IMB.STORE.name}, ${IMB.STORE.address} · ${pickupWhen(p)}` : 'Лише в Харкові', local],
+      ['own', IC.truck, 'Наша машина', local ? 'Харків і область · завтра або в зручний день' : 'Лише Харків і область', local],
+      ['np', IC.box, 'Нова пошта', np ? `Відділення або поштомат · ${esc(S.city)} · 1–3 дні` : 'Цей товар поштою не відправляємо', np],
+    ];
+    const def = (ways.find(w => w[4]) || [])[0];
     openModal(`<h2 class="modal__title" id="modal-t">Купити в 1 клік</h2>
       <div class="added" style="margin-bottom:20px">${packshot(p)}<div><div class="small ink-2">${p.brand}</div><b>${esc(p.name)}</b><div class="small ink-2">${pk.label}</div></div><b>${uah(pk.price)}</b></div>
-      <form class="stack" data-form="oneclick" data-id="${id}">${phoneField('oc-ph')}<p class="small ink-2">Менеджер передзвонить, уточнить кількість, наявність і спосіб отримання. Реєстрація не потрібна.</p><button class="btn btn--primary btn--block btn--lg">Замовити</button></form>`);
+      <form class="stack" data-form="oneclick" data-id="${id}">
+        <fieldset class="ocways"><legend class="field__label">Спосіб отримання</legend>
+          ${ways.map(([v, ic, t, m, on]) => `<label class="ocway${on ? '' : ' is-disabled'}"><input type="radio" name="oc-way" value="${v}" data-t="${t}"${v === def ? ' checked' : ''}${on ? '' : ' disabled'}><span class="ocway__ic">${ic}</span><span class="ocway__body"><span class="ocway__t">${t}</span><span class="ocway__m">${m}</span></span></label>`).join('')}
+        </fieldset>
+        ${def ? '' : `<p class="note">${IC.info}<span>Для міста ${esc(S.city)} цей товар доступний лише в Харкові. Залиште номер: менеджер підкаже, як його отримати.</span></p>`}
+        ${phoneField('oc-ph')}<p class="small ink-2">Менеджер передзвонить, уточнить кількість і наявність. Реєстрація не потрібна.</p><button class="btn btn--primary btn--block btn--lg">Замовити</button></form>`);
   };
+  /* текст підтвердження: який спосіб отримання обрано */
+  const ocText = f => { const w = qs('[name="oc-way"]:checked', f); return (w ? `Спосіб отримання: ${w.dataset.t.toLowerCase().replace('нова пошта', 'Нова пошта')}. ` : '') + 'Менеджер передзвонить за 15 хвилин, щоб підтвердити наявність' + (w ? '.' : ' і отримання.'); };
   const quickView = id => {
     const p = P(id);
     openModal(`<div class="grid grid-2" style="align-items:start">${packshot(p, 1)}<div class="stack"><div class="pcard__brand">${p.brand}</div><h2 id="modal-t" style="font-size:22px">${esc(p.name)}</h2>${productCard(p).match(/<div class="price">[\s\S]*?<\/div>/)[0]}<div>${perUnit(p)}</div><div class="row">${qtyCtl()}<button class="btn btn--primary" data-add="${p.id}">До кошика</button></div><a class="link" href="${pUrl(p)}">Усе про товар</a></div></div>`, { wide: true });
@@ -609,9 +683,9 @@
     const f = e.target.closest('[data-form]'); if (!f) return; e.preventDefault();
     const ph = qs('.js-phone', f); if (ph && !checkPhone(ph)) { ph.focus(); return; }
     const kind = f.dataset.form;
-    if (kind === 'oneclick') { const p = P(f.dataset.id); track('generate_lead', { lead_type: 'one_click', ecommerce: { items: [gaItem(p)] } }); }
+    if (kind === 'oneclick') { const p = P(f.dataset.id); track('generate_lead', { lead_type: 'one_click', delivery: (qs('[name="oc-way"]:checked', f) || {}).value || '', ecommerce: { items: [gaItem(p)] } }); }
     else track('generate_lead', { lead_type: kind });
-    const msg = { callback: ['Дзвінок замовлено', 'Передзвонимо протягом 15 хвилин у робочий час.'], oneclick: ['Замовлення прийнято', 'Менеджер передзвонить за 15 хвилин, щоб підтвердити наявність і отримання.'], notify: ['Готово', 'Напишемо у Viber або SMS, щойно товар з’явиться.'], sreview: ['Дякуємо за відгук', 'Він з’явиться на сторінці після перевірки.'], returnreq: ['Заявку на повернення прийнято', 'Менеджер зателефонує в робочий час і підкаже, як передати товар.'], cv: ['Дякуємо', 'Ми отримали ваше повідомлення й відповімо, якщо з’явиться відповідна вакансія.'], faqask: ['Питання надіслано', 'Відповімо у Viber або SMS у робочий час.'], supplier: ['Пропозицію надіслано', 'Закупівельник перегляне її й відповість на вказаний телефон або e-mail.'], pro: ['Заявку прийнято', 'Менеджер зателефонує в робочий час і уточнить, що саме ви купуєте.'] }[kind];
+    const msg = { callback: ['Дзвінок замовлено', 'Передзвонимо протягом 15 хвилин у робочий час.'], oneclick: ['Замовлення прийнято', kind === 'oneclick' ? ocText(f) : ''], notify: ['Готово', 'Напишемо у Viber або SMS, щойно товар з’явиться.'], sreview: ['Дякуємо за відгук', 'Він з’явиться на сторінці після перевірки.'], returnreq: ['Заявку на повернення прийнято', 'Менеджер зателефонує в робочий час і підкаже, як передати товар.'], cv: ['Дякуємо', 'Ми отримали ваше повідомлення й відповімо, якщо з’явиться відповідна вакансія.'], faqask: ['Питання надіслано', 'Відповімо у Viber або SMS у робочий час.'], supplier: ['Пропозицію надіслано', 'Закупівельник перегляне її й відповість на вказаний телефон або e-mail.'], pro: ['Заявку прийнято', 'Менеджер зателефонує в робочий час і уточнить, що саме ви купуєте.'] }[kind];
     if (msg) openModal(`<div class="result__icon">${IC.check}</div><h2 class="modal__title" id="modal-t" style="margin-top:16px">${msg[0]}</h2><p class="ink-2">${msg[1]}</p><button class="btn btn--dark" style="margin-top:20px" data-close>Добре</button>`);
     else if (IMB.onForm) IMB.onForm(kind, f);
   });

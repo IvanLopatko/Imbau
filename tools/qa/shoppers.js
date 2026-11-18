@@ -1,5 +1,5 @@
 /* =========================================================
-   IM BAU — стенд «віртуальні покупці»
+   IMBAU — стенд «віртуальні покупці»
    50 сценаріїв проходять прототип у прихованому вікні: шукають, відкривають товари,
    кладуть у кошик, оформлюють замовлення. Кожен покупець має пристрій, потребу і «характер»:
    характер визначає, що він перевіряє (ціну за кг, відгуки, розмір кнопок) і скільки дій готовий зробити.
@@ -268,7 +268,7 @@
       s.setVal('[data-promo] input', 'bau5', 'промокод'); s.$('[data-promo]').requestSubmit(); s.actions++; await sleep(TICK); if (!s.state().promo) s.friction('missing:промокод', 'промокод малими літерами не спрацював');
       await s.click('.summary a[href="checkout.html"]', 'Оформити замовлення', { nav: true }); return s.checkout({ method: 'pickup', pay: 'store' }); } },
     { id: 13, who: 'Роман, монтажник', psy: 'прагматик', dev: 'ph', need: 'Профіль CD ×20 і UD ×10 просто зі списку', budget: 16, run: async s => {
-      await s.load('index.html'); await s.toSub('Профіль'); await s.cardAdd('cd', 20); await s.modalClose(); await s.cardAdd('ud', 10); await s.modalCheckout(); return s.checkout({ method: 'own', pay: 'cod' }); } },
+      await s.load('index.html'); await s.toSub('Профіль для ГКЛ'); await s.cardAdd('cd', 20); await s.modalClose(); await s.cardAdd('ud', 10); await s.modalCheckout(); return s.checkout({ method: 'own', pay: 'cod' }); } },
     { id: 14, who: 'Ірина, утеплює балкон', psy: 'новачок', dev: 'ph', need: 'Пінопласт, порахувати кількість, спитати пораду', budget: 14, st: first, run: async s => {
       await s.load('index.html'); await s.toSub('Пінопласт'); await s.openCard('psb'); await s.pdpNeeds('psb', ['calc', 'reviews', 'desc']);
       await s.click('[data-tab="qa"]', 'вкладка Питання'); await s.click('[data-ask]', 'Запитати'); s.setVal('#qa-t', 'Скільки листів на балкон 6 м²?', 'питання'); s.setVal('#qa-ph', '0931234567', 'телефон'); s.$('#modal form').requestSubmit(); s.actions++; await sleep(TICK);
@@ -319,12 +319,12 @@
       await s.click('.summary a[href="checkout.html"]', 'Оформити замовлення', { nav: true }); return s.checkout({ method: 'own' }); } },
     /* ---------- колір ---------- */
     { id: 26, who: 'Оксана, дизайнерка', psy: 'візуал', dev: 'desk', need: 'Приміряти чотири відтінки і замовити фарбу «Індиго»', budget: 14, run: async s => {
-      await s.load('tinting.html'); for (const c of ['#DDE5D0', '#B4714F', '#7393A3', '#3F5A70']) await s.click(`[data-sw="${c}"]`, 'зразок на палітрі');
+      await s.load('tinting.html'); await s.click('.pal-tab[data-pal="pop"]', 'палітра «Популярні»'); for (const c of ['#DDE5D0', '#B4714F', '#7393A3', '#3F5A70']) await s.click(`[data-sw="${c}"]`, 'зразок на палітрі');
       if (s.$('[data-slot="room"]').style.getPropertyValue('--shade') !== '#3F5A70') s.friction('missing:примірка', 'стіна не перефарбувалась');
       if (!s.$$('.viz a, .viz button').some(x => /кошик/i.test(x.textContent))) s.friction('tint-no-cart');
-      await s.click('[data-vizorder]', 'Замовити цей відтінок'); s.setVal('#tn-ph', '0671112233', 'телефон'); s.$('[data-form="tint"]').requestSubmit(); s.actions++; await sleep(TICK); return /прийнято/i.test((s.$('#modal') || {}).textContent || ''); } },
+      await s.click('.viz__panel [data-vizorder]', 'Замовити цей відтінок'); s.setVal('#tn-ph', '0671112233', 'телефон'); s.$('[data-form="tint"]').requestSubmit(); s.actions++; await sleep(TICK); return /прийнято/i.test((s.$('#modal') || {}).textContent || ''); } },
     { id: 27, who: 'Павло, тисне не читаючи', psy: 'нетерплячий', dev: 'ph', need: 'Замовити колерування швидко', budget: 7, run: async s => {
-      await s.load('tinting.html'); await s.click('[data-sw="#C99A78"]', 'зразок на палітрі'); await s.click('[data-vizorder]', 'Замовити цей відтінок'); s.$('[data-form="tint"]').requestSubmit(); s.actions++; await sleep(TICK);
+      await s.load('tinting.html'); await s.click('.viz__panel .viz__sw', 'зразок на палітрі'); await s.click('.viz__panel [data-vizorder]', 'Замовити цей відтінок'); s.$('[data-form="tint"]').requestSubmit(); s.actions++; await sleep(TICK);
       if (!s.$('.field.is-invalid')) s.friction('missing:помилка у формі', 'порожній телефон не підсвічено'); s.setVal('#tn-ph', '0671112233', 'телефон'); s.$('[data-form="tint"]').requestSubmit(); s.actions++; await sleep(TICK); return /прийнято/i.test((s.$('#modal') || {}).textContent || ''); } },
     { id: 28, who: 'Аліна, вагається з кольором', psy: 'тривожна', dev: 'phs', need: 'Обрати відтінок у товарі, глянути всю палітру, повернутись і купити', budget: 14, run: async s => {
       await s.load('product.html?id=pf'); await s.click(s.$$('.shade__sw')[3], 'зразок відтінку'); const a = s.$('.shade__foot a'); await s.click(a, 'Уся палітра', { nav: true });

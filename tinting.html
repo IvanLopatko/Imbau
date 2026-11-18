@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Колерування фарби | IM BAU</title>
+<title>Колерування фарби | IMBAU</title>
 <meta name="robots" content="noindex, nofollow"><!-- прототип: не індексувати -->
 <!-- OpenCart-шаблон: information/tinting.twig (посадкова з формою) -->
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/tokens.css?v=35">
-<link rel="stylesheet" href="assets/css/styles.css?v=35">
+<link rel="stylesheet" href="assets/css/tokens.css?v=36">
+<link rel="stylesheet" href="assets/css/styles.css?v=36">
 </head>
 <body data-page="tinting">
 <div id="site-header"></div>
@@ -20,21 +20,30 @@
   <header class="tint-head"><h1>Колерування фарби за 15 хвилин</h1>
     <p class="lead">Колеруємо ПФ-фарби, емалі та шпаклівку в будь-який колір із палітр, що є в магазині. Від 1 кг, за 15 хвилин.</p></header>
 
+  <!-- Вибір палітри: чотири палітри магазину й «Популярні». Зразки нижче показують обрану палітру -->
+  <div class="pal-pick"><span class="pal-pick__label" id="pal-l">Палітра</span><div class="pal-tabs" role="tablist" aria-labelledby="pal-l" data-slot="pals"></div></div>
+
   <!-- Примірка відтінку: фото кімнати, стіни якої перефарбовуються в обраний колір -->
   <section class="viz" aria-label="Примірка відтінку">
-    <div class="viz__room" data-slot="room">
-      <img class="viz__img" src="assets/img/room.webp" alt="Кімната зі стінами обраного відтінку" width="1584" height="672">
-      <img class="viz__walls" src="assets/img/room-walls.webp" alt="" width="1584" height="672" aria-hidden="true">
-      <div class="viz__paint" aria-hidden="true"></div>
-      <div class="viz__tag" data-slot="vtag" aria-live="polite"></div>
+    <div class="viz__left">
+      <div class="viz__room" data-slot="room">
+        <img class="viz__img" src="assets/img/room.webp" alt="Кімната зі стінами обраного відтінку" width="1584" height="672">
+        <img class="viz__walls" src="assets/img/room-walls.webp" alt="" width="1584" height="672" aria-hidden="true">
+        <div class="viz__paint" aria-hidden="true"></div>
+        <div class="viz__tag" data-slot="vtag" aria-live="polite"></div>
+      </div>
+      <!-- Екран не передає колір точно: запрошуємо побачити відтінок у магазині (правка ліда 18.11.2026) -->
+      <aside class="viz__live"><span class="viz__live-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.500 12S6 5.500 12 5.500 21.500 12 21.500 12 18 18.500 12 18.500 2.500 12 2.500 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <div><b>Екран не передає колір точно</b><p>Той самий відтінок на телефоні, моніторі й стіні виглядає по-різному. Приходьте до магазину: покажемо віяло палітри й зробимо пробний викрас, перш ніж колерувати весь об’єм.</p>
+          <div class="viz__live-act"><a class="btn btn--dark" href="stores.html">Як доїхати до магазину</a><button type="button" class="link" data-vizorder>Залишити заявку на відтінок</button></div></div></aside>
     </div>
     <div class="viz__panel">
       <h2>Приміряйте відтінок</h2>
-      <p class="small ink-2">Натисніть на колір, і стіни в кімнаті перефарбуються. Відтінок можна знайти за кодом.</p>
-      <label class="viz__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">Пошук відтінку</span><input class="input" id="viz-q" placeholder="Код або назва, наприклад IB 0907" autocomplete="off"></label>
+      <p class="small ink-2">Оберіть гаму на смужці й натисніть на зразок: стіни в кімнаті перефарбуються. Відтінок можна знайти за кодом або назвою.</p>
+      <label class="viz__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">Пошук відтінку</span><input class="input" id="viz-q" placeholder="Код або назва, наприклад S 1002-B" autocomplete="off"></label>
       <div class="viz__groups" data-slot="swatches"></div>
       <button class="btn btn--primary btn--lg btn--block" type="button" data-vizorder>Замовити цей відтінок</button>
-      <p class="xs muted">Кольори на екрані відрізняються від справжніх. Оберіть колір, менеджер зв’яжеться з вами, а в магазині ви побачите відтінок наживо. Заколерований товар повернути не можна.</p>
+      <p class="xs muted">Зразки на сторінці — частина кожної палітри; повне віяло є в магазині. Заколерований товар повернути не можна.</p>
     </div>
   </section>
 
@@ -50,14 +59,15 @@
       <button class="btn btn--primary btn--lg">Надіслати заявку</button>
     </form>
   </div>
-  <section class="section"><div class="section-head"><h2>Що колеруємо</h2><span class="section-head__note">Палітри й кількість відтінків уточнює магазин</span></div>
+  <section class="section"><div class="section-head"><h2>Що колеруємо</h2><span class="section-head__note">Які бази колеруються в кожну палітру, уточнює магазин</span></div>
     <div class="tint-what"><div><b>ПФ-фарби та емалі</b><span>Для металу, дерева й фасадних елементів</span></div><div><b>Шпаклівка</b><span>Готова акрилова, під фарбування і як фінішне покриття</span></div></div><div class="listing grid-4" data-slot="products"></div></section>
   <div data-faqslot data-topics="tint" data-cls="section" data-title="Питання про колерування"></div>
 </div>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=35"></script>
-<script src="assets/js/app.js?v=35"></script>
-<script src="assets/js/pages.js?v=35"></script>
+<script src="assets/js/data.js?v=36"></script>
+<script src="assets/js/palettes.js?v=36"></script>
+<script src="assets/js/app.js?v=36"></script>
+<script src="assets/js/pages.js?v=36"></script>
 </body>
 </html>
