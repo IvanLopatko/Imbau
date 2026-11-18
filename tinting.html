@@ -9,8 +9,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><!-- піктограма сайту: знак із шапки; замінити на офіційний файл логотипа -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/tokens.css?v=36">
-<link rel="stylesheet" href="assets/css/styles.css?v=36">
+<link rel="stylesheet" href="assets/css/tokens.css?v=37">
+<link rel="stylesheet" href="assets/css/styles.css?v=37">
 </head>
 <body data-page="tinting">
 <div id="site-header"></div>
@@ -20,8 +20,9 @@
   <header class="tint-head"><h1>Колерування фарби за 15 хвилин</h1>
     <p class="lead">Колеруємо ПФ-фарби, емалі та шпаклівку в будь-який колір із палітр, що є в магазині. Від 1 кг, за 15 хвилин.</p></header>
 
-  <!-- Вибір палітри: чотири палітри магазину й «Популярні». Зразки нижче показують обрану палітру -->
-  <div class="pal-pick"><span class="pal-pick__label" id="pal-l">Палітра</span><div class="pal-tabs" role="tablist" aria-labelledby="pal-l" data-slot="pals"></div></div>
+  <!-- Вибір палітри: п’ять карток із віялами (чотири палітри магазину й «Популярні»). Зразки нижче показують обрану палітру -->
+  <section class="pal-pick" aria-labelledby="pal-l"><div class="pal-pick__head"><h2 id="pal-l">Оберіть палітру</h2><p class="pal-pick__note" data-slot="palnote" aria-live="polite"></p></div>
+    <div class="pal-tabs" role="tablist" aria-labelledby="pal-l" data-slot="pals"></div></section>
 
   <!-- Примірка відтінку: фото кімнати, стіни якої перефарбовуються в обраний колір -->
   <section class="viz" aria-label="Примірка відтінку">
@@ -65,9 +66,9 @@
 </div>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=36"></script>
-<script src="assets/js/palettes.js?v=36"></script>
-<script src="assets/js/app.js?v=36"></script>
-<script src="assets/js/pages.js?v=36"></script>
+<script src="assets/js/data.js?v=37"></script>
+<script src="assets/js/palettes.js?v=37"></script>
+<script src="assets/js/app.js?v=37"></script>
+<script src="assets/js/pages.js?v=37"></script>
 </body>
 </html>

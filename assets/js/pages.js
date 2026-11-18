@@ -627,13 +627,21 @@
     /* Палітри (правка ліда 18.11.2026). Угорі сторінки обирають палітру: чотири справжні з IMB.PALETTES
        (palettes.js) і «Популярні» — 24 названі відтінки з картки товару. Під нею смужка гам: натиснув гаму —
        бачиш її зразки з назвами. Зразок = [назва або код, колір]. */
-    const POP = { id: 'pop', n: 'Популярні відтінки', short: 'Популярні', total: 0, groups: [IMB.SHADES.flatMap(g => g.list.map(x => [x[1], x[0]]))] };
+    const POP = { id: 'pop', n: 'Популярні відтінки', short: 'Популярні', by: 'з карток товарів', total: 0, groups: [IMB.SHADES.flatMap(g => g.list.map(x => [x[1], x[0]]))] };
     POP.count = POP.groups[0].length;
     const PALS = IMB.PALETTES.concat([POP]), G = IMB.GAMMAS, shW = n => pl(n, 'відтінок', 'відтінки', 'відтінків'), smW = n => pl(n, 'зразок', 'зразки', 'зразків');
     let pal = PALS[0], fam = window.innerWidth < 721 ? 7 : -1, cur = null;   /* cur = [назва, колір, палітра] */
     const sw = (x, p, named) => `<button type="button" class="viz__sw${named ? ' viz__sw--named' : ''}" style="--sw:${x[1]}" data-sw="${x[1]}" data-n="${esc(x[0])}" data-pal="${p.id}" aria-pressed="false" aria-label="${esc(x[0])}, ${esc(p.n)}" title="${esc(x[0])} · ${esc(p.short)}">${named ? `<i></i><span>${esc(x[0])}</span>` : ''}</button>`;
     const mark = () => qsa('[data-sw]', box).forEach(x => x.setAttribute('aria-pressed', !!cur && x.dataset.pal === cur[2].id && x.dataset.n === cur[0]));
-    const drawTabs = () => { tabs.innerHTML = PALS.map(p => `<button type="button" class="pal-tab${p === pal ? ' is-on' : ''}" role="tab" aria-selected="${p === pal}" data-pal="${p.id}"><b>${p.short}</b><span>${p.total ? IMB.num(p.total) + ' ' + shW(p.total) : p.count + ' ' + shW(p.count)}</span></button>`).join(''); };
+    /* Віяло на картці палітри: сім смужок, кожна — одна гама (жовті, помаранчеві, червоні, фіолетові, сині, бірюзові,
+       зелені), на смужці чотири тони. Назовні, де смужку видно найкраще, стоять середній і темний тон: так віяло яскравіше;
+       світлі тони ближче до осі. У «Популярних» шість смужок по чотири відтінки. */
+    const fanOf = p => { const st = p.groups.length === 1 ? Array.from({ length: 6 }, (_, k) => p.groups[0].slice(k * 4, k * 4 + 4))
+        : [6, 5, 4, 10, 9, 8, 7].map(g => { const L = p.groups[g] || []; return [.5, .78, .28, .08].map(t => L[Math.round(t * (L.length - 1))]).filter(Boolean); });
+      return `<span class="fan" aria-hidden="true" style="--n:${st.length}">${st.map((x, k) => `<i style="--k:${k};background:linear-gradient(${x.map((c, j) => `${c[1]} ${Math.round(j * 100 / x.length)}% ${Math.round((j + 1) * 100 / x.length)}%`).join(',')})"></i>`).join('')}</span>`; };
+    const noteEl = qs('[data-slot="palnote"]');
+    const drawTabs = () => { tabs.innerHTML = PALS.map(p => `<button type="button" class="pal-tab${p === pal ? ' is-on' : ''}" role="tab" aria-selected="${p === pal}" data-pal="${p.id}">${fanOf(p)}<span class="pal-tab__txt"><b>${p.short}</b><span class="pal-tab__n">${p.total ? IMB.num(p.total) + ' ' + shW(p.total) : p.count + ' ' + shW(p.count)}</span><span class="pal-tab__by">${p.by}</span></span></button>`).join('');
+      if (noteEl) noteEl.textContent = pal.total ? `${pal.n}: на сторінці ${pal.count} ${smW(pal.count)} з ${IMB.num(pal.total)}. Повне віяло покажемо в магазині.` : 'Популярні: 24 відтінки, які замовляють найчастіше. Вони ж є в картці товару.'; };
     const draw = q => {
       const n = (q || '').trim().toLowerCase();
       if (n) { const found = []; PALS.forEach(p => p.groups.forEach(g => g.forEach(x => { if ((x[0] + ' ' + x[1]).toLowerCase().includes(n)) found.push([x, p]); })));

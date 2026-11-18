@@ -1938,10 +1938,11 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 :root { --c-sale: #D93B22; --c-sale-bg: #FDECE7; --c-sale-ink: #B5341C; --c-hit: #FFC83D; }
 
 /* ---------- Логотип: більший знак, назва одним словом ---------- */
-.logo__mark { width: 62px; height: 62px; font: 700 13.5px/1 var(--f-logo); letter-spacing: -.01em; }
+/* Знак: у кружечку назва у два рядки, як у початковому варіанті; кружечок лише трохи більший (56 px проти 52). */
+.logo__mark { width: 56px; height: 56px; font: 700 13px/1 var(--f-logo); }
 .logo__name { font-size: 32px; }
 .logo__tag { margin-top: 3px; font-size: 13px; }
-.header__mini .logo__mark { width: 44px; height: 44px; font-size: 9.5px; }
+.header__mini .logo__mark { width: 44px; height: 44px; font-size: 10.5px; }
 
 /* ---------- Головне меню: піктограма біля кожного пункту, тематичний колір ---------- */
 .nav { gap: 0; }
@@ -2089,15 +2090,6 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 .brandtop__facts dd { margin: 0; font-size: var(--fs-sm); color: var(--c-ink-2); }
 
 /* ---------- Колерування: вибір палітри, смужка гам, зразки з назвами ---------- */
-.pal-pick { display: grid; gap: var(--s-2); margin-bottom: var(--s-5); }
-.pal-pick__label { font-size: var(--fs-sm); font-weight: 500; color: var(--c-ink-2); }
-.pal-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-2); }
-.pal-tab { display: grid; gap: 2px; align-content: center; min-height: 64px; padding: 10px var(--s-4); border-radius: var(--r-md); background: var(--c-surface); box-shadow: inset 0 0 0 1px var(--c-line); text-align: left; }
-.pal-tab:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
-.pal-tab b { font: 600 16px/1.25 var(--f-display); }
-.pal-tab span { font-size: var(--fs-sm); color: var(--c-ink-2); }
-.pal-tab.is-on { background: var(--c-ink); color: #fff; box-shadow: none; }
-.pal-tab.is-on span { color: rgba(255, 255, 255, .74); }
 .viz__panel > .small { max-width: 68ch; }
 .viz__left { position: sticky; top: 96px; display: grid; gap: var(--gutter); align-content: start; min-width: 0; }
 .viz__left .viz__room { position: relative; top: auto; min-height: 400px; }
@@ -2134,10 +2126,9 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 @media (max-width: 1280px) {
   .mega__in { grid-template-columns: minmax(0, 540px) minmax(0, 1fr); }
   .mega__subs { columns: 2; }
-  .pal-tab b { font-size: 15px; }
 }
 @media (max-width: 1023px) {
-  .mhead__row .logo__mark { width: 48px; height: 48px; font-size: 10.5px; }
+  .mhead__row .logo__mark { width: 46px; height: 46px; font-size: 11px; }
   .mhead__row .logo__name { font-size: 25px; }
   .viz__left { position: static; display: contents; }
   .viz__left .viz__room { min-height: 0; }
@@ -2157,12 +2148,9 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
   .kit-vars { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
-  .logo__mark { width: 46px; height: 46px; font-size: 10px; }
+  .logo__mark { width: 46px; height: 46px; font-size: 11px; }
   .logo__name { font-size: 24px; }
   .logo__tag { font-size: 12px; }
-  .pal-tabs { display: flex; margin: 0 calc(-1 * var(--side)); padding: 0 var(--side) 2px; overflow-x: auto; scrollbar-width: none; }
-  .pal-tabs::-webkit-scrollbar { display: none; }
-  .pal-tab { flex: none; min-width: 148px; }
   .gamma { display: flex; gap: 6px; margin: 0 calc(-1 * var(--s-5)); padding: 4px var(--s-5); overflow-x: auto; scrollbar-width: none; }
   .gamma::-webkit-scrollbar { display: none; }
   .gamma__all, .gamma__seg { flex: none; width: 44px; height: 44px; }
@@ -2201,4 +2189,54 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 @media (max-width: 360px) {
   .gallery__video { width: 44px; padding: 0; justify-content: center; }
   .gallery__video span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
+
+/* =========================================================
+   19.11.2026 — піктограми розділів у два тони і вибір палітри «віялами»
+   ========================================================= */
+/* Заливка-акцент у піктограмі розділу. Лінія бере колір тексту, заливка лаймова. */
+.ic-f { fill: var(--c-lime); stroke: none; }
+.mega__ic { color: var(--c-ink); }
+.mega__sec.is-active .mega__ic .ic-f, .mega__sec:hover .mega__ic .ic-f { fill: var(--c-lime-h, #A3DC43); }
+/* плитка розділу без фото: той самий фон, що під фото сусідніх плиток, піктограма більша */
+.sec-tile--ic .sec-tile__img { background: var(--c-photo); color: var(--c-ink); }
+.sec-tile--ic .sec-tile__img svg { width: 72px; height: 72px; stroke-width: 1.2; }
+.sec-tile--ic:hover .sec-tile__img svg { transform: scale(1.06); }
+.sec-tile--ic .sec-tile__img svg { transition: transform .18s; }
+.shot--ic { background: var(--c-photo); color: var(--c-ink); }
+.shot.shot--ic svg { width: 48%; height: 48%; stroke-width: 1.25; }
+@media (max-width: 720px) { .sec-tile--ic .sec-tile__img svg { width: 44px; height: 44px; stroke-width: 1.400; } }
+
+/* ---------- Колерування: вибір палітри «віялами» (19.11.2026) ----------
+   Кожна палітра — картка з віялом, зібраним із її власних кольорів: сім смужок, на кожній чотири тони однієї гами.
+   Наведення трохи розкриває віяло, обрана картка темна, і віяло розкрите найширше. */
+.pal-pick { display: grid; gap: var(--s-3); margin-bottom: var(--s-6); }
+.pal-pick__head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px var(--s-5); }
+.pal-pick__head h2 { font-size: 22px; }
+.pal-pick__note { font-size: var(--fs-sm); color: var(--c-ink-2); }
+.pal-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-3); }
+.pal-tab { position: relative; display: grid; grid-template-columns: 100px minmax(0, 1fr); align-items: center; gap: var(--s-2); min-height: 116px; padding: var(--s-3) var(--s-4) var(--s-3) var(--s-2); border-radius: var(--r-md); background: var(--c-surface); box-shadow: inset 0 0 0 1px var(--c-line); text-align: left; transition: background-color .2s, box-shadow .2s; }
+.pal-tab:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
+.pal-tab__txt { display: grid; gap: 3px; min-width: 0; }
+.pal-tab__txt b { font: 600 17px/1.2 var(--f-display); }
+.pal-tab__n { font-size: var(--fs-sm); font-weight: 600; }
+.pal-tab__by { font-size: 12px; line-height: 1.3; color: var(--c-ink-2); }
+.pal-tab.is-on { background: var(--c-ink); color: #fff; box-shadow: none; }
+.pal-tab.is-on .pal-tab__by { color: rgba(255, 255, 255, .72); }
+.fan { --a: 9deg; position: relative; display: block; align-self: end; width: 100px; height: 88px; }
+.fan i { position: absolute; left: 50%; bottom: 8px; width: 15px; height: 68px; margin-left: -7.5px; border-radius: 5px 5px 4px 4px; transform-origin: 50% calc(100% - 6px); transform: rotate(calc((var(--k) - (var(--n) - 1) / 2) * var(--a))); box-shadow: 0 0 0 1px rgba(38, 43, 38, .14), 0 1px 3px rgba(38, 43, 38, .22); transition: transform .3s cubic-bezier(.2, .7, .2, 1); }
+.fan::after { content: ""; position: absolute; z-index: 9; left: 50%; bottom: 11px; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px rgba(38, 43, 38, .55); }
+.pal-tab:hover .fan { --a: 11.5deg; }
+.pal-tab.is-on .fan { --a: 14deg; }
+@media (prefers-reduced-motion: reduce) { .fan i { transition: none; } }
+@media (max-width: 1360px) { .pal-tab__txt b { font-size: 16px; } }
+/* вужче за 1180 px п'ять карток у ряд не вміщаються: рядок гортається */
+@media (max-width: 1180px) {
+  .pal-tabs { display: flex; gap: var(--s-2); margin: 0 calc(-1 * var(--side)); padding: 2px var(--side) 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .pal-tabs::-webkit-scrollbar { display: none; }
+  .pal-tab { flex: none; width: 256px; scroll-snap-align: start; }
+}
+@media (max-width: 720px) {
+  .pal-pick__head h2 { font-size: 20px; }
+  .pal-tab { width: 252px; min-height: 108px; }
 }
