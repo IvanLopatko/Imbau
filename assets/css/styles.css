@@ -1346,7 +1346,7 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 .gcard { --g-bg: #B4EC55; --g-ink: #262B26; width: min(520px, 100%); min-height: 0; aspect-ratio: 1.58; display: grid; grid-template-rows: minmax(0, 1fr) auto; border-radius: 18px; background: #fff; box-shadow: 0 28px 56px rgba(38, 43, 38, .18), 0 2px 6px rgba(38, 43, 38, .08); transform: rotate(-2deg); }
 .gcard__field { display: grid; grid-template-rows: auto 1fr auto; padding: var(--s-6) 28px var(--s-5); border-radius: 18px 18px 0 0; background: var(--g-bg); color: var(--g-ink); transition: background .25s, color .25s; }
 .gcard__top { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); font-size: var(--fs-sm); font-weight: 500; }
-.gcard__top .logo__mark { width: 44px; height: 44px; font-size: 10px; }
+.gcard__top .logo__mark { width: 44px; height: 44px; font-size: 11px; }
 .gcard__sum { align-self: end; font: 700 clamp(40px, 6.2vw, 76px)/1 var(--f-display); letter-spacing: -.02em; }
 .gcard__sum span { margin-left: .28em; font-size: .32em; font-weight: 600; letter-spacing: 0; }
 .gcard__theme { margin-top: 6px; font-size: 15px; font-weight: 500; }
@@ -1938,11 +1938,11 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 :root { --c-sale: #D93B22; --c-sale-bg: #FDECE7; --c-sale-ink: #B5341C; --c-hit: #FFC83D; }
 
 /* ---------- Логотип: більший знак, назва одним словом ---------- */
-/* Знак: у кружечку назва у два рядки, як у початковому варіанті; кружечок лише трохи більший (56 px проти 52). */
-.logo__mark { width: 56px; height: 56px; font: 700 13px/1 var(--f-logo); }
+/* Знак: у кружечку назва одним словом (уточнення ліда 19.11.2026), кружечок 60 px. */
+.logo__mark { width: 60px; height: 60px; font: 700 15px/1 var(--f-logo); letter-spacing: -.01em; }
 .logo__name { font-size: 32px; }
 .logo__tag { margin-top: 3px; font-size: 13px; }
-.header__mini .logo__mark { width: 44px; height: 44px; font-size: 10.5px; }
+.header__mini .logo__mark { width: 44px; height: 44px; font-size: 11px; }
 
 /* ---------- Головне меню: піктограма біля кожного пункту, тематичний колір ---------- */
 .nav { gap: 0; }
@@ -2128,7 +2128,7 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
   .mega__subs { columns: 2; }
 }
 @media (max-width: 1023px) {
-  .mhead__row .logo__mark { width: 46px; height: 46px; font-size: 11px; }
+  .mhead__row .logo__mark { width: 50px; height: 50px; font-size: 12.5px; }
   .mhead__row .logo__name { font-size: 25px; }
   .viz__left { position: static; display: contents; }
   .viz__left .viz__room { min-height: 0; }
@@ -2148,7 +2148,7 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
   .kit-vars { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
-  .logo__mark { width: 46px; height: 46px; font-size: 11px; }
+  .logo__mark { width: 48px; height: 48px; font-size: 12px; }
   .logo__name { font-size: 24px; }
   .logo__tag { font-size: 12px; }
   .gamma { display: flex; gap: 6px; margin: 0 calc(-1 * var(--s-5)); padding: 4px var(--s-5); overflow-x: auto; scrollbar-width: none; }
@@ -2239,4 +2239,18 @@ button.stk:hover { box-shadow: inset 0 0 0 1px var(--c-ink); }
 @media (max-width: 720px) {
   .pal-pick__head h2 { font-size: 20px; }
   .pal-tab { width: 252px; min-height: 108px; }
+}
+
+/* ---------- 19.11.2026 (вечір): тези компанії на сторінці «Про компанію» ---------- */
+.theses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2) var(--s-3); margin: var(--s-3) 0 var(--s-4); padding: 0; list-style: none; }
+.prose .theses li, .theses li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: var(--s-3); margin: 0; padding: var(--s-3) var(--s-4); border-radius: var(--r-md); background: var(--c-bg); }
+.theses li > svg { width: 16px; height: 16px; padding: 6px; box-sizing: content-box; border-radius: 50%; background: var(--c-lime); color: var(--c-ink); }
+.theses li > span { align-self: center; }
+.info-cols { columns: 2; column-gap: var(--s-8); }
+.info-cols li { break-inside: avoid; }
+.gcard__top .logo__mark { letter-spacing: -.02em; }
+@media (max-width: 720px) {
+  .theses { grid-template-columns: 1fr; }
+  .info-cols { columns: 1; }
+  .gcard__top .logo__mark { font-size: 9px; }
 }

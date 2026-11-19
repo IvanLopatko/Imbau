@@ -285,7 +285,7 @@
   /* ---------- Шапка (header.twig) ---------- */
   /* [назва, сторінка, параметри, піктограма й тема пункту] */
   const NAV = [['Акції', 'promo', null, 'sale'], ['Колерування', 'tinting', null, 'tint'], ['Підбір матеріалів', 'podbor', null, 'pick'], ['єВідновлення', 'evidnovlennya', null, 'evid'], ['FRONT', 'brand', { b: 'front' }, 'front'], ['TIGOR', 'brand', { b: 'tigor' }, 'tigor'], ['Магазин', 'stores', null, 'store'], ['Поради', 'blog', null, 'tips']];
-  const logo = `<a class="logo" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IM<br>BAU</span><span><span class="logo__name">IMBAU</span><span class="logo__tag" style="display:block">Інтернет-буд</span></span></a>`;
+  const logo = `<a class="logo" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IMBAU</span><span><span class="logo__name">IMBAU</span><span class="logo__tag" style="display:block">Інтернет-буд</span></span></a>`;
   const searchBox = id => `<div class="search" data-search><form class="search__form" action="search.html" role="search">${IC.search}<label class="sr-only" for="${id}">Пошук товарів</label><input class="search__input" id="${id}" name="q" placeholder="Назва, бренд або артикул" autocomplete="off"><button class="search__btn">Пошук</button></form><div class="suggest" role="listbox"></div></div>`;
   /* Місто в шапці. Перший візит: питаємо, чи правильно визначили місто (у бою — за IP).
      ПК — підказка під назвою міста у верхньому рядку. Телефон — рядок над логотипом, без окремого вікна:
@@ -334,7 +334,7 @@
         <!-- Рядок меню. Коли сторінку прокручено (клас .is-stuck на #hdr), він лишається закріпленим
              і замість посилань показує пошук та кошик: .header__mini + .header__stuck -->
         <div class="header__nav">
-          <a class="header__mini" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IM<br>BAU</span></a>
+          <a class="header__mini" href="index.html" aria-label="IMBAU — на головну"><span class="logo__mark">IMBAU</span></a>
           <button class="catalog-btn" aria-expanded="false" aria-controls="mega" data-mega>${IC.grid}<span>Каталог товарів</span></button>
           <nav class="nav" aria-label="Головне меню">${navHtml}</nav>
           <a class="header__calc" href="podbor.html">${IC.calc}<span>Прорахувати список</span></a>
